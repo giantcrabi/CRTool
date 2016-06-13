@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CR Tool</string>
+
+    <string name="deskripsi_logo">Logo Perusahaan</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login_CRTool">Login</string>
+    <string name="checkin_CRTool">Check In</string>
+    <string name="pilih_outlet">Pilih Outlet</string>
+    <string name="report_button">Melihat Report</string>
+
+</resources>

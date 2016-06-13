@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="app_name">CR Tool</string>
+
+    <string name="deskripsi_logo">Company Logo</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login_CRTool">Login</string>
+    <string name="checkin_CRTool">Check In</string>
+    <string name="pilih_outlet">Choose Outlet</string>
+    <string name="report_button">View Report</string>
+
+</resources>
