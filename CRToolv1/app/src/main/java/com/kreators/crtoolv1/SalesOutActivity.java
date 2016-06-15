@@ -1,10 +1,15 @@
 package com.kreators.crtoolv1;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 
-public class SalesOutActivity extends FragmentActivity implements SalesOutMainFragment.SalesOutMainListener {
+public class SalesOutActivity extends AppCompatActivity implements SalesOutMainFragment.SalesOutMainListener {
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +30,6 @@ public class SalesOutActivity extends FragmentActivity implements SalesOutMainFr
             // Create a new Fragment to be placed in the activity layout
             SalesOutMainFragment salesOutMainFragment = new SalesOutMainFragment();
 
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            salesOutMainFragment.setArguments(getIntent().getExtras());
-
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.sales_out_activity, salesOutMainFragment).commit();
@@ -45,5 +46,30 @@ public class SalesOutActivity extends FragmentActivity implements SalesOutMainFr
         transaction.addToBackStack(null);
 
         transaction.commit();
+    }
+
+    public void onScanButtonClick() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            SalesOutScanFragment salesOutScanFragment = new SalesOutScanFragment();
+
+            Bundle extras = data.getExtras();
+
+            salesOutScanFragment.setArguments(extras);
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            transaction.replace(R.id.sales_out_activity, salesOutScanFragment);
+            transaction.addToBackStack(null);
+
+            transaction.commitAllowingStateLoss();
+        }
     }
 }

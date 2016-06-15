@@ -11,13 +11,9 @@ import android.widget.Button;
 /**
  * Created by DELL on 14/06/2016.
  */
-public class SalesOutMainFragment extends Fragment{
+public class SalesOutMainFragment extends Fragment {
 
     SalesOutMainListener activityCallback;
-
-    public interface SalesOutMainListener {
-        public void onInputButtonClick();
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -44,10 +40,28 @@ public class SalesOutMainFragment extends Fragment{
             }
         });
 
+        final Button scanSN =
+                (Button) view.findViewById(R.id.scanSN);
+        scanSN.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                scanButtonClicked();
+            }
+        });
+
         return view;
     }
 
-    public void inputButtonClicked () {
+    public void inputButtonClicked() {
         activityCallback.onInputButtonClick();
+    }
+
+    public void scanButtonClicked() {
+        activityCallback.onScanButtonClick();
+    }
+
+    public interface SalesOutMainListener {
+        void onInputButtonClick();
+
+        void onScanButtonClick();
     }
 }

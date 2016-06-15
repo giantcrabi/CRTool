@@ -16,13 +16,13 @@
         android:orientation="vertical">
 
         <Button
-            style="@style/DarkButton"
             android:id="@+id/doInputSN"
+            style="@style/DarkButton"
             android:text="@string/input_sn" />
 
         <Button
-            style="@style/DarkButton"
             android:id="@+id/scanSN"
+            style="@style/DarkButton"
             android:text="@string/scan_sn" />
 
     </LinearLayout>
