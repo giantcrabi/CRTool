@@ -1,9 +1,11 @@
-package com.kreators.crtoolv1;
+package com.kreators.crtoolv1.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.kreators.crtoolv1.R;
 
 public class HomeActivity extends AppCompatActivity {
 

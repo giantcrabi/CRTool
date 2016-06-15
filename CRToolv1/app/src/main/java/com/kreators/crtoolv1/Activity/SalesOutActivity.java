@@ -1,4 +1,4 @@
-package com.kreators.crtoolv1;
+package com.kreators.crtoolv1.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+
+import com.kreators.crtoolv1.R;
+import com.kreators.crtoolv1.Fragment.SalesOutInputFragment;
+import com.kreators.crtoolv1.Fragment.SalesOutMainFragment;
+import com.kreators.crtoolv1.Fragment.SalesOutScanFragment;
 
 public class SalesOutActivity extends AppCompatActivity implements SalesOutMainFragment.SalesOutMainListener {
 

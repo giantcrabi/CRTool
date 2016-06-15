@@ -1,4 +1,4 @@
-package com.kreators.crtoolv1;
+package com.kreators.crtoolv1.Fragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.kreators.crtoolv1.R;
 
 /**
  * Created by DELL on 15/06/2016.

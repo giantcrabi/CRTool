@@ -4,6 +4,6 @@
     android:id="@+id/sales_out_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kreators.crtoolv1.SalesOutActivity">
+    tools:context=".Activity.SalesOutActivity">
 
 </FrameLayout>

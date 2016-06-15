@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,22 +9,22 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Fragment.SalesOutInputFragment">
+    tools:context=".Fragment.ReportMainFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/textSN"
-            style="@style/ShortInput"
-            android:hint="@string/SN" />
+        <Button
+            android:id="@+id/btnReportSalesOut"
+            style="@style/DarkButton"
+            android:text="@string/report_sales_out" />
 
         <Button
-            android:id="@+id/inputTextSN"
-            style="@style/LightButton"
-            android:text="@string/input_sn" />
+            android:id="@+id/btnReportTrackRecord"
+            style="@style/DarkButton"
+            android:text="@string/report_track_record" />
 
     </LinearLayout>
 
