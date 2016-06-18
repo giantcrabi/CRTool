@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.kreators.crtoolv1.Fragment.CheckInMainFragment;
+import com.kreators.crtoolv1.Fragment.Dialog.SelectOutletDialogFragment;
 import com.kreators.crtoolv1.R;
 
-public class CheckInActivity extends AppCompatActivity implements CheckInMainFragment.CheckInMainListener {
+public class CheckInActivity extends AppCompatActivity implements CheckInMainFragment.CheckInMainListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class CheckInActivity extends AppCompatActivity implements CheckInMainFra
 
 
     public void onSelectOutletButtonClick() {
+        final SelectOutletDialogFragment SO = new SelectOutletDialogFragment();
+        SO.show(getFragmentManager(),"Select Outlet");
     }
 
     public void onCheckInButtonClick(){
