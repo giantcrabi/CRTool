@@ -16,9 +16,7 @@ import com.kreators.crtoolv1.R;
  */
 public class ReportMainFragment extends Fragment {
 
-
     ReportMainListener activityCallback;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

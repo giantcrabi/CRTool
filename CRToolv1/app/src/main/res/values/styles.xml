@@ -8,20 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="DarkButton">
+
+    <style name="LightButton" parent="Widget.AppCompat.Button.Colored">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorAccent</item>
         <item name="android:textSize">@dimen/font_medium_0</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:padding">@dimen/padding_in_a_box</item>
         <item name="android:layout_marginTop">@dimen/activity_margin_top</item>
     </style>
 
-    <style name="LightButton">
+
+    <style name="DarkButton" parent="Widget.AppCompat.Button.Colored">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/colorAccent</item>
+        <item name="android:background">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/font_medium_0</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:padding">@dimen/padding_in_a_box</item>
