@@ -18,7 +18,7 @@
 
         <Button
             style="@style/DarkButton"
-            android:onClick="doCheckIn"
+            android:onClick="checkIn"
             android:text="@string/checkin_CRTool" />
 
         <Button
