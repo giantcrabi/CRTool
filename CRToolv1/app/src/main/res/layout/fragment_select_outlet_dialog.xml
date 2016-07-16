@@ -15,11 +15,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <Button
-        android:id="@+id/btnDismissOutletDialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/outlet_search_dialog_dismiss"/>
-
-
 </LinearLayout>

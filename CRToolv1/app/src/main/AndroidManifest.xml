@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kreators.crtoolv1">
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" ></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" ></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +22,7 @@
         <activity android:name=".Activity.CheckInActivity" />
         <activity android:name=".Activity.HomeActivity" />
         <activity android:name=".Activity.ReportActivity" />
-        <activity android:name=".Activity.SalesOutActivity"></activity>
+        <activity android:name=".Activity.SalesOutActivity" />
     </application>
 
 </manifest>
