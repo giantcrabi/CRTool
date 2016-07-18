@@ -1,30 +1,67 @@
 package com.kreators.crtoolv1.Fragment;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.kreators.crtoolv1.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+import java.util.ArrayList;
+
 public class ReportTrackRecordFragment extends Fragment {
 
+    View v;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        v = inflater.inflate(R.layout.fragment_report_track_record, container, false);
 
-    public ReportTrackRecordFragment() {
-        // Required empty public constructor
+        LineChart lineChart = (LineChart) v.findViewById(R.id.chart);
+        lineChart.setDescription("% Pencapaian");
+
+        ArrayList<Entry> entries = new ArrayList<>();
+        entries.add(new Entry(50f, 0));
+        entries.add(new Entry(75f, 1));
+        entries.add(new Entry(100f, 2));
+        entries.add(new Entry(60f, 3));
+        entries.add(new Entry(120f, 4));
+        entries.add(new Entry(30f, 5));
+        entries.add(new Entry(68f, 6));
+        entries.add(new Entry(93f, 7));
+        entries.add(new Entry(120f, 8));
+        entries.add(new Entry(200f, 9));
+        entries.add(new Entry(250f, 10));
+        entries.add(new Entry(80f, 11));
+
+        LineDataSet dataset = new LineDataSet(entries, "Pencapaian CR Perbulan");
+
+        ArrayList<String> labels = new ArrayList<String>();
+        labels.add("JAN");
+        labels.add("FEB");
+        labels.add("MAR");
+        labels.add("APR");
+        labels.add("MAY");
+        labels.add("JUN");
+        labels.add("JUL");
+        labels.add("AUG");
+        labels.add("SEP");
+        labels.add("OKT");
+        labels.add("NOV");
+        labels.add("DEC");
+
+        LineData data = new LineData(labels, dataset);
+
+        dataset.setDrawCubic(true);
+        dataset.setDrawFilled(true);
+
+        lineChart.setData(data);
+        lineChart.animateY(4000);
+
+        return v;
     }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report_track_record, container, false);
-    }
-
 }
+
