@@ -81,9 +81,6 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
 
         listOutlet = new ArrayList<Pair<Pair<Double,Double>,String>>();
 
-        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>(-7.280583, 112.780866), "A"));
-        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>(-7.284308, 112.783367), "B"));
-        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>(-7.285142, 112.783735), "C"));
     }
 
     @Override
@@ -223,6 +220,11 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
     private void storeCurrentLocation(Location location) {
         curLat = location.getLatitude();
         curLon = location.getLongitude();
+
+        //Dummy data to trigger dialog
+        listOutlet.clear();
+        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>((curLat + 0.000001), (curLon + 0.000001)), "Outlet A"));
+        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>((curLat - 0.000001), (curLon - 0.000001)), "Outlet B"));
     }
 
     private void searchNearestOutlet() {
