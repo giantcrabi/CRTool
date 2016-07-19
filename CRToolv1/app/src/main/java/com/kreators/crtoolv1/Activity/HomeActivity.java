@@ -3,6 +3,7 @@ package com.kreators.crtoolv1.Activity;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -55,6 +56,8 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private List<Pair<Pair<Double,Double>,String>> listOutlet;
 
+    private ProgressDialog pd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +84,10 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
 
         listOutlet = new ArrayList<Pair<Pair<Double,Double>,String>>();
 
+        pd = new ProgressDialog(this);
+        pd.setMessage("Please wait.");
+        pd.setCancelable(false);
+        pd.setIndeterminate(true);
     }
 
     @Override
@@ -98,11 +105,19 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         if (googleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
             googleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (pd!=null) {
+            pd.dismiss();
         }
     }
 
@@ -113,6 +128,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
             case REQUEST_CHECK_SETTINGS:
                 switch (resultCode) {
                     case Activity.RESULT_OK:
+                        startLocationUpdates();
                         break;
                     case Activity.RESULT_CANCELED:
                         checkLocationSettings();//keep asking if imp or do whatever
@@ -124,13 +140,19 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onLocationChanged(Location location) {
+        if (pd != null) {
+            pd.dismiss();
+        }
         storeCurrentLocation(location);
         searchNearestOutlet();
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-
+        if (pd != null) {
+            pd.dismiss();
+        }
+        checkLocationSettings();
     }
 
     @Override
@@ -173,11 +195,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
                 final LocationSettingsStates state = result.getLocationSettingsStates();
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
-                        if(googleApiClient.isConnected()) {
-                            startLocationUpdates();
-                        } else {
-                            checkLocationSettings();
-                        }
+                        startLocationUpdates();
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         // Location settings are not satisfied. But could be fixed by showing the user
@@ -209,6 +227,8 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
             //LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, mLocationRequest, this);
 
             if(lastLocation == null){
+                pd.setTitle("Searching...");
+                pd.show();
                 LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, mLocationRequest, this);
             } else {
                 storeCurrentLocation(lastLocation);
@@ -229,12 +249,17 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void searchNearestOutlet() {
         List<String> nearestOutlet= new ArrayList<String>();
+        pd.setTitle("Searching...");
+        pd.show();
         for(int i = 0; i < listOutlet.size(); i++){
             double distance = greatCircleDistance(curLat, curLon, listOutlet.get(i).first.first, listOutlet.get(i).first.second);
             Log.v("Contains: ", "lat: " + listOutlet.get(i).first.first + ", lon: " + listOutlet.get(i).first.second);
             if(distance <= CHECK_IN_RADIUS){
                 nearestOutlet.add(listOutlet.get(i).second);
             }
+        }
+        if (pd != null) {
+            pd.dismiss();
         }
         if(nearestOutlet.size() > 0) {
             if(nearestOutlet.size() > 1){
@@ -267,17 +292,14 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     public void checkIn(View view) {
-        if (googleApiClient != null) {
+        if (googleApiClient != null && !googleApiClient.isConnected()) {
+            pd.setTitle("Connecting...");
+            pd.show();
             googleApiClient.connect();
         }
-        checkLocationSettings();
-//        while(googleApiClient.isConnecting()) {
-//            Log.d("STATUS: ", "CONNECTING");
-//            if (googleApiClient.isConnected()) {
-//                Log.d("STATUS: ", "CONNECTED");
-//                checkLocationSettings();
-//            }
-//        }
+        if (googleApiClient != null && googleApiClient.isConnected()) {
+            checkLocationSettings();
+        }
     }
 
     public void viewReport(View view) {
