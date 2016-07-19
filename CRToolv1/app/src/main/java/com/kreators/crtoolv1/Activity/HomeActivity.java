@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
@@ -57,6 +59,10 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
     private List<Pair<Pair<Double,Double>,String>> listOutlet;
 
     private ProgressDialog pd;
+    private ProgressDialog locRequestProgress;
+
+    private Handler pdCanceller;
+    private Runnable progressRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +85,9 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
         // Create the LocationRequest object
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setSmallestDisplacement(10) // 10 meters
                 .setInterval(60 * 1000)        // 60 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+                .setFastestInterval(10 * 1000); // 10 second, in milliseconds
 
         listOutlet = new ArrayList<Pair<Pair<Double,Double>,String>>();
 
@@ -88,6 +95,26 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
         pd.setMessage("Please wait.");
         pd.setCancelable(false);
         pd.setIndeterminate(true);
+
+        locRequestProgress = new ProgressDialog(this);
+        locRequestProgress.setTitle("Searching...");
+        locRequestProgress.setMessage("Please wait.");
+        locRequestProgress.setCancelable(true);
+        locRequestProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                Toast.makeText(getApplicationContext(), "Cannot find your location", Toast.LENGTH_SHORT).show();
+                removeLocationUpdates();
+            }
+        });
+
+        pdCanceller = new Handler();
+        progressRunnable = new Runnable() {
+            @Override
+            public void run() {
+                locRequestProgress.cancel();
+            }
+        };
     }
 
     @Override
@@ -108,16 +135,8 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onStop() {
         super.onStop();
         if (googleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
+            removeLocationUpdates();
             googleApiClient.disconnect();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (pd!=null) {
-            pd.dismiss();
         }
     }
 
@@ -131,7 +150,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
                         startLocationUpdates();
                         break;
                     case Activity.RESULT_CANCELED:
-                        checkLocationSettings();//keep asking if imp or do whatever
+                        //checkLocationSettings();
                         break;
                 }
                 break;
@@ -140,8 +159,9 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onLocationChanged(Location location) {
-        if (pd != null) {
-            pd.dismiss();
+        if (locRequestProgress != null) {
+            locRequestProgress.dismiss();
+            pdCanceller.removeCallbacks(progressRunnable);
         }
         storeCurrentLocation(location);
         searchNearestOutlet();
@@ -227,14 +247,19 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
             //LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, mLocationRequest, this);
 
             if(lastLocation == null){
-                pd.setTitle("Searching...");
-                pd.show();
+                locRequestProgress.show();
+                pdCanceller.postDelayed(progressRunnable, 10000);
+
                 LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, mLocationRequest, this);
             } else {
                 storeCurrentLocation(lastLocation);
                 searchNearestOutlet();
             }
         }
+    }
+
+    private void removeLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
     }
 
     private void storeCurrentLocation(Location location) {
