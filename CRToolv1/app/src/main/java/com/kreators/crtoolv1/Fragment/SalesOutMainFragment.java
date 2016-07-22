@@ -34,6 +34,11 @@ public class SalesOutMainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sales_out_main, container, false);
 
+        Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag("INPUT");
+        if(fragment != null) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+
         final Button doInputSN =
                 (Button) view.findViewById(R.id.doInputSN);
         doInputSN.setOnClickListener(new View.OnClickListener() {

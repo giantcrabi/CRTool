@@ -1,20 +1,24 @@
 package com.kreators.crtoolv1.Activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
-import com.kreators.crtoolv1.R;
 import com.kreators.crtoolv1.Fragment.SalesOutInputFragment;
 import com.kreators.crtoolv1.Fragment.SalesOutMainFragment;
 import com.kreators.crtoolv1.Fragment.SalesOutScanFragment;
+import com.kreators.crtoolv1.R;
 
-public class SalesOutActivity extends AppCompatActivity implements SalesOutMainFragment.SalesOutMainListener {
+import me.dm7.barcodescanner.zbar.Result;
+import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+public class SalesOutActivity extends AppCompatActivity implements SalesOutMainFragment.SalesOutMainListener,
+        ZBarScannerView.ResultHandler {
+
+    //static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private ZBarScannerView mScannerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +40,7 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutMainF
             SalesOutMainFragment salesOutMainFragment = new SalesOutMainFragment();
 
             // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.sales_out_activity, salesOutMainFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.sales_out_activity, salesOutMainFragment).commit();
         }
 
     }
@@ -54,27 +57,67 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutMainF
     }
 
     public void onScanButtonClick() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
+        SalesOutScanFragment salesOutScanFragment = new SalesOutScanFragment(this);
+
+        mScannerView = salesOutScanFragment.getmScannerView();
+        mScannerView.setResultHandler(this);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.sales_out_activity, salesOutScanFragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            SalesOutScanFragment salesOutScanFragment = new SalesOutScanFragment();
+    public void handleResult(Result rawResult) {
+        // Do something with the result here
+        if(rawResult.getContents() == null){
+            Toast.makeText(this, "Error No Contents", Toast.LENGTH_LONG).show();
+        } else {
+            String scanContent = rawResult.getContents();
+            //String scanFormat = rawResult.getBarcodeFormat().getName();
 
-            Bundle extras = data.getExtras();
+            SalesOutInputFragment salesOutInputFragment = new SalesOutInputFragment();
 
-            salesOutScanFragment.setArguments(extras);
+            Bundle b = new Bundle();
+            b.putString("Content", scanContent);
+            salesOutInputFragment.setArguments(b);
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-            transaction.replace(R.id.sales_out_activity, salesOutScanFragment);
-            transaction.addToBackStack(null);
+            transaction.replace(R.id.sales_out_activity, salesOutInputFragment, "INPUT");
 
-            transaction.commitAllowingStateLoss();
+            transaction.commit();
         }
+
+        // If you would like to resume scanning, call this method below:
+        //mScannerView.resumeCameraPreview(this);
     }
+
+//    public void onScanButtonClick() {
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//        }
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+//            SalesOutScanFragment salesOutScanFragment = new SalesOutScanFragment();
+//
+//            Bundle extras = data.getExtras();
+//
+//            salesOutScanFragment.setArguments(extras);
+//
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//
+//            transaction.replace(R.id.sales_out_activity, salesOutScanFragment);
+//            transaction.addToBackStack(null);
+//
+//            transaction.commitAllowingStateLoss();
+//        }
+//    }
 }
