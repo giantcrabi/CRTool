@@ -39,6 +39,8 @@ import com.kreators.crtoolv1.Network.VolleyRequest;
 import com.kreators.crtoolv1.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -274,12 +276,11 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
 
         //Dummy data to trigger dialog
         listOutlet.clear();
-        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>((curLat + 0.000001), (curLon + 0.000001)), "Outlet A"));
-        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>((curLat - 0.000001), (curLon - 0.000001)), "Outlet B"));
+//        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>((curLat + 0.000001), (curLon + 0.000001)), "Outlet A"));
+//        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>((curLat - 0.000001), (curLon - 0.000001)), "Outlet B"));
     }
 
     private void searchNearestOutlet() {
-        List<String> nearestOutlet= new ArrayList<String>();
         pd.setTitle("Searching...");
         pd.show();
 
@@ -290,15 +291,50 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
             @Override
             public void onSuccess(VolleyRequest request, JSONArray result) {
                 Log.e(TAG, result.toString());
-//                try {
-//                    WeatherFormatter weatherFormatter = new WeatherFormatter(getContext());
-//                    int inserted = weatherFormatter.getWeatherDataFromJson(result.toString(), location);
-//                    if(inserted > 0){
-//                        notifyWeather();
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    List<String> nearestOutlet= new ArrayList<String>();
+                    JSONObject outletObj;
+                    String outletName;
+                    double outletLat;
+                    double outletLon;
+
+                    for(int i = 0; i < result.length(); i++) {
+                        outletObj = result.getJSONObject(i);
+                        outletName = outletObj.getString("Name");
+                        outletLat = outletObj.getDouble("Lat");
+                        outletLon = outletObj.getDouble("Lon");
+                        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>(outletLat, outletLon), outletName));
+                    }
+
+                    for(int i = 0; i < listOutlet.size(); i++){
+                        double distance = greatCircleDistance(curLat, curLon, listOutlet.get(i).first.first, listOutlet.get(i).first.second);
+                        Log.v("Contains: ", "lat: " + listOutlet.get(i).first.first + ", lon: " + listOutlet.get(i).first.second);
+                        if(distance <= CHECK_IN_RADIUS){
+                            nearestOutlet.add(listOutlet.get(i).second);
+                        }
+                    }
+
+                    if (pd != null) {
+                        pd.dismiss();
+                    }
+
+                    if(nearestOutlet.size() > 0) {
+                        if(nearestOutlet.size() > 1){
+                            showDialog(nearestOutlet);
+                        }
+                        else{
+                            Log.d("CHOOSEN OUTLET: ", nearestOutlet.get(0).toString());
+                            Intent intent = new Intent(getApplicationContext(), SalesOutActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "There aren't any outlets nearby", Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -307,30 +343,6 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
         volleyManager.createRequest(request);
-
-        for(int i = 0; i < listOutlet.size(); i++){
-            double distance = greatCircleDistance(curLat, curLon, listOutlet.get(i).first.first, listOutlet.get(i).first.second);
-            Log.v("Contains: ", "lat: " + listOutlet.get(i).first.first + ", lon: " + listOutlet.get(i).first.second);
-            if(distance <= CHECK_IN_RADIUS){
-                nearestOutlet.add(listOutlet.get(i).second);
-            }
-        }
-        if (pd != null) {
-            pd.dismiss();
-        }
-        if(nearestOutlet.size() > 0) {
-            if(nearestOutlet.size() > 1){
-                showDialog(nearestOutlet);
-            }
-            else{
-                Log.d("CHOOSEN OUTLET: ", nearestOutlet.get(0).toString());
-                Intent intent = new Intent(this, SalesOutActivity.class);
-                startActivity(intent);
-            }
-        }
-        else {
-            Toast.makeText(this, "There aren't any outlets nearby", Toast.LENGTH_LONG).show();
-        }
     }
 
     private void showDialog(List<String> nearestOutlet) {
