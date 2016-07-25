@@ -32,7 +32,13 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.kreators.crtoolv1.Fragment.Dialog.SelectOutletDialogFragment;
+import com.kreators.crtoolv1.Network.GetOutletVolleyRequest;
+import com.kreators.crtoolv1.Network.VolleyListener;
+import com.kreators.crtoolv1.Network.VolleyManager;
+import com.kreators.crtoolv1.Network.VolleyRequest;
 import com.kreators.crtoolv1.R;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -276,6 +282,32 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
         List<String> nearestOutlet= new ArrayList<String>();
         pd.setTitle("Searching...");
         pd.show();
+
+        VolleyManager volleyManager = VolleyManager.getInstance(this);
+        GetOutletVolleyRequest request = new GetOutletVolleyRequest();
+        //request.putParams("id", 1);
+        request.setListener(new VolleyListener() {
+            @Override
+            public void onSuccess(VolleyRequest request, JSONArray result) {
+                Log.e(TAG, result.toString());
+//                try {
+//                    WeatherFormatter weatherFormatter = new WeatherFormatter(getContext());
+//                    int inserted = weatherFormatter.getWeatherDataFromJson(result.toString(), location);
+//                    if(inserted > 0){
+//                        notifyWeather();
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+            }
+
+            @Override
+            public void onError(VolleyRequest request, String errorMessage) {
+                Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+        volleyManager.createRequest(request);
+
         for(int i = 0; i < listOutlet.size(); i++){
             double distance = greatCircleDistance(curLat, curLon, listOutlet.get(i).first.first, listOutlet.get(i).first.second);
             Log.v("Contains: ", "lat: " + listOutlet.get(i).first.first + ", lon: " + listOutlet.get(i).first.second);

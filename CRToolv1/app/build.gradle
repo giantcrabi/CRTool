@@ -29,4 +29,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:9.0.2'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     compile 'me.dm7.barcodescanner:zbar:1.8.4'
+    compile project(":volley")
 }
