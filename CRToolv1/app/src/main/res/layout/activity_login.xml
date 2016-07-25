@@ -19,17 +19,18 @@
 
     <EditText
         style="@style/ShortInput"
-        android:id="@+id/email"
+        android:id="@+id/emailLogin"
         android:hint="@string/email"
         android:inputType="textEmailAddress" />
 
     <EditText
         style="@style/ShortInput"
-        android:id="@+id/password"
+        android:id="@+id/passwordLogin"
         android:hint="@string/password"
         android:inputType="textPassword" />
 
     <Button
+        android:id="@+id/buttonLogin"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_marginTop="@dimen/activity_margin_top"
         android:onClick="checkLogin"
