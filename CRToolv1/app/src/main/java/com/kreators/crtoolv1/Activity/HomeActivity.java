@@ -340,6 +340,9 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
             @Override
             public void onError(VolleyRequest request, String errorMessage) {
                 Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                if (pd != null) {
+                    pd.dismiss();
+                }
             }
         });
         volleyManager.createRequest(request);
