@@ -15,7 +15,7 @@ public class GetVolleyRequest extends VolleyRequest {
     }
 
     @Override
-    public JsonArrayRequest generateRequest() {
+    public JsonArrayRequest generateGetRequest() {
         StringBuilder builder = new StringBuilder();
         builder.append(getUrl());
         if (hasParams()) {

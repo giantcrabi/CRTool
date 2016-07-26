@@ -33,8 +33,8 @@ public class VolleyManager {
         return instance;
     }
 
-    public void createRequest(VolleyRequest volleyRequest) {
-        JsonArrayRequest request = volleyRequest.generateRequest();
+    public void createGetRequest(VolleyRequest volleyRequest) {
+        JsonArrayRequest request = volleyRequest.generateGetRequest();
         request.setRetryPolicy(new DefaultRetryPolicy(
                 DEFAULT_SOCKET_TIMEOUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

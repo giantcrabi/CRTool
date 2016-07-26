@@ -286,6 +286,8 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
 
         VolleyManager volleyManager = VolleyManager.getInstance(this);
         GetOutletVolleyRequest request = new GetOutletVolleyRequest();
+        request.putParams("lon", curLon);
+        request.putParams("lat", curLat);
         //request.putParams("id", 1);
         request.setListener(new VolleyListener() {
             @Override
@@ -295,23 +297,31 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
                     List<String> nearestOutlet= new ArrayList<String>();
                     JSONObject outletObj;
                     String outletName;
-                    double outletLat;
-                    double outletLon;
+//                    double outletLat;
+//                    double outletLon;
 
+//                    for(int i = 0; i < result.length(); i++) {
+//                        outletObj = result.getJSONObject(i);
+//                        outletName = outletObj.getString("Name");
+//                        outletLat = outletObj.getDouble("Lat");
+//                        outletLon = outletObj.getDouble("Lon");
+//                        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>(outletLat, outletLon), outletName));
+//                    }
+
+//                    for(int i = 0; i < listOutlet.size(); i++){
+//                        double distance = greatCircleDistance(curLat, curLon, listOutlet.get(i).first.first, listOutlet.get(i).first.second);
+//                        Log.v("Contains: ", "lat: " + listOutlet.get(i).first.first + ", lon: " + listOutlet.get(i).first.second);
+//                        if(distance <= CHECK_IN_RADIUS){
+//                            nearestOutlet.add(listOutlet.get(i).second);
+//                        }
+//                    }
                     for(int i = 0; i < result.length(); i++) {
                         outletObj = result.getJSONObject(i);
-                        outletName = outletObj.getString("Name");
-                        outletLat = outletObj.getDouble("Lat");
-                        outletLon = outletObj.getDouble("Lon");
-                        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>(outletLat, outletLon), outletName));
-                    }
-
-                    for(int i = 0; i < listOutlet.size(); i++){
-                        double distance = greatCircleDistance(curLat, curLon, listOutlet.get(i).first.first, listOutlet.get(i).first.second);
-                        Log.v("Contains: ", "lat: " + listOutlet.get(i).first.first + ", lon: " + listOutlet.get(i).first.second);
-                        if(distance <= CHECK_IN_RADIUS){
-                            nearestOutlet.add(listOutlet.get(i).second);
+                        if(outletObj.has("status")) {
+                            break;
                         }
+                        outletName = outletObj.getString("Name");
+                        nearestOutlet.add(outletName);
                     }
 
                     if (pd != null) {
@@ -345,7 +355,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
             }
         });
-        volleyManager.createRequest(request);
+        volleyManager.createGetRequest(request);
     }
 
     private void showDialog(List<String> nearestOutlet) {
@@ -379,18 +389,18 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
         startActivity(intent);
     }
 
-    private static double greatCircleDistance(double latNow, double lonNow, double lat, double lon){
-        double latDistance = toRad(lat-latNow);
-        double lonDistance = toRad(lon-lonNow);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
-                Math.cos(toRad(latNow)) * Math.cos(toRad(lat)) *
-                        Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return EARTH_RADIUS * c;
-    }
-
-    private static double toRad(double value) {
-        return value * Math.PI / 180;
-    }
+//    private static double greatCircleDistance(double latNow, double lonNow, double lat, double lon){
+//        double latDistance = toRad(lat-latNow);
+//        double lonDistance = toRad(lon-lonNow);
+//        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
+//                Math.cos(toRad(latNow)) * Math.cos(toRad(lat)) *
+//                        Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+//        return EARTH_RADIUS * c;
+//    }
+//
+//    private static double toRad(double value) {
+//        return value * Math.PI / 180;
+//    }
 
 }

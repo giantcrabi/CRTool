@@ -26,7 +26,7 @@ public abstract class VolleyRequest implements Response.Listener<JSONArray>, Res
     private Map<String, Object> params;
     private VolleyListener listener;
 
-    public abstract JsonArrayRequest generateRequest();
+    public abstract JsonArrayRequest generateGetRequest();
 
     public VolleyRequest(String url, Object... args) {
         this.url = String.format(url, args);
