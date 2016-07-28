@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.kreators.crtoolv1.Fragment.ReportHistoryFragment;
 import com.kreators.crtoolv1.Fragment.ReportMainFragment;
 import com.kreators.crtoolv1.Fragment.ReportSalesOutFragment;
 import com.kreators.crtoolv1.Fragment.ReportTrackRecordFragment;
@@ -39,6 +40,14 @@ public class ReportActivity extends AppCompatActivity implements ReportMainFragm
         ReportTrackRecordFragment reportTrackRecordFragment =  new ReportTrackRecordFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.reportActivity, reportTrackRecordFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    public void onReportHistoryButtonClick() {
+        ReportHistoryFragment reportHistoryFragment =  new ReportHistoryFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.reportActivity, reportHistoryFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

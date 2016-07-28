@@ -13,12 +13,10 @@
     <string name="input_sn">Input SN</string>
     <string name="scan_sn">Scan SN</string>
     <string name="report_sales_out">Sales Out</string>
-    <string name="report_track_record">Pencapaian</string>
+    <string name="report_track_record">Achievement</string>
+    <string name="report_history">History</string>
     <string name="outlet_search">Search Outlet..</string>
     <string name="outlet_search_dialog_dismiss">Dismiss</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
