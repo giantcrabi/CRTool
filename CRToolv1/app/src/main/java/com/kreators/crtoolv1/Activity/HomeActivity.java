@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -403,4 +404,24 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
 //        return value * Math.PI / 180;
 //    }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+        builder.setCancelable(false);
+        builder.setMessage("Apakah anda ingin keluar dari aplikasi?");
+        builder.setPositiveButton("YA",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        HomeActivity.super.onBackPressed();
+                    }
+                });
+        builder.setNegativeButton("TIDAK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        builder.create().show();
+    }
 }
