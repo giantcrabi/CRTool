@@ -18,11 +18,13 @@
 
         <Button
             style="@style/DarkButton"
+            android:drawableLeft="@drawable/ic_near_me_white_36dp"
             android:onClick="checkIn"
             android:text="@string/checkin_CRTool" />
 
         <Button
             style="@style/DarkButton"
+            android:drawableLeft="@drawable/ic_assignment_white_36dp"
             android:onClick="viewReport"
             android:text="@string/report_button" />
 

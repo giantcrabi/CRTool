@@ -16,13 +16,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <Button
             android:id="@+id/btnReportSalesOut"
+            android:drawableLeft="@drawable/ic_assignment_turned_in_white_36dp"
             style="@style/DarkButton"
             android:text="@string/report_sales_out" />
 
         <Button
             android:id="@+id/btnReportTrackRecord"
+            android:drawableLeft="@drawable/ic_assessment_white_36dp"
             style="@style/DarkButton"
             android:text="@string/report_track_record" />
 
