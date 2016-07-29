@@ -31,7 +31,6 @@ public class SalesOutScanFragment extends Fragment {
 //    }
 
     private ZBarScannerView mScannerView;
-
     public SalesOutScanFragment(Context context) {
         mScannerView = new ZBarScannerView(context);
     }

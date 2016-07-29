@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 
-public class ReportSalesOutFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class ReportSalesOutByOutletFragment extends Fragment implements SearchView.OnQueryTextListener {
     private SearchView mSearchView;
     private ListView mListView;
     private ArrayList<SerialNumber> snArrayList;
@@ -35,11 +35,11 @@ public class ReportSalesOutFragment extends Fragment implements SearchView.OnQue
         mListView=(ListView) v.findViewById(R.id.lvListViewSN);
 
         snArrayList= new ArrayList<>();
-        snArrayList.add(new SerialNumber("21 Agustus 2016", "ABC93828983"));
-        snArrayList.add(new SerialNumber("17 Agustus 2016", "ACB73844012"));
-        snArrayList.add(new SerialNumber("6  Agustus 2016", "BVF10923881"));
-        snArrayList.add(new SerialNumber("16 July    2016", "BRT92382175"));
-        snArrayList.add(new SerialNumber("27 Juni    2016", "ANM20132412"));
+        snArrayList.add(new SerialNumber("Outlet Marina", "Sales Out: 5"));
+        snArrayList.add(new SerialNumber("Outlet Datokromo Trade Centre", "Sales Out: 3"));
+        snArrayList.add(new SerialNumber("Outlet Galaxy Mall", "Sales Out: 6"));
+        snArrayList.add(new SerialNumber("Outlet THR", "Sales Out: 21"));
+        snArrayList.add(new SerialNumber("Outlet Tunjungan Plaza", "Sales Out: 10"));
 
         snAdapter=new SNAdapter(getActivity(), snArrayList);
         mListView.setAdapter(snAdapter);
@@ -55,6 +55,8 @@ public class ReportSalesOutFragment extends Fragment implements SearchView.OnQue
         mSearchView.setQueryHint("Search Here");
     }
 
+
+
     @Override
     public boolean onQueryTextChange(String newText) {
         if (TextUtils.isEmpty(newText)) {
@@ -64,6 +66,8 @@ public class ReportSalesOutFragment extends Fragment implements SearchView.OnQue
         }
         return true;
     }
+
+
 
     @Override
     public boolean onQueryTextSubmit(String query) {
