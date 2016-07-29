@@ -21,7 +21,7 @@
             android:hint="@string/SN" />
 
         <Button
-            android:id="@+id/inputTextSN"
+            android:id="@+id/btnInputSN"
             style="@style/LightButton"
             android:text="@string/input_sn" />
 

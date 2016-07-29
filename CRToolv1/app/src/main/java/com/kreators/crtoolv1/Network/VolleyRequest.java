@@ -9,6 +9,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 
@@ -28,6 +29,8 @@ public abstract class VolleyRequest implements Response.Listener<JSONArray>, Res
 
     public abstract JsonArrayRequest generateGetRequest();
 
+    public abstract StringRequest generatePostRequest(final VolleyStringListener listener);
+
     public VolleyRequest(String url, Object... args) {
         this.url = String.format(url, args);
     }
@@ -36,7 +39,7 @@ public abstract class VolleyRequest implements Response.Listener<JSONArray>, Res
         return url;
     }
 
-    public Map<String, Object> getParams() {
+    public Map<String, Object> getParameters() {
         return params;
     }
 
@@ -65,9 +68,9 @@ public abstract class VolleyRequest implements Response.Listener<JSONArray>, Res
             } else if (error instanceof NoConnectionError) {
                 message = "No internet connection";
             } else if (error instanceof ParseError) {
-                message = "Parse Error";
+                message = error.getMessage();
             } else if (error instanceof ServerError) {
-                message = "Server Error";
+                message = error.getMessage();
             }
 
             listener.onError(this, message);

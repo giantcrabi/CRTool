@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.kreators.crtoolv1.Fragment.Listener.SalesOutListener;
 import com.kreators.crtoolv1.Fragment.SalesOutInputFragment;
 import com.kreators.crtoolv1.Fragment.SalesOutMainFragment;
 import com.kreators.crtoolv1.Fragment.SalesOutScanFragment;
@@ -13,7 +14,7 @@ import com.kreators.crtoolv1.R;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
-public class SalesOutActivity extends AppCompatActivity implements SalesOutMainFragment.SalesOutMainListener,
+public class SalesOutActivity extends AppCompatActivity implements SalesOutListener,
         ZBarScannerView.ResultHandler {
 
     //static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -69,6 +70,10 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutMainF
 
         transaction.commit();
     }
+
+//    public void onInputSNButtonClick(String SN) {
+//
+//    }
 
     @Override
     public void handleResult(Result rawResult) {

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.kreators.crtoolv1.Fragment.Listener.SalesOutListener;
 import com.kreators.crtoolv1.R;
 
 /**
@@ -15,16 +16,16 @@ import com.kreators.crtoolv1.R;
  */
 public class SalesOutMainFragment extends Fragment {
 
-    SalesOutMainListener activityCallback;
+    SalesOutListener activityCallback;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof SalesOutMainListener) {
-            activityCallback = (SalesOutMainListener) context;
+        if (context instanceof SalesOutListener) {
+            activityCallback = (SalesOutListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement SalesOutMainListener");
+                    + " must implement SalesOutListener");
         }
     }
 
@@ -66,9 +67,4 @@ public class SalesOutMainFragment extends Fragment {
         activityCallback.onScanButtonClick();
     }
 
-    public interface SalesOutMainListener {
-        void onInputButtonClick();
-
-        void onScanButtonClick();
-    }
 }

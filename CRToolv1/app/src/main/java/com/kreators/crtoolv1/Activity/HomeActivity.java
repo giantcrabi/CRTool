@@ -73,6 +73,8 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
     private Handler pdCanceller;
     private Runnable progressRunnable;
 
+    private VolleyManager volleyManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,8 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
                 .setSmallestDisplacement(10) // 10 meters
                 .setInterval(60 * 1000)        // 60 seconds, in milliseconds
                 .setFastestInterval(10 * 1000); // 10 second, in milliseconds
+
+        volleyManager = VolleyManager.getInstance(getApplicationContext());
 
         listOutlet = new ArrayList<Pair<Pair<Double,Double>,String>>();
 
@@ -147,6 +151,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
             removeLocationUpdates();
             googleApiClient.disconnect();
         }
+        volleyManager.cancelPendingRequests("GETOUTLET");
     }
 
     @Override
@@ -285,7 +290,6 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
         pd.setTitle("Searching...");
         pd.show();
 
-        VolleyManager volleyManager = VolleyManager.getInstance(this);
         GetOutletVolleyRequest request = new GetOutletVolleyRequest();
         request.putParams("lon", curLon);
         request.putParams("lat", curLat);
@@ -356,7 +360,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
             }
         });
-        volleyManager.createGetRequest(request);
+        volleyManager.createGetRequest(request, "GETOUTLET");
     }
 
     private void showDialog(List<String> nearestOutlet) {
