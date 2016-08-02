@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.kreators.crtoolv1.Fragment.HistorySearchResultFragment;
 import com.kreators.crtoolv1.Fragment.ReportHistoryFragment;
 import com.kreators.crtoolv1.Fragment.ReportMainFragment;
 import com.kreators.crtoolv1.Fragment.ReportTrackRecordFragment;
 import com.kreators.crtoolv1.R;
 
-public class ReportActivity extends AppCompatActivity implements ReportMainFragment.ReportMainListener {
+public class ReportActivity extends AppCompatActivity implements ReportMainFragment.ReportMainListener,ReportHistoryFragment.ReportHistoryListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,5 +56,14 @@ public class ReportActivity extends AppCompatActivity implements ReportMainFragm
     public void onReportSalesOutButtonClick() {
         Intent intent = new Intent(this, ReportSalesOutActivity.class);
         startActivity(intent);
+    }
+
+
+    public void onReportHistorySearchButtonClick() {
+        HistorySearchResultFragment historySearchResultFragment =  new HistorySearchResultFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.reportActivity, historySearchResultFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

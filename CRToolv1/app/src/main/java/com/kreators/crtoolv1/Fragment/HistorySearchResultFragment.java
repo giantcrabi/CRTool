@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 
-public class ReportSalesOutByOutletFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class HistorySearchResultFragment extends Fragment implements SearchView.OnQueryTextListener {
     private SearchView mSearchView;
     private ListView mListView;
     private ArrayList<SerialNumber> snArrayList;
@@ -29,17 +29,17 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_report_sales_out, container, false);
+        v = inflater.inflate(R.layout.fragment_history_search_result, container, false);
 
-        mSearchView=(SearchView) v.findViewById(R.id.svSearchSN);
-        mListView=(ListView) v.findViewById(R.id.lvListViewSN);
+        mSearchView=(SearchView) v.findViewById(R.id.svSearchOutletHistory);
+        mListView=(ListView) v.findViewById(R.id.lvListViewOutletHistory);
 
         snArrayList= new ArrayList<>();
-        snArrayList.add(new SerialNumber("Outlet Marina", "Barang A, Barang B, Barang C"));
-        snArrayList.add(new SerialNumber("Outlet Datokromo Trade Centre", "Barang B, Barang C"));
-        snArrayList.add(new SerialNumber("Outlet Galaxy Mall", "Barang A, Barang C"));
-        snArrayList.add(new SerialNumber("Outlet THR", "Barang A, Barang B"));
-        snArrayList.add(new SerialNumber("Outlet Tunjungan Plaza", "Barang D, Barang E"));
+        snArrayList.add(new SerialNumber("Outlet Marina", "Sales Out: 5"));
+        snArrayList.add(new SerialNumber("Outlet Datokromo Trade Centre", "Sales Out: 3"));
+        snArrayList.add(new SerialNumber("Outlet Galaxy Mall", "Sales Out: 6"));
+        snArrayList.add(new SerialNumber("Outlet THR", "Sales Out: 21"));
+        snArrayList.add(new SerialNumber("Outlet Tunjungan Plaza", "Sales Out: 10"));
 
         snAdapter=new SNAdapter(getActivity(), snArrayList);
         mListView.setAdapter(snAdapter);

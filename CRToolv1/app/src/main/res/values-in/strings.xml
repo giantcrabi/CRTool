@@ -18,5 +18,9 @@
     <string name="report_history">Riwayat</string>
     <string name="report_sales_out">Penjualan Keluar</string>
     <string name="report_track_record">Pencapaian</string>
+    <string name="history_date_find">Cari</string>
+    <string name="history_date_from">Dari</string>
+    <string name="history_date_to">Sampai</string>
+    <string name="action_settings">Pengaturan</string>
 
 </resources>

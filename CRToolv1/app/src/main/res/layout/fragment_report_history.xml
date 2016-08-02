@@ -1,7 +1,36 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kreators.crtoolv1.Fragment.ReportHistoryFragment">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".Activity.HomeActivity"
+    android:id="@+id/llReportHistory">
 
-</FrameLayout>
+    <Button
+        android:id="@+id/btnDateFrom"
+        style="@style/DarkButton"
+        android:drawableLeft="@drawable/ic_date_range_white_36dp"
+        android:textSize="@dimen/font_small_0"
+        android:text="@string/history_date_from" />
+
+    <Button
+        android:id="@+id/btnDateTo"
+        style="@style/DarkButton"
+        android:textSize="@dimen/font_small_0"
+        android:drawableLeft="@drawable/ic_date_range_white_36dp"
+        android:text="@string/history_date_to" />
+
+    <Button
+        android:id="@+id/btnFindHistory"
+        style="@style/LightButton"
+        android:text="@string/history_date_find" />
+
+</LinearLayout>
+
