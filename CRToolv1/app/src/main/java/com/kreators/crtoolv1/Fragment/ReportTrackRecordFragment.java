@@ -5,18 +5,26 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.kreators.crtoolv1.Fragment.Adapter.TrackRecordAdapter;
+import com.kreators.crtoolv1.Model.SerialNumber;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
 
 public class ReportTrackRecordFragment extends Fragment {
 
-    View v;
+    private View v;
+    private ListView mListView;
+    private ArrayList<SerialNumber> trArrayList;
+    private TrackRecordAdapter trAdapter;
+    private TextView tableTitle;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_report_track_record, container, false);
 
@@ -60,6 +68,30 @@ public class ReportTrackRecordFragment extends Fragment {
 
         lineChart.setData(data);
         lineChart.animateY(4000);
+
+        tableTitle = (TextView) v.findViewById(R.id.tvTableHistoryTitle);
+        tableTitle.setText(tableTitle.getText() + " 2016");
+
+
+        mListView=(ListView) v.findViewById(R.id.lvListViewTrackRecord);
+        trArrayList= new ArrayList<>();
+        trArrayList.add(new SerialNumber("January", "50%"));
+        trArrayList.add(new SerialNumber("February", "75%"));
+        trArrayList.add(new SerialNumber("Maret", "100%"));
+        trArrayList.add(new SerialNumber("April", "60%"));
+        trArrayList.add(new SerialNumber("Mei", "120%"));
+        trArrayList.add(new SerialNumber("Juni", "30%"));
+        trArrayList.add(new SerialNumber("Juli", "68%"));
+        trArrayList.add(new SerialNumber("Agustus", "93%"));
+        trArrayList.add(new SerialNumber("September", "120%"));
+        trArrayList.add(new SerialNumber("Oktober", "200%"));
+        trArrayList.add(new SerialNumber("November", "250%"));
+        trArrayList.add(new SerialNumber("Desember", "80%"));
+
+
+        trAdapter=new TrackRecordAdapter(getActivity(), trArrayList);
+        mListView.setAdapter(trAdapter);
+
 
         return v;
     }

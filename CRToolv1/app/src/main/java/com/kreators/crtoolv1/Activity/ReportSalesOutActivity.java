@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 
 import com.kreators.crtoolv1.Fragment.ReportSalesOutByDateFragment;
 import com.kreators.crtoolv1.Fragment.ReportSalesOutByOutletFragment;
@@ -91,13 +90,6 @@ public class ReportSalesOutActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_report_sales_out, menu);
-        return true;
     }
 
     public void addFragment(Fragment fragment) {

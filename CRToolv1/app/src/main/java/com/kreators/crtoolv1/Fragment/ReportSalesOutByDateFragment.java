@@ -11,7 +11,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.kreators.crtoolv1.Fragment.Adapter.SNAdapter;
-import com.kreators.crtoolv1.Model.SerialNumber;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 public class ReportSalesOutByDateFragment extends Fragment implements SearchView.OnQueryTextListener {
     private SearchView mSearchView;
     private ListView mListView;
-    private ArrayList<SerialNumber> snArrayList;
+    private ArrayList<String> snArrayList;
     private SNAdapter snAdapter;
     View v;
 
@@ -35,11 +34,11 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
         mListView=(ListView) v.findViewById(R.id.lvListViewSN);
 
         snArrayList= new ArrayList<>();
-        snArrayList.add(new SerialNumber("21 Agustus 2016", "ABC93828983"));
-        snArrayList.add(new SerialNumber("17 Agustus 2016", "ACB73844012"));
-        snArrayList.add(new SerialNumber("6  Agustus 2016", "BVF10923881"));
-        snArrayList.add(new SerialNumber("16 July    2016", "BRT92382175"));
-        snArrayList.add(new SerialNumber("27 Juni    2016", "ANM20132412"));
+        snArrayList.add("21 Agustus 2016");
+        snArrayList.add("17 Agustus 2016");
+        snArrayList.add("6  Agustus 2016");
+        snArrayList.add("16 July    2016");
+        snArrayList.add("27 Juni    2016");
 
         snAdapter=new SNAdapter(getActivity(), snArrayList);
         mListView.setAdapter(snAdapter);

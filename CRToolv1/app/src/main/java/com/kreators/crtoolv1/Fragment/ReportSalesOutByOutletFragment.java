@@ -11,7 +11,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.kreators.crtoolv1.Fragment.Adapter.SNAdapter;
-import com.kreators.crtoolv1.Model.SerialNumber;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 public class ReportSalesOutByOutletFragment extends Fragment implements SearchView.OnQueryTextListener {
     private SearchView mSearchView;
     private ListView mListView;
-    private ArrayList<SerialNumber> snArrayList;
+    private ArrayList<String> snArrayList;
     private SNAdapter snAdapter;
     View v;
 
@@ -35,11 +34,11 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
         mListView=(ListView) v.findViewById(R.id.lvListViewSN);
 
         snArrayList= new ArrayList<>();
-        snArrayList.add(new SerialNumber("Outlet Marina", "Barang A, Barang B, Barang C"));
-        snArrayList.add(new SerialNumber("Outlet Datokromo Trade Centre", "Barang B, Barang C"));
-        snArrayList.add(new SerialNumber("Outlet Galaxy Mall", "Barang A, Barang C"));
-        snArrayList.add(new SerialNumber("Outlet THR", "Barang A, Barang B"));
-        snArrayList.add(new SerialNumber("Outlet Tunjungan Plaza", "Barang D, Barang E"));
+        snArrayList.add("Outlet Marina");
+        snArrayList.add("Outlet Datokromo Trade Centre");
+        snArrayList.add("Outlet Galaxy Mall");
+        snArrayList.add("Outlet THR");
+        snArrayList.add("Outlet Tunjungan Plaza");
 
         snAdapter=new SNAdapter(getActivity(), snArrayList);
         mListView.setAdapter(snAdapter);

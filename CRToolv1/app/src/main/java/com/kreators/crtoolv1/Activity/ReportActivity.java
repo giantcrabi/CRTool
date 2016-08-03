@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-import com.kreators.crtoolv1.Fragment.HistorySearchResultFragment;
 import com.kreators.crtoolv1.Fragment.ReportHistoryFragment;
 import com.kreators.crtoolv1.Fragment.ReportMainFragment;
 import com.kreators.crtoolv1.Fragment.ReportTrackRecordFragment;
+import com.kreators.crtoolv1.Fragment.SearchReportDateFragment;
 import com.kreators.crtoolv1.R;
 
-public class ReportActivity extends AppCompatActivity implements ReportMainFragment.ReportMainListener,ReportHistoryFragment.ReportHistoryListener {
+public class ReportActivity extends AppCompatActivity implements ReportMainFragment.ReportMainListener,SearchReportDateFragment.SearchReportDateListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +30,10 @@ public class ReportActivity extends AppCompatActivity implements ReportMainFragm
             }
 
             // Create a new Fragment to be placed in the activity layout
-            ReportMainFragment reportMainFragment= new ReportMainFragment();
+            SearchReportDateFragment searchReportDateFragment= new SearchReportDateFragment();
 
             // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().add(R.id.reportActivity, reportMainFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.reportActivity, searchReportDateFragment).commit();
         }
     }
 
@@ -58,12 +58,13 @@ public class ReportActivity extends AppCompatActivity implements ReportMainFragm
         startActivity(intent);
     }
 
-
-    public void onReportHistorySearchButtonClick() {
-        HistorySearchResultFragment historySearchResultFragment =  new HistorySearchResultFragment();
+    public void onSearchReportDateButtonClick() {
+        ReportMainFragment reportMainFragment =  new ReportMainFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.reportActivity, historySearchResultFragment);
+        transaction.replace(R.id.reportActivity, reportMainFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+
 }

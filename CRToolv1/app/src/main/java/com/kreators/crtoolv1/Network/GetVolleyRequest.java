@@ -47,28 +47,6 @@ public class GetVolleyRequest extends VolleyRequest {
     public StringRequest generatePostRequest(final VolleyStringListener listener) {
         StringBuilder builder = new StringBuilder();
         builder.append(getUrl());
-//        String jsonString = "[{";
-//        if (hasParams()) {
-//            int i = 1;
-//            for (Map.Entry<String, Object> entry : getParameters().entrySet()) {
-//                if(i == getParameters().size()){
-//                    jsonString += "\"" + entry.getKey() + "\":" + entry.getValue();
-//                } else {
-//                    jsonString += "\"" + entry.getKey() + "\":" + entry.getValue() + ",";
-//                }
-//                i += 1;
-//            }
-//        }
-//        jsonString += "}]";
-//
-//        JSONObject jsonObject = new JSONObject(getParameters());
-//        JSONArray jsonArray = null;
-//        try {
-//            jsonArray = new JSONArray(jsonString);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
         return new StringRequest(Request.Method.POST, builder.toString(),
                 new Response.Listener<String>() {
                     @Override
@@ -119,4 +97,6 @@ public class GetVolleyRequest extends VolleyRequest {
             }
         };
     }
+
+
 }

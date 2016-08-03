@@ -1,121 +1,77 @@
 package com.kreators.crtoolv1.Fragment;
 
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SearchView;
 
-import com.kreators.crtoolv1.Model.IndoCalendarFormat;
+import com.kreators.crtoolv1.Fragment.Adapter.ReportHistoryAdapter;
+import com.kreators.crtoolv1.Model.SerialNumber;
 import com.kreators.crtoolv1.R;
-import com.squareup.timessquare.CalendarPickerView;
-import com.squareup.timessquare.DefaultDayViewAdapter;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReportHistoryFragment extends Fragment {
 
-
-    private Button btnFrom, btnTo, btnFind;
-    private Date date1, date2;
-    private long today;
-    private View v;
-    ReportHistoryListener activityCallback;
-
+public class ReportHistoryFragment extends Fragment implements SearchView.OnQueryTextListener {
+    private SearchView mSearchView;
+    private ListView mListView;
+    private ArrayList<SerialNumber> snArrayList;
+    private ReportHistoryAdapter snAdapter;
+    View v;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_report_history, container, false);
-        btnFrom = (Button) v.findViewById(R.id.btnDateFrom);
-        btnTo = (Button) v.findViewById(R.id.btnDateTo);
-        btnFind = (Button) v.findViewById(R.id.btnFindHistory);
-        today = Calendar.getInstance().getTimeInMillis();
-        date1 = new Date(today);
-        date2 = new Date(today);
+
+        mSearchView=(SearchView) v.findViewById(R.id.svSearchOutletHistory);
+        mListView=(ListView) v.findViewById(R.id.lvListViewOutletHistory);
+
+        snArrayList= new ArrayList<>();
+        snArrayList.add(new SerialNumber("Outlet Marina", "Submit: 10, Approve: 10, Retur 1"));
+        snArrayList.add(new SerialNumber("Outlet Datokromo Trade Centre", "Submit: 3, Approve: 13, Retur 0"));
+        snArrayList.add(new SerialNumber("Outlet Galaxy Mall", "Submit: 6, Approve: 7, Retur 0"));
+        snArrayList.add(new SerialNumber("Outlet THR", "Submit: 21, Approve: 15, Retur 0"));
+        snArrayList.add(new SerialNumber("Outlet Tunjungan Plaza", "Submit: 23, Approve: 10, Retur 3"));
+
+        snAdapter=new ReportHistoryAdapter(getActivity(), snArrayList);
+        mListView.setAdapter(snAdapter);
+
+        mListView.setTextFilterEnabled(true);
+        setupSearchView();
         return v;
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        btnFrom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCalendarInDialog(btnFrom, date1);
-            }
-        });
-
-        btnTo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCalendarInDialog(btnTo, date2);
-            }
-        });
-
-        btnFind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activityCallback.onReportHistorySearchButtonClick();
-            }
-        });
-
+    private void setupSearchView() {
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setQueryHint("Search Here");
     }
 
-    private void showCalendarInDialog(final Button btn, final Date date) {
-        final Dialog dg = new Dialog(getActivity(), R.style.FullscreenAppCompatDialogTheme);
-        dg.setContentView(R.layout.dialog_calendar);
 
-        final CalendarPickerView dialogView = (CalendarPickerView) dg.findViewById(R.id.calendarView);
-        final Calendar prevYear = Calendar.getInstance();
-        final Calendar nextDay = Calendar.getInstance();
-        prevYear.add(Calendar.YEAR, -5);
-        nextDay.add(Calendar.DATE, 1);
-        dialogView.setCustomDayView(new DefaultDayViewAdapter());
-        dialogView.init(prevYear.getTime(),nextDay.getTime())
-                .inMode(CalendarPickerView.SelectionMode.SINGLE)
-                .withSelectedDate(new Date(today));
-        Button btnOK = (Button) dg.findViewById(R.id.btnOK);
-        btnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btn.setText(IndoCalendarFormat.getFullDate(dialogView.getSelectedDate().getTime()));
-                date.setTime(dialogView.getSelectedDate().getTime());
-                dg.dismiss();
-            }
-        });
-
-        dg.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                dialogView.fixDialogDimens();
-            }
-        });
-        dg.show();
-    }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof ReportHistoryListener) {
-            activityCallback = (ReportHistoryListener) context;
+    public boolean onQueryTextChange(String newText) {
+        if (TextUtils.isEmpty(newText)) {
+            mListView.clearTextFilter();
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement ReportMainListener");
+            mListView.setFilterText(newText);
         }
+        return true;
     }
 
-    public interface ReportHistoryListener {
-        void onReportHistorySearchButtonClick();
+
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
+
 }
