@@ -22,7 +22,11 @@
     <string name="history_date_to">To</string>
     <string name="history_date_find">Find</string>
     <string name="track_record_table_title">Pencapaian CR Tahun</string>
-
+    <string name="bullet">\u25CF\t</string>
+    <string name="ketentuan1">Setelah submit SN, silahkan mengirimkan kartu garansi ke kantor TDI\n
+    \tIbu Frita/Romi\n\tJL. Ngagel Jaya Selatan bLok H7 Kompleks RMI\n\t(ex. Kebun Bibit -Bratang)\n\tSurabaya 60283</string>
+    <string name="ketentuan2">SN / IMEI akan di-approve setelah kartu garansi diterima</string>
+    <string name="ketentuan3">Semua pertanyaan yang berkaitan dengan klaim harap ditujukan ke admintrp@terra.co.id</string>
 
 
 </resources>

@@ -33,7 +33,7 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.kreators.crtoolv1.Fragment.Dialog.SelectOutletDialogFragment;
-import com.kreators.crtoolv1.Network.GetOutletVolleyRequest;
+import com.kreators.crtoolv1.Network.GetVolleyRequest;
 import com.kreators.crtoolv1.Network.VolleyListener;
 import com.kreators.crtoolv1.Network.VolleyManager;
 import com.kreators.crtoolv1.Network.VolleyRequest;
@@ -56,9 +56,6 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int PERMISSION_LOCATION_REQUEST_CODE = 1;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
-
-    private final static int EARTH_RADIUS = 6371;
-    private final static double CHECK_IN_RADIUS = 0.5;
 
     private GoogleApiClient googleApiClient;
     private LocationRequest mLocationRequest;
@@ -116,7 +113,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
         locRequestProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                Toast.makeText(getApplicationContext(), "Cannot find your location", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "Cannot find your location", Toast.LENGTH_SHORT).show();
                 removeLocationUpdates();
             }
         });
@@ -191,7 +188,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i(TAG, "Location services suspended. Please reconnect.");
+        Toast.makeText(this, "Location services suspended. Please reconnect", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -204,14 +201,22 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
                 e.printStackTrace();
             }
         } else {
-            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
+            if (pd != null) {
+                pd.dismiss();
+            }
+            int errorCode = connectionResult.getErrorCode();
+            String errorMessage = "Location services connection failed";
+            if(errorCode == 2){
+                errorMessage = "Please update your Google Play services";
+            }
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onReturnValue(String loc) {
-        Log.d("CHOOSEN OUTLET: ", loc);
         Intent intent = new Intent(this, SalesOutActivity.class);
+        intent.putExtra("choosenOutlet", loc);
         startActivity(intent);
     }
 
@@ -290,10 +295,9 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
         pd.setTitle("Searching...");
         pd.show();
 
-        GetOutletVolleyRequest request = new GetOutletVolleyRequest();
+        GetVolleyRequest request = new GetVolleyRequest("http://192.168.1.142/CRTool/test");
         request.putParams("lon", curLon);
         request.putParams("lat", curLat);
-        //request.putParams("id", 1);
         request.setListener(new VolleyListener() {
             @Override
             public void onSuccess(VolleyRequest request, JSONArray result) {
@@ -302,24 +306,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
                     List<String> nearestOutlet= new ArrayList<String>();
                     JSONObject outletObj;
                     String outletName;
-//                    double outletLat;
-//                    double outletLon;
 
-//                    for(int i = 0; i < result.length(); i++) {
-//                        outletObj = result.getJSONObject(i);
-//                        outletName = outletObj.getString("Name");
-//                        outletLat = outletObj.getDouble("Lat");
-//                        outletLon = outletObj.getDouble("Lon");
-//                        listOutlet.add(new Pair<Pair<Double,Double>,String>(new Pair<Double,Double>(outletLat, outletLon), outletName));
-//                    }
-
-//                    for(int i = 0; i < listOutlet.size(); i++){
-//                        double distance = greatCircleDistance(curLat, curLon, listOutlet.get(i).first.first, listOutlet.get(i).first.second);
-//                        Log.v("Contains: ", "lat: " + listOutlet.get(i).first.first + ", lon: " + listOutlet.get(i).first.second);
-//                        if(distance <= CHECK_IN_RADIUS){
-//                            nearestOutlet.add(listOutlet.get(i).second);
-//                        }
-//                    }
                     for(int i = 0; i < result.length(); i++) {
                         outletObj = result.getJSONObject(i);
                         if(outletObj.has("status")) {
@@ -338,13 +325,13 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
                             showDialog(nearestOutlet);
                         }
                         else{
-                            Log.d("CHOOSEN OUTLET: ", nearestOutlet.get(0).toString());
-                            Intent intent = new Intent(getApplicationContext(), SalesOutActivity.class);
+                            Intent intent = new Intent(HomeActivity.this, SalesOutActivity.class);
+                            intent.putExtra("choosenOutlet", nearestOutlet.get(0).toString());
                             startActivity(intent);
                         }
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), "There aren't any outlets nearby", Toast.LENGTH_LONG).show();
+                        Toast.makeText(HomeActivity.this, "There aren't any outlets nearby", Toast.LENGTH_LONG).show();
                     }
 
                 } catch (JSONException e) {
@@ -354,7 +341,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
 
             @Override
             public void onError(VolleyRequest request, String errorMessage) {
-                Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 if (pd != null) {
                     pd.dismiss();
                 }
@@ -393,20 +380,6 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
         Intent intent = new Intent(this, ReportActivity.class);
         startActivity(intent);
     }
-
-//    private static double greatCircleDistance(double latNow, double lonNow, double lat, double lon){
-//        double latDistance = toRad(lat-latNow);
-//        double lonDistance = toRad(lon-lonNow);
-//        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
-//                Math.cos(toRad(latNow)) * Math.cos(toRad(lat)) *
-//                        Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-//        return EARTH_RADIUS * c;
-//    }
-//
-//    private static double toRad(double value) {
-//        return value * Math.PI / 180;
-//    }
 
     @Override
     public void onBackPressed() {

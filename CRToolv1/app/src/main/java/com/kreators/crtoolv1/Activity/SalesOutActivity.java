@@ -40,6 +40,14 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
             // Create a new Fragment to be placed in the activity layout
             SalesOutMainFragment salesOutMainFragment = new SalesOutMainFragment();
 
+            String curOutlet = getIntent().getStringExtra("choosenOutlet");
+
+            if(curOutlet != null){
+                Bundle b = new Bundle();
+                b.putString("curOutlet", curOutlet);
+                salesOutMainFragment.setArguments(b);
+            }
+
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction().add(R.id.sales_out_activity, salesOutMainFragment).commit();
         }

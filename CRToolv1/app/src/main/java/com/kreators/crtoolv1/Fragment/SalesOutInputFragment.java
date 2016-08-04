@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kreators.crtoolv1.Network.PostSNVolleyRequest;
+import com.kreators.crtoolv1.Network.GetVolleyRequest;
 import com.kreators.crtoolv1.Network.VolleyManager;
 import com.kreators.crtoolv1.Network.VolleyStringListener;
 import com.kreators.crtoolv1.R;
@@ -74,7 +74,7 @@ public class SalesOutInputFragment extends Fragment {
 
     private void inputSNButtonClicked(String SN) {
         //activityCallback.onInputSNButtonClick(SN);
-        PostSNVolleyRequest request = new PostSNVolleyRequest();
+        GetVolleyRequest request = new GetVolleyRequest("http://192.168.1.142/CRTool/test/SN");
         request.putParams("CR", "1");
         request.putParams("outlet", "1");
         request.putParams("SN", SN);

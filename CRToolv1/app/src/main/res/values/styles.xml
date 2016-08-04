@@ -38,6 +38,14 @@
         <item name="android:ems">10</item>
     </style>
 
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
+
     <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:colorPrimary" tools:targetApi="lollipop">@color/colorPrimary</item>
         <item name="android:colorAccent" tools:targetApi="lollipop">@color/colorAccent</item>
