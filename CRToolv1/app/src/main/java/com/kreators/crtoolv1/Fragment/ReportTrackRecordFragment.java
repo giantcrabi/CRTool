@@ -1,10 +1,12 @@
 package com.kreators.crtoolv1.Fragment;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.kreators.crtoolv1.Fragment.Adapter.TrackRecordAdapter;
+import com.kreators.crtoolv1.Fragment.Dialog.TrackRecordDialogFragment;
 import com.kreators.crtoolv1.Model.SerialNumber;
 import com.kreators.crtoolv1.R;
 
@@ -25,6 +28,8 @@ public class ReportTrackRecordFragment extends Fragment {
     private ArrayList<SerialNumber> trArrayList;
     private TrackRecordAdapter trAdapter;
     private TextView tableTitle;
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_report_track_record, container, false);
 
@@ -87,13 +92,31 @@ public class ReportTrackRecordFragment extends Fragment {
         trArrayList.add(new SerialNumber("Oktober", "200%"));
         trArrayList.add(new SerialNumber("November", "250%"));
         trArrayList.add(new SerialNumber("Desember", "80%"));
-
-
         trAdapter=new TrackRecordAdapter(getActivity(), trArrayList);
         mListView.setAdapter(trAdapter);
-
-
         return v;
     }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showTrackRecordDetails((SerialNumber) parent.getItemAtPosition(position));
+            }
+        });
+    }
+
+    private void showTrackRecordDetails(SerialNumber trackRecordDetails) {
+        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+        android.app.Fragment prev = getActivity().getFragmentManager().findFragmentByTag("Report Track Record");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        TrackRecordDialogFragment TR = TrackRecordDialogFragment.newInstance(trackRecordDetails);
+        TR.show(ft,"Report Track Record");
+    }
+
 }
 
