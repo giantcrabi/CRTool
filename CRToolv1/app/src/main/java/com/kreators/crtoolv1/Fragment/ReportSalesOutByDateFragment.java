@@ -1,16 +1,19 @@
 package com.kreators.crtoolv1.Fragment;
 
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.kreators.crtoolv1.Fragment.Adapter.SNAdapter;
+import com.kreators.crtoolv1.Fragment.Dialog.ReportSalesOutDialogFragment;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
@@ -54,6 +57,25 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
         mSearchView.setQueryHint("Search Here");
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showReportSalesOut((String) parent.getItemAtPosition(position));
+            }
+        });
+    }
+    private void showReportSalesOut(String salesOutDetails) {
+        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+        android.app.Fragment prev = getActivity().getFragmentManager().findFragmentByTag("Report Sales Out");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ReportSalesOutDialogFragment RSO = ReportSalesOutDialogFragment.newInstance(salesOutDetails);
+        RSO.show(ft,"Report Sales Out");
+    }
 
 
     @Override
@@ -65,12 +87,10 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
         }
         return true;
     }
-
-
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
     }
+
 
 }

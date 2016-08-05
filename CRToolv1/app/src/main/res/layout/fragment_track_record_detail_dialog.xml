@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <Button
-        android:text="@string/SN"
-        style="@style/DarkButton"/>
-    <TextView
-        android:text="Appr: 162"
-        style="@style/SmallTextView"/>
-    <TextView
-        android:text="Retur: 0"
-        style="@style/SmallTextView"/>
-    <Button
-        android:text="@string/report_sales_out"
-        style="@style/DarkButton"/>
-    <TextView
-        android:text="Jumlah: Rp. 169.965.000,00"
-        style="@style/SmallTextView"/>
-    <TextView
-        android:text="Target: Rp. 300.000.000,00"
-        style="@style/SmallTextView"/>
-    <TextView
-        android:text="Kurang: Rp. 130.035.000,00"
-        style="@style/SmallTextView"/>
-    <TextView
-        android:text="Presentasi: 56.65%"
-        style="@style/SmallTextView"/>
-</LinearLayout>
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Button
+            android:text="@string/SN"
+            style="@style/DarkButton"/>
+        <TextView
+            android:text="Appr: 162"
+            style="@style/SmallTextView"/>
+        <TextView
+            android:text="Retur: 0"
+            style="@style/SmallTextView"/>
+        <Button
+            android:text="@string/report_sales_out"
+            style="@style/DarkButton"/>
+        <TextView
+            android:text="Jumlah: Rp. 169.965.000,00"
+            style="@style/SmallTextView"/>
+        <TextView
+            android:text="Target: Rp. 300.000.000,00"
+            style="@style/SmallTextView"/>
+        <TextView
+            android:text="Kurang: Rp. 130.035.000,00"
+            style="@style/SmallTextView"/>
+        <TextView
+            android:text="Presentasi: 56.65%"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            style="@style/SmallTextView"/>
+    </LinearLayout>
+</ScrollView>

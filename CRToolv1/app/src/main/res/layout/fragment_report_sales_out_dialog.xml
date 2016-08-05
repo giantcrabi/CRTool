@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/activity_horizontal_margin">
+            <TextView
+                android:text="@string/SN"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:typeface="serif"></TextView>
+            <TextView
+                android:text="Nama Barang"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:typeface="serif"></TextView>
+            <TextView
+                android:text="Status"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:typeface="serif"></TextView>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/activity_horizontal_margin">
+            <TextView
+                android:text="ABCKASD13"
+                android:gravity="center"/>
+            <TextView
+                android:text="HP Axioo"
+                android:gravity="center"/>
+            <TextView
+                android:text="Accepted"
+                android:background="@color/softGreen"
+                android:textStyle="bold"
+                android:padding="@dimen/small_padding2"
+                android:textColor="@android:color/white"
+                android:gravity="center"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/activity_horizontal_margin">
+            <TextView
+                android:text="SDKSSD123"
+                android:gravity="center"/>
+            <TextView
+                android:text="Laptop Axioo"
+                android:gravity="center"/>
+            <TextView
+                android:text="Accepted"
+                android:background="@color/softGreen"
+                android:textStyle="bold"
+                android:padding="@dimen/small_padding2"
+                android:textColor="@android:color/white"
+                android:gravity="center"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/activity_horizontal_margin">
+            <TextView
+                android:text="KSAKD1455"
+                android:gravity="center"/>
+            <TextView
+                android:text="Laptop Axioo"
+                android:gravity="center"/>
+            <TextView
+                android:text="Rejeted"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:padding="@dimen/small_padding2"
+                android:background="@color/softRed"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
