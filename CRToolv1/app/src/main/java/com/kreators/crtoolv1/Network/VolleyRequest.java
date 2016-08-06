@@ -9,7 +9,6 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 
@@ -24,12 +23,12 @@ public abstract class VolleyRequest implements Response.Listener<JSONArray>, Res
     private final String TAG = getClass().getCanonicalName();
 
     private String url;
-    private Map<String, Object> params;
+    private Map<String, String> params;
     private VolleyListener listener;
 
     public abstract JsonArrayRequest generateGetRequest();
 
-    public abstract StringRequest generatePostRequest(final VolleyStringListener listener);
+    public abstract JsonArrayRequest generatePostRequest();
 
     public VolleyRequest(String url, Object... args) {
         this.url = String.format(url, args);
@@ -39,7 +38,7 @@ public abstract class VolleyRequest implements Response.Listener<JSONArray>, Res
         return url;
     }
 
-    public Map<String, Object> getParameters() {
+    public Map<String, String> getParameters() {
         return params;
     }
 
@@ -51,7 +50,7 @@ public abstract class VolleyRequest implements Response.Listener<JSONArray>, Res
         this.listener = listener;
     }
 
-    public void putParams(String key, Object value) {
+    public void putParams(String key, String value) {
         if (params == null) {
             params = new HashMap<>();
         }
@@ -68,9 +67,9 @@ public abstract class VolleyRequest implements Response.Listener<JSONArray>, Res
             } else if (error instanceof NoConnectionError) {
                 message = "No internet connection";
             } else if (error instanceof ParseError) {
-                message = error.getMessage();
+                message = "Parse error";
             } else if (error instanceof ServerError) {
-                message = error.getMessage();
+                message = "Server error";
             }
 
             listener.onError(this, message);

@@ -1,19 +1,12 @@
 package com.kreators.crtoolv1.Network;
 
-import android.util.Log;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 
-import java.util.HashMap;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
@@ -33,7 +26,7 @@ public class GetVolleyRequest extends VolleyRequest {
         builder.append(getUrl());
         if (hasParams()) {
             builder.append("/");
-            for (Map.Entry<String, Object> entry : getParameters().entrySet()) {
+            for (Map.Entry<String, String> entry : getParameters().entrySet()) {
                 builder.append(entry.getKey());
                 builder.append("/");
                 builder.append(entry.getValue());
@@ -44,59 +37,33 @@ public class GetVolleyRequest extends VolleyRequest {
     }
 
     @Override
-    public StringRequest generatePostRequest(final VolleyStringListener listener) {
+    public JsonArrayRequest generatePostRequest() {
         StringBuilder builder = new StringBuilder();
         builder.append(getUrl());
-        return new StringRequest(Request.Method.POST, builder.toString(),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if(listener != null) {
-                            listener.onSuccess(response);
-                        } else {
-                            Log.e(TAG, "onResponse: Listener is null");
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if(listener != null) {
-                    String message = "Something wrong happened, please try again";
-
-                    if (error instanceof TimeoutError) {
-                        message = "Timeout exceeded";
-                    } else if (error instanceof NoConnectionError) {
-                        message = "No internet connection";
-                    } else if (error instanceof ParseError) {
-                        message = error.getMessage();
-                    } else if (error instanceof ServerError) {
-                        message = error.getMessage();
-                    }
-
-                    listener.onError(message);
-                } else {
-                    Log.e(TAG, "onErrorResponse: Listener is null");
-                }
-            }
-        })
+        return new JsonArrayRequest(Request.Method.POST, builder.toString(), null, GetVolleyRequest.this, GetVolleyRequest.this)
         {
             @Override
             public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
+                return "application/json; charset=utf-8";
             }
 
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                if (hasParams()) {
-                    for (Map.Entry<String, Object> entry : getParameters().entrySet()) {
-                        params.put(entry.getKey(), (String) entry.getValue());
+            public byte[] getBody() {
+                Map<String, String> params = getParameters();
+                if (params != null && params.size() > 0) {
+                    JSONObject jsonObject = new JSONObject(params);
+                    String requestBody = jsonObject.toString();
+                    try {
+                        return requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                                requestBody, "utf-8");
+                        return null;
                     }
                 }
-                return params;
+                return null;
             }
         };
     }
-
 
 }

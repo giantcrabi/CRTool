@@ -5,7 +5,6 @@ import android.content.Context;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.util.concurrent.TimeUnit;
@@ -34,22 +33,23 @@ public class VolleyManager {
         return instance;
     }
 
-    public void createGetRequest(VolleyRequest volleyRequest, String tag) {
-        JsonArrayRequest request = volleyRequest.generateGetRequest();
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                DEFAULT_SOCKET_TIMEOUT,
-                0,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        request.setTag(tag);
-        request.setShouldCache(false);
-        requestQueue.add(request);
-    }
+    public void createRequest(VolleyRequest volleyRequest, String tag) {
+        JsonArrayRequest request = null;
+        if(tag.equals("GET")) {
+            request = volleyRequest.generateGetRequest();
+        } else if(tag.equals("POST")) {
+            request = volleyRequest.generatePostRequest();
+        }
 
-    public void createPostRequest(VolleyRequest volleyRequest, String tag, final VolleyStringListener listener) {
-        StringRequest request = volleyRequest.generatePostRequest(listener);
-        request.setTag(tag);
-        request.setShouldCache(false);
-        requestQueue.add(request);
+        if(request != null){
+            request.setRetryPolicy(new DefaultRetryPolicy(
+                    DEFAULT_SOCKET_TIMEOUT,
+                    0,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            request.setTag(tag);
+            request.setShouldCache(false);
+            requestQueue.add(request);
+        }
     }
 
     public void cancelPendingRequests(String tag) {

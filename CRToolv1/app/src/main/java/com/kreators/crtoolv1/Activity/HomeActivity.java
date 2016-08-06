@@ -148,7 +148,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
             removeLocationUpdates();
             googleApiClient.disconnect();
         }
-        volleyManager.cancelPendingRequests("GETOUTLET");
+        volleyManager.cancelPendingRequests("GET");
     }
 
     @Override
@@ -295,9 +295,9 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
         pd.setTitle("Searching...");
         pd.show();
 
-        GetVolleyRequest request = new GetVolleyRequest("http://192.168.1.142/CRTool/test");
-        request.putParams("lon", curLon);
-        request.putParams("lat", curLat);
+        GetVolleyRequest request = new GetVolleyRequest("http://192.168.1.142/CRTool/services/outlet");
+        request.putParams("lon", String.valueOf(curLon));
+        request.putParams("lat", String.valueOf(curLat));
         request.setListener(new VolleyListener() {
             @Override
             public void onSuccess(VolleyRequest request, JSONArray result) {
@@ -347,7 +347,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
             }
         });
-        volleyManager.createGetRequest(request, "GETOUTLET");
+        volleyManager.createRequest(request, "GET");
     }
 
     private void showDialog(List<String> nearestOutlet) {
