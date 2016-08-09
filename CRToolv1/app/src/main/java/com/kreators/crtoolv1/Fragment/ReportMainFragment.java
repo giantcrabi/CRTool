@@ -1,6 +1,5 @@
 package com.kreators.crtoolv1.Fragment;
 
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.kreators.crtoolv1.Commons.Constant;
 import com.kreators.crtoolv1.Model.IndoCalendarFormat;
 import com.kreators.crtoolv1.R;
 import com.squareup.timessquare.CalendarPickerView;
@@ -19,49 +19,37 @@ import com.squareup.timessquare.DefaultDayViewAdapter;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ReportMainFragment extends Fragment {
 
     ReportMainListener activityCallback;
-    private Button btnFrom, btnTo;
+    private View view;
+    private Button btnFrom, btnTo, btnTR, btnSO;
     private Date date1, date2;
     private long today;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_report_main, container, false);
-        final Button btnTR = (Button) view.findViewById(R.id.btnReportTrackRecord);
-        btnTR.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                reportTrackRecordButtonClicked();
-            }
-        });
-        final Button btnSO = (Button) view.findViewById(R.id.btnReportSalesOut);
-        btnSO.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                reportSalesOutButtonClicked();
-            }
-        });
-        btnFrom = (Button) view.findViewById(R.id.btnDateFrom);
-        btnTo = (Button) view.findViewById(R.id.btnDateTo);
-        today = Calendar.getInstance().getTimeInMillis();
-        date1 = new Date(today);
-        date2 = new Date(today);
+        view = inflater.inflate(R.layout.fragment_report_main, container, false);
+        bind();
+        setDefaultLayout();
         return view;
     }
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof ReportMainListener) {
-            activityCallback = (ReportMainListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement ReportMainListener");
-        }
+
+    private void bind() {
+        btnFrom = (Button) view.findViewById(R.id.btnDateFrom);
+        btnTo = (Button) view.findViewById(R.id.btnDateTo);
+        btnTR = (Button) view.findViewById(R.id.btnReportTrackRecord);
+        btnSO = (Button) view.findViewById(R.id.btnReportSalesOut);
     }
 
+    private void setDefaultLayout() {
+        today = Calendar.getInstance().getTimeInMillis();
+        date1 = new Date(today- Constant.longOneDay);
+        date2 = new Date(today);
+        btnFrom.setText(IndoCalendarFormat.getFullDate(date1.getTime()));
+        btnTo.setText(IndoCalendarFormat.getFullDate(date2.getTime()));
+    }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -78,19 +66,17 @@ public class ReportMainFragment extends Fragment {
                 showCalendarInDialog(btnTo, date2);
             }
         });
-    }
+        btnTR.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                reportTrackRecordButtonClicked();
+            }
+        });
 
-    public void reportTrackRecordButtonClicked() {
-        activityCallback.onReportTrackRecordButtonClick();
-    }
-
-    public void reportSalesOutButtonClicked() {
-        activityCallback.onReportSalesOutButtonClick();
-    }
-
-    public interface ReportMainListener {
-        void onReportTrackRecordButtonClick();
-        void onReportSalesOutButtonClick();
+        btnSO.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                reportSalesOutButtonClicked();
+            }
+        });
     }
 
     private void showCalendarInDialog(final Button btn, final Date date) {
@@ -122,6 +108,32 @@ public class ReportMainFragment extends Fragment {
         });
         dg.show();
     }
+
+
+    public void reportTrackRecordButtonClicked() {
+        activityCallback.onReportTrackRecordButtonClick();
+    }
+
+    public void reportSalesOutButtonClicked() {
+        activityCallback.onReportSalesOutButtonClick();
+    }
+
+    public interface ReportMainListener {
+        void onReportTrackRecordButtonClick();
+        void onReportSalesOutButtonClick();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ReportMainListener) {
+            activityCallback = (ReportMainListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement ReportMainListener");
+        }
+    }
+
 
 
 }
