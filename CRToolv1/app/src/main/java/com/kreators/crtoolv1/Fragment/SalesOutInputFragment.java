@@ -1,6 +1,7 @@
 package com.kreators.crtoolv1.Fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kreators.crtoolv1.Fragment.Listener.SalesOutListener;
 import com.kreators.crtoolv1.Network.GetVolleyRequest;
 import com.kreators.crtoolv1.Network.VolleyListener;
 import com.kreators.crtoolv1.Network.VolleyManager;
@@ -26,20 +28,20 @@ import org.json.JSONObject;
 public class SalesOutInputFragment extends Fragment {
 
     private TextView textSN;
-    //private SalesOutListener activityCallback;
+    private SalesOutListener activityCallback;
     private VolleyManager volleyManager;
     private ProgressDialog pd;
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof SalesOutListener) {
-//            activityCallback = (SalesOutListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement SalesOutListener");
-//        }
-//    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof SalesOutListener) {
+            activityCallback = (SalesOutListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement SalesOutListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,14 +51,13 @@ public class SalesOutInputFragment extends Fragment {
 
         textSN = (TextView) view.findViewById(R.id.textSN);
 
-        final Button btnSN = (Button) view.findViewById(R.id.btnInputSN);
-
         Bundle bundle = getArguments();
 
         if(bundle != null) {
             textSN.setText(bundle.getString("Content"));
         }
 
+        final Button btnSN = (Button) view.findViewById(R.id.btnInputSN);
         btnSN.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String input = textSN.getText().toString();
@@ -65,6 +66,14 @@ public class SalesOutInputFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), "Wrong input", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        final Button scanSN =
+                (Button) view.findViewById(R.id.scanSN);
+        scanSN.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                scanButtonClicked();
             }
         });
 
@@ -86,7 +95,6 @@ public class SalesOutInputFragment extends Fragment {
     }
 
     private void inputSNButtonClicked(String SN) {
-        //activityCallback.onInputSNButtonClick(SN);
         pd.show();
         GetVolleyRequest request = new GetVolleyRequest("http://192.168.1.142/CRTool/services/SN");
         request.putParams("CR", "1");
@@ -121,4 +129,7 @@ public class SalesOutInputFragment extends Fragment {
         volleyManager.createRequest(request, "POST");
     }
 
+    private void scanButtonClicked() {
+        activityCallback.onScanButtonClick();
+    }
 }

@@ -12,7 +12,7 @@
     <string name="pilih_outlet">Pilih Outlet</string>
     <string name="report_button">Melihat Report</string>
     <string name="input_sn">Masukkan SN</string>
-    <string name="scan_sn">Pindai SN</string>
+    <string name="scan_sn">Pindai</string>
     <string name="outlet_search">Cari Outlet..</string>
     <string name="outlet_search_dialog_dismiss">Tutup</string>
     <string name="report_history">Riwayat</string>

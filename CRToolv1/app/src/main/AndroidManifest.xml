@@ -25,7 +25,9 @@
         </activity>
         <activity android:name=".Activity.HomeActivity" />
         <activity android:name=".Activity.ReportActivity" />
-        <activity android:name=".Activity.SalesOutActivity" />
+        <activity
+            android:name=".Activity.SalesOutActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activity.ReportSalesOutActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>

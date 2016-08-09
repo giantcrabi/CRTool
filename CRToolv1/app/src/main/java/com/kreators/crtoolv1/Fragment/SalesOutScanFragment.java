@@ -7,32 +7,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kreators.crtoolv1.Fragment.Listener.SalesOutListener;
+
+import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 /**
  * Created by DELL on 15/06/2016.
  */
-public class SalesOutScanFragment extends Fragment {
+public class SalesOutScanFragment extends Fragment implements ZBarScannerView.ResultHandler {
 
-//    private ImageView mImageview;
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        View view = inflater.inflate(R.layout.fragment_sales_out_scan, container, false);
-//
-//        mImageview = (ImageView) view.findViewById(R.id.imageSN);
-//
-//        Bitmap imageBitmap = (Bitmap) getArguments().get("data");
-//        mImageview.setImageBitmap(imageBitmap);
-//
-//        return view;
-//    }
-
+    private SalesOutListener activityCallback;
     private ZBarScannerView mScannerView;
-    public SalesOutScanFragment(Context context) {
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof SalesOutListener) {
+            activityCallback = (SalesOutListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement SalesOutListener");
+        }
         mScannerView = new ZBarScannerView(context);
+        mScannerView.setResultHandler(this);
     }
 
     @Override
@@ -53,8 +51,8 @@ public class SalesOutScanFragment extends Fragment {
         mScannerView.stopCamera();           // Stop camera on pause
     }
 
-    public ZBarScannerView getmScannerView() {
-        return mScannerView;
+    @Override
+    public void handleResult(Result result) {
+        activityCallback.handleResult(result);
     }
-
 }

@@ -3,21 +3,18 @@ package com.kreators.crtoolv1.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.kreators.crtoolv1.Fragment.Listener.SalesOutListener;
 import com.kreators.crtoolv1.Fragment.SalesOutInputFragment;
-import com.kreators.crtoolv1.Fragment.SalesOutMainFragment;
 import com.kreators.crtoolv1.Fragment.SalesOutScanFragment;
 import com.kreators.crtoolv1.R;
 
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
-public class SalesOutActivity extends AppCompatActivity implements SalesOutListener,
-        ZBarScannerView.ResultHandler {
-
-    //static final int REQUEST_IMAGE_CAPTURE = 1;
+public class SalesOutActivity extends AppCompatActivity implements SalesOutListener {
 
     private ZBarScannerView mScannerView;
 
@@ -25,6 +22,8 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_out);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -38,38 +37,33 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
             }
 
             // Create a new Fragment to be placed in the activity layout
-            SalesOutMainFragment salesOutMainFragment = new SalesOutMainFragment();
+            SalesOutInputFragment salesOutInputFragment = new SalesOutInputFragment();
 
             String curOutlet = getIntent().getStringExtra("choosenOutlet");
 
             if(curOutlet != null){
-                Bundle b = new Bundle();
-                b.putString("curOutlet", curOutlet);
-                salesOutMainFragment.setArguments(b);
+                setTitle(curOutlet);
             }
 
             // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().add(R.id.sales_out_activity, salesOutMainFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.sales_out_activity, salesOutInputFragment).commit();
         }
 
     }
 
-    public void onInputButtonClick() {
-        SalesOutInputFragment salesOutInputFragment = new SalesOutInputFragment();
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        transaction.replace(R.id.sales_out_activity, salesOutInputFragment);
-        transaction.addToBackStack(null);
-
-        transaction.commit();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void onScanButtonClick() {
-        SalesOutScanFragment salesOutScanFragment = new SalesOutScanFragment(this);
-
-        mScannerView = salesOutScanFragment.getmScannerView();
-        mScannerView.setResultHandler(this);
+        SalesOutScanFragment salesOutScanFragment = new SalesOutScanFragment();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -79,13 +73,8 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
         transaction.commit();
     }
 
-//    public void onInputSNButtonClick(String SN) {
-//
-//    }
-
     @Override
     public void handleResult(Result rawResult) {
-        // Do something with the result here
         if(rawResult.getContents() == null){
             Toast.makeText(this, "Error No Contents", Toast.LENGTH_LONG).show();
         } else {
@@ -100,37 +89,14 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-            transaction.replace(R.id.sales_out_activity, salesOutInputFragment, "INPUT");
+            transaction.replace(R.id.sales_out_activity, salesOutInputFragment);
 
             transaction.commit();
         }
-
-        // If you would like to resume scanning, call this method below:
-        //mScannerView.resumeCameraPreview(this);
     }
 
-//    public void onScanButtonClick() {
-//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//        }
-//    }
-//
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-//            SalesOutScanFragment salesOutScanFragment = new SalesOutScanFragment();
-//
-//            Bundle extras = data.getExtras();
-//
-//            salesOutScanFragment.setArguments(extras);
-//
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//
-//            transaction.replace(R.id.sales_out_activity, salesOutScanFragment);
-//            transaction.addToBackStack(null);
-//
-//            transaction.commitAllowingStateLoss();
-//        }
-//    }
+    @Override
+    public void onBackPressed() {
+        SalesOutActivity.this.finish();
+    }
 }

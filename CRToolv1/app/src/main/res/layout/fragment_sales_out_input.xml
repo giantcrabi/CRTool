@@ -13,9 +13,27 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/scanSN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:textSize="@dimen/font_small_0"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@drawable/ic_settings_overscan_white_36dp"
+            android:text="@string/scan_sn" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="32dp">
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/textSN"
@@ -32,7 +50,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="4"
+        android:isScrollContainer="false">
 
         <LinearLayout
             android:layout_width="match_parent"
