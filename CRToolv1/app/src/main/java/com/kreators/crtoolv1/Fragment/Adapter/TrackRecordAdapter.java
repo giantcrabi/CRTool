@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.kreators.crtoolv1.Model.SerialNumber;
+import com.kreators.crtoolv1.Model.TrackRecord;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
@@ -18,32 +18,33 @@ import java.util.ArrayList;
 public class TrackRecordAdapter extends BaseAdapter {
 
     public Context context;
-    public ArrayList<SerialNumber> snArrayList;
-    public ArrayList<SerialNumber> orig;
+    public ArrayList<TrackRecord> trArrayList;
 
-    public TrackRecordAdapter(Context context, ArrayList<SerialNumber> employeeArrayList) {
+    public TrackRecordAdapter(Context context, ArrayList<TrackRecord> trackRecordArrayList) {
         super();
         this.context = context;
-        this.snArrayList = employeeArrayList;
+        this.trArrayList = trackRecordArrayList;
     }
 
 
     public class EmployeeHolder
     {
-        TextView name;
-        TextView age;
+        TextView bulan;
+        TextView appr;
+        TextView retur;
+        TextView presentasi;
     }
 
 
 
     @Override
     public int getCount() {
-        return snArrayList.size();
+        return trArrayList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return snArrayList.get(position);
+        return trArrayList.get(position);
     }
 
     @Override
@@ -57,17 +58,19 @@ public class TrackRecordAdapter extends BaseAdapter {
         if(convertView==null) {
             convertView= LayoutInflater.from(context).inflate(R.layout.adapter_track_record, parent, false);
             holder=new EmployeeHolder();
-            holder.name=(TextView) convertView.findViewById(R.id.txtDate);
-            holder.age=(TextView) convertView.findViewById(R.id.txtSN);
+            holder.bulan=(TextView) convertView.findViewById(R.id.tvBulanTrackRecord);
+            holder.appr=(TextView) convertView.findViewById(R.id.tvApprTrackRecord);
+            holder.retur=(TextView) convertView.findViewById(R.id.tvReturTrackRecord);
+            holder.presentasi=(TextView) convertView.findViewById(R.id.tvPresentasiTrackRecord);
             convertView.setTag(holder);
         }
         else {
             holder=(EmployeeHolder) convertView.getTag();
         }
-
-        holder.name.setText(snArrayList.get(position).getDate());
-        holder.age.setText(String.valueOf(snArrayList.get(position).getSN()));
-
+        holder.bulan.setText(trArrayList.get(position).getBulan());
+        holder.appr.setText(trArrayList.get(position).getAppr());
+        holder.retur.setText(trArrayList.get(position).getRetur());
+        holder.presentasi.setText(trArrayList.get(position).getPresentasi());
         return convertView;
 
     }
