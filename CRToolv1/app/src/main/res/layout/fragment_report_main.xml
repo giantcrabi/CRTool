@@ -16,11 +16,7 @@
             android:drawableLeft="@drawable/ic_assignment_turned_in_white_36dp"
             style="@style/DarkButton"
             android:text="@string/report_sales_out" />
-        <Button
-            android:id="@+id/btnReportHistory"
-            android:drawableLeft="@drawable/ic_assessment_white_36dp"
-            style="@style/DarkButton"
-            android:text="@string/report_history" />
+
         <Button
             android:id="@+id/btnReportTrackRecord"
             android:drawableLeft="@drawable/ic_timeline_white_36dp"

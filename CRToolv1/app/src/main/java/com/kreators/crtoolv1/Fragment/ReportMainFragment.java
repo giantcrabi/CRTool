@@ -30,12 +30,6 @@ public class ReportMainFragment extends Fragment {
             }
         });
 
-        final Button btnH = (Button) view.findViewById(R.id.btnReportHistory);
-        btnH.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                reportHistoryButtonClicked();
-            }
-        });
 
         final Button btnSO = (Button) view.findViewById(R.id.btnReportSalesOut);
         btnSO.setOnClickListener(new View.OnClickListener() {
@@ -63,17 +57,12 @@ public class ReportMainFragment extends Fragment {
         activityCallback.onReportTrackRecordButtonClick();
     }
 
-    public void reportHistoryButtonClicked() {
-        activityCallback.onReportHistoryButtonClick();
-    }
-
     public void reportSalesOutButtonClicked() {
         activityCallback.onReportSalesOutButtonClick();
     }
 
     public interface ReportMainListener {
         void onReportTrackRecordButtonClick();
-        void onReportHistoryButtonClick();
         void onReportSalesOutButtonClick();
     }
 
