@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.kreators.crtoolv1.Commons.Url;
 import com.kreators.crtoolv1.Fragment.Dialog.SelectOutletDialogFragment;
 import com.kreators.crtoolv1.Network.GetVolleyRequest;
 import com.kreators.crtoolv1.Network.GoogleLocationListener;
@@ -157,7 +158,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
         pd.setTitle("Searching...");
         pd.show();
 
-        GetVolleyRequest request = new GetVolleyRequest("http://192.168.1.142/CRTool/services/outlet");
+        GetVolleyRequest request = new GetVolleyRequest(Url.CHECK_IN_OUTLET);
         request.putParams("lon", String.valueOf(curLon));
         request.putParams("lat", String.valueOf(curLat));
         request.setListener(new VolleyListener() {

@@ -28,36 +28,29 @@ public class ReportMainFragment extends Fragment {
     private Button btnFrom, btnTo;
     private Date date1, date2;
     private long today;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_report_main, container, false);
-
-
         final Button btnTR = (Button) view.findViewById(R.id.btnReportTrackRecord);
         btnTR.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 reportTrackRecordButtonClicked();
             }
         });
-
-
         final Button btnSO = (Button) view.findViewById(R.id.btnReportSalesOut);
         btnSO.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 reportSalesOutButtonClicked();
             }
         });
-
         btnFrom = (Button) view.findViewById(R.id.btnDateFrom);
         btnTo = (Button) view.findViewById(R.id.btnDateTo);
         today = Calendar.getInstance().getTimeInMillis();
         date1 = new Date(today);
         date2 = new Date(today);
-
         return view;
     }
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -100,11 +93,9 @@ public class ReportMainFragment extends Fragment {
         void onReportSalesOutButtonClick();
     }
 
-
     private void showCalendarInDialog(final Button btn, final Date date) {
         final Dialog dg = new Dialog(getActivity(), R.style.FullscreenAppCompatDialogTheme);
         dg.setContentView(R.layout.dialog_calendar);
-
         final CalendarPickerView dialogView = (CalendarPickerView) dg.findViewById(R.id.calendarView);
         final Calendar prevYear = Calendar.getInstance();
         final Calendar nextDay = Calendar.getInstance();
@@ -123,7 +114,6 @@ public class ReportMainFragment extends Fragment {
                 dg.dismiss();
             }
         });
-
         dg.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {

@@ -19,7 +19,6 @@
             style="@style/DarkButton"
             android:layout_width="@dimen/zero_weight"
             android:drawableLeft="@drawable/ic_date_range_white_36dp"
-            android:text="@string/history_date_from"
             android:layout_marginRight="@dimen/activity_horizontal_margin0.5"
             android:textSize="@dimen/font_small_0" />
         <Button
@@ -28,7 +27,6 @@
             android:id="@+id/btnDateTo"
             style="@style/DarkButton"
             android:drawableLeft="@drawable/ic_date_range_white_36dp"
-            android:text="@string/history_date_to"
             android:textSize="@dimen/font_small_0" />
     </LinearLayout>
 
