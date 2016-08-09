@@ -8,6 +8,7 @@
     <dimen name="activity_margin_bottom">24dp</dimen>
     <dimen name="small_padding2">2dp</dimen>
     <dimen name="padding_in_a_box">16dp</dimen>
+    <dimen name="tanggal_box_height">75dp</dimen>
 
 
     <dimen name="font_small_0">16sp</dimen>

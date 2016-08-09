@@ -7,32 +7,20 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.kreators.crtoolv1.Fragment.ReportMainFragment;
 import com.kreators.crtoolv1.Fragment.ReportTrackRecordFragment;
-import com.kreators.crtoolv1.Fragment.SearchReportDateFragment;
 import com.kreators.crtoolv1.R;
 
-public class ReportActivity extends AppCompatActivity implements ReportMainFragment.ReportMainListener,SearchReportDateFragment.SearchReportDateListener {
+public class ReportActivity extends AppCompatActivity implements ReportMainFragment.ReportMainListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
         if (findViewById(R.id.reportActivity) != null) {
-
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
             if (savedInstanceState != null) {
                 return;
             }
-
-            // Create a new Fragment to be placed in the activity layout
-            SearchReportDateFragment searchReportDateFragment= new SearchReportDateFragment();
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().add(R.id.reportActivity, searchReportDateFragment).commit();
+            ReportMainFragment reportMainFragment= new ReportMainFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.reportActivity, reportMainFragment).commit();
         }
     }
 
@@ -48,14 +36,5 @@ public class ReportActivity extends AppCompatActivity implements ReportMainFragm
         Intent intent = new Intent(this, ReportSalesOutActivity.class);
         startActivity(intent);
     }
-
-    public void onSearchReportDateButtonClick() {
-        ReportMainFragment reportMainFragment =  new ReportMainFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.reportActivity, reportMainFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
 
 }
