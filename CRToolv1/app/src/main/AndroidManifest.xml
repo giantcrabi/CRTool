@@ -30,7 +30,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activity.ReportSalesOutActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activity.DetailReportSalesOutActivity"></activity>
     </application>
 
 </manifest>

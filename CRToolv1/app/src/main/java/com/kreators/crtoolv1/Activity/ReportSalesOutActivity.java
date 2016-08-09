@@ -20,34 +20,22 @@ import java.util.List;
  * Created by Julio Anthony Leonar on 7/29/2016.
  */
 
-public class ReportSalesOutActivity extends AppCompatActivity {
+public class ReportSalesOutActivity extends AppCompatActivity implements ReportSalesOutByDateFragment.ReportSalesOutByDateListener {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
     protected FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_sales_out);
-
         fragmentManager = getSupportFragmentManager();
         viewPager = (ViewPager) findViewById(R.id.activityDetailHotel);
         setupViewPager(viewPager);
-
         toolbar = (Toolbar) findViewById(R.id.toolbarDetailHotel); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -58,7 +46,6 @@ public class ReportSalesOutActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         ReportSalesOutByDateFragment reportSalesOutByDateFragment =  new ReportSalesOutByDateFragment();
         ReportSalesOutByOutletFragment reportSalesOutByOutletFragment = new ReportSalesOutByOutletFragment();
-
         adapter.addFragment(reportSalesOutByDateFragment, "By Date");
         adapter.addFragment(reportSalesOutByOutletFragment, "By Outlet");
         viewPager.setAdapter(adapter);
@@ -67,6 +54,7 @@ public class ReportSalesOutActivity extends AppCompatActivity {
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
+
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
@@ -92,9 +80,8 @@ public class ReportSalesOutActivity extends AppCompatActivity {
         }
     }
 
-    public void addFragment(Fragment fragment) {
-        fragmentManager.beginTransaction().add(R.id.main_content, fragment).addToBackStack("add").commit();
+
+    @Override
+    public void adapterSalesOutByDateButtonClick() {
     }
-
-
 }

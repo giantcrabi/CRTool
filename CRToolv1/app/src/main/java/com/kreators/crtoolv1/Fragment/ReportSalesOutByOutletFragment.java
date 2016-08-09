@@ -30,10 +30,8 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_report_sales_out, container, false);
-
         mSearchView=(SearchView) v.findViewById(R.id.svSearchSN);
         mListView=(ListView) v.findViewById(R.id.lvListViewSN);
-
         snArrayList= new ArrayList<>();
         snArrayList.add("Outlet Marina");
         snArrayList.add("Outlet Datokromo Trade Centre");
@@ -78,8 +76,9 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //onClick
+                //CallReportSalesOutByDateFragment
             }
         });
     }
+
 }

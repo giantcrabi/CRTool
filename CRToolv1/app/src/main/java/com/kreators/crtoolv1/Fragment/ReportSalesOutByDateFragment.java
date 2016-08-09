@@ -1,6 +1,7 @@
 package com.kreators.crtoolv1.Fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
  */
 
 public class ReportSalesOutByDateFragment extends Fragment implements SearchView.OnQueryTextListener {
+    private ReportSalesOutByDateListener activityCallBack;
     private SearchView mSearchView;
     private ListView mListView;
     private ArrayList<String> snArrayList;
@@ -30,10 +32,8 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_report_sales_out, container, false);
-
         mSearchView=(SearchView) v.findViewById(R.id.svSearchSN);
         mListView=(ListView) v.findViewById(R.id.lvListViewSN);
-
         snArrayList= new ArrayList<>();
         snArrayList.add("21 Agustus 2016");
         snArrayList.add("17 Agustus 2016");
@@ -61,7 +61,7 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //OnClick
+                adapterSalesOutByDateButtonClick();
             }
         });
     }
@@ -80,6 +80,27 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
     public boolean onQueryTextSubmit(String query) {
         return false;
     }
+
+    public void adapterSalesOutByDateButtonClick() {
+        activityCallBack.adapterSalesOutByDateButtonClick();
+    }
+
+    public interface ReportSalesOutByDateListener {
+        void adapterSalesOutByDateButtonClick();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ReportSalesOutByDateListener) {
+            activityCallBack = (ReportSalesOutByDateListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement ReportMainListener");
+        }
+    }
+
+
 
 
 }
