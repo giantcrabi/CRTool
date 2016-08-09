@@ -3,32 +3,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-
     android:orientation="vertical"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:padding="@dimen/activity_horizontal_margin"
     tools:context=".Fragment.ReportTrackRecordFragment">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="250dp" />
+    <TextView
+        android:id="@+id/tvTableHistoryTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+        android:text="@string/track_record_table_title"
+        android:textSize="@dimen/font_small_1"
+        android:textStyle="bold" />
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="@dimen/activity_horizontal_margin0.5"
+        android:orientation="horizontal">
         <TextView
-            android:id="@+id/tvTableHistoryTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/track_record_table_title"
+            android:text="@string/track_record_bulan"
             android:textStyle="bold"
-            android:textSize="@dimen/font_medium_0"
-            android:layout_margin="@dimen/activity_horizontal_margin"/>
+            style="@style/TextViewTable"/>
+        <TextView
+            android:text="@string/track_record_appr"
+            android:textStyle="bold"
+            style="@style/TextViewTable"/>
+        <TextView
+            android:text="@string/track_record_retur"
+            android:textStyle="bold"
+            style="@style/TextViewTable"/>
+        <TextView
+            android:text="@string/track_record_presentasi"
+            android:textStyle="bold"
+            style="@style/TextViewTable"/>
+    </LinearLayout>
 
-        <ListView
-            android:id="@+id/lvListViewTrackRecord"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+    <ListView
+        android:id="@+id/lvListViewTrackRecord"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
+
 

@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_margin="@dimen/activity_margin_bottom"
-    android:layout_height="match_parent"
-    android:padding="@dimen/activity_horizontal_margin">
-
-    <TextView
-        android:id="@+id/txtDate"
-        android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txtSN"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"/>
-
-</LinearLayout>
+        android:padding="@dimen/activity_horizontal_margin0.5"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvBulanTrackRecord"
+            android:text="@string/track_record_bulan"
+            style="@style/TextViewTable"/>
+        <TextView
+            android:id="@+id/tvApprTrackRecord"
+            android:text="@string/track_record_appr"
+            style="@style/TextViewTable"/>
+        <TextView
+            android:id="@+id/tvReturTrackRecord"
+            android:text="@string/track_record_retur"
+            style="@style/TextViewTable"/>
+        <TextView
+            android:id="@+id/tvPresentasiTrackRecord"
+            android:text="@string/track_record_presentasi"
+            style="@style/TextViewTable"/>
+    </LinearLayout>
+</FrameLayout>

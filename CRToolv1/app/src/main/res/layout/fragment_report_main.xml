@@ -4,26 +4,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Fragment.ReportMainFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin"
+    tools:context=".Fragment.ReportMainFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="@dimen/zero_weight"
+            android:layout_marginRight="@dimen/activity_horizontal_margin0.5"
+            android:layout_weight="1"
+            android:textSize="@dimen/font_medium_0"
+            android:textStyle="bold"
+            android:text="@string/date_from" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="@dimen/zero_weight"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin0.5"
+            android:layout_weight="1"
+            android:textSize="@dimen/font_medium_0"
+            android:textStyle="bold"
+            android:text="@string/date_to" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tanggal_box_height"
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnReportSalesOut"
-            android:drawableLeft="@drawable/ic_assignment_turned_in_white_36dp"
+            android:layout_height="match_parent"
+            android:id="@+id/btnDateFrom"
             style="@style/DarkButton"
-            android:text="@string/report_sales_out" />
+            android:layout_width="@dimen/zero_weight"
+            android:layout_marginTop="@dimen/activity_horizontal_margin0.25"
+            android:layout_marginRight="@dimen/activity_horizontal_margin0.5"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_date_range_white_36dp"
+            android:textSize="@dimen/font_small_0" />
+
         <Button
-            android:id="@+id/btnReportHistory"
-            android:drawableLeft="@drawable/ic_assessment_white_36dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_horizontal_margin0.25"
+            android:id="@+id/btnDateTo"
             style="@style/DarkButton"
-            android:text="@string/report_history" />
-        <Button
-            android:id="@+id/btnReportTrackRecord"
-            android:drawableLeft="@drawable/ic_timeline_white_36dp"
-            style="@style/DarkButton"
-            android:text="@string/report_track_record" />
+            android:layout_width="@dimen/zero_weight"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin0.5"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_date_range_white_36dp"
+            android:textSize="@dimen/font_small_0" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnReportSalesOut"
+        style="@style/DarkButton"
+        android:drawableLeft="@drawable/ic_assignment_turned_in_white_36dp"
+        android:text="@string/report_sales_out" />
+
+    <Button
+        android:id="@+id/btnReportTrackRecord"
+        style="@style/DarkButton"
+        android:drawableLeft="@drawable/ic_timeline_white_36dp"
+        android:text="@string/report_track_record" />
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.kreators.crtoolv1.Fragment;
 
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -13,7 +12,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.kreators.crtoolv1.Fragment.Adapter.SNAdapter;
-import com.kreators.crtoolv1.Fragment.Dialog.ReportSalesOutDialogFragment;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
@@ -80,18 +78,8 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showReportSalesOut((String) parent.getItemAtPosition(position));
+                //onClick
             }
         });
     }
-    private void showReportSalesOut(String salesOutDetails) {
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-        android.app.Fragment prev = getActivity().getFragmentManager().findFragmentByTag("Report Sales Out");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ReportSalesOutDialogFragment RSO = ReportSalesOutDialogFragment.newInstance(salesOutDetails);
-        RSO.show(ft,"Report Sales Out");
-    }
-
 }
