@@ -12,11 +12,8 @@ import com.kreators.crtoolv1.Fragment.SalesOutScanFragment;
 import com.kreators.crtoolv1.R;
 
 import me.dm7.barcodescanner.zbar.Result;
-import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 public class SalesOutActivity extends AppCompatActivity implements SalesOutListener {
-
-    private ZBarScannerView mScannerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +43,7 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
             }
 
             // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().add(R.id.sales_out_activity, salesOutInputFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.sales_out_activity, salesOutInputFragment, "MAIN").commit();
         }
 
     }
@@ -68,6 +65,7 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         transaction.replace(R.id.sales_out_activity, salesOutScanFragment);
+
         transaction.addToBackStack(null);
 
         transaction.commit();
@@ -81,6 +79,8 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
             String scanContent = rawResult.getContents();
             //String scanFormat = rawResult.getBarcodeFormat().getName();
 
+            getSupportFragmentManager().popBackStack();
+
             SalesOutInputFragment salesOutInputFragment = new SalesOutInputFragment();
 
             Bundle b = new Bundle();
@@ -89,14 +89,9 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-            transaction.replace(R.id.sales_out_activity, salesOutInputFragment);
+            transaction.replace(R.id.sales_out_activity, salesOutInputFragment, "INPUT");
 
             transaction.commit();
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        SalesOutActivity.this.finish();
     }
 }
