@@ -1,6 +1,5 @@
 package com.kreators.crtoolv1.Fragment;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,54 +11,51 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import com.kreators.crtoolv1.Fragment.Adapter.SNAdapter;
+import com.kreators.crtoolv1.Fragment.Adapter.HistorySalesOutAdapter;
+import com.kreators.crtoolv1.Model.SerialNumber;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-
-public class ReportSalesOutByDateFragment extends Fragment implements SearchView.OnQueryTextListener {
-    private ReportSalesOutByDateListener activityCallBack;
+public class HistorySalesOutFragment extends Fragment implements SearchView.OnQueryTextListener {
+    private View v;
     private SearchView mSearchView;
     private ListView mListView;
-    private ArrayList<String> snArrayList;
-    private SNAdapter snAdapter;
-    View v;
+    private ArrayList<SerialNumber> snArrayList;
+    private HistorySalesOutAdapter snAdapter;
+    private HistorySalesOutListener activityCallBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_report_sales_out, container, false);
+        v = inflater.inflate(R.layout.fragment_history_sales_out, container, false);
         bind();
         setupSearchView();
         return v;
     }
 
-
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapterSalesOutByDateButtonClick();
+                adapterHistorySalesOutButtonClick();
             }
         });
     }
 
-    private void bind() {
-        mSearchView=(SearchView) v.findViewById(R.id.svSearchSN);
-        mListView=(ListView) v.findViewById(R.id.lvListViewSN);
 
+    private void bind() {
+        mSearchView=(SearchView) v.findViewById(R.id.svSearchHistorySalesOut);
+        mListView=(ListView) v.findViewById(R.id.lvListViewHistorySalesOut);
         snArrayList= new ArrayList<>();
-        snArrayList.add("21 Agustus 2016");
-        snArrayList.add("17 Agustus 2016");
-        snArrayList.add("6  Agustus 2016");
-        snArrayList.add("16 July    2016");
-        snArrayList.add("27 Juni    2016");
-        snAdapter=new SNAdapter(getActivity(), snArrayList);
+        snArrayList.add(new SerialNumber("Laptop Model AXI-0 Axioo", "10"));
+        snArrayList.add(new SerialNumber("HP Axioo Model AXI-0 ", "15"));
+        snArrayList.add(new SerialNumber("Laptop Model AXI-1 Axioo", "5"));
+        snArrayList.add(new SerialNumber("HP Model AXI-1 Axioo", "7"));
+
+        snAdapter=new HistorySalesOutAdapter(getActivity(), snArrayList);
+
         mListView.setAdapter(snAdapter);
         mListView.setTextFilterEnabled(true);
     }
@@ -89,19 +85,25 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ReportSalesOutByDateListener) {
-            activityCallBack = (ReportSalesOutByDateListener) context;
+        if (context instanceof HistorySalesOutListener) {
+            activityCallBack = (HistorySalesOutListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement ReportMainListener");
+                    + " must implement OnFragmentInteractionListener");
         }
     }
-    public void adapterSalesOutByDateButtonClick() {
-        activityCallBack.adapterSalesOutByDateButtonClick();
-    }
-    public interface ReportSalesOutByDateListener {
-        void adapterSalesOutByDateButtonClick();
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        activityCallBack=null;
     }
 
+    public void adapterHistorySalesOutButtonClick() {
+        activityCallBack.adapterHistorySalesOutButtonClick();
+    }
 
+    public interface HistorySalesOutListener {
+        void adapterHistorySalesOutButtonClick();
+    }
 }

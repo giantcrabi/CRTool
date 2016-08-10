@@ -1,6 +1,7 @@
 package com.kreators.crtoolv1.Fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
  */
 
 public class ReportSalesOutByOutletFragment extends Fragment implements SearchView.OnQueryTextListener {
+    private ReportSalesOutByOutletListener activityCallBack;
     private SearchView mSearchView;
     private ListView mListView;
     private ArrayList<String> snArrayList;
@@ -30,7 +32,23 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_report_sales_out, container, false);
+        bind();
+        setupSearchView();
+        return v;
+    }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapterSalesOutByOutletButtonClick();
+            }
+        });
+    }
+
+    private void bind() {
         mSearchView=(SearchView) v.findViewById(R.id.svSearchSN);
         mListView=(ListView) v.findViewById(R.id.lvListViewSN);
 
@@ -40,22 +58,17 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
         snArrayList.add("Outlet Galaxy Mall");
         snArrayList.add("Outlet THR");
         snArrayList.add("Outlet Tunjungan Plaza");
-
         snAdapter=new SNAdapter(getActivity(), snArrayList);
         mListView.setAdapter(snAdapter);
-
         mListView.setTextFilterEnabled(true);
-        setupSearchView();
-        return v;
     }
+
     private void setupSearchView() {
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setOnQueryTextListener(this);
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setQueryHint("Search Here");
     }
-
-
 
     @Override
     public boolean onQueryTextChange(String newText) {
@@ -73,13 +86,23 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //onClick
-            }
-        });
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ReportSalesOutByOutletListener) {
+            activityCallBack = (ReportSalesOutByOutletListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement ReportMainListener");
+        }
     }
+    public void adapterSalesOutByOutletButtonClick() {
+        activityCallBack.adapterSalesOutByOutletButtonClick();
+    }
+    public interface ReportSalesOutByOutletListener {
+        void adapterSalesOutByOutletButtonClick();
+    }
+
+
+
+
 }
