@@ -10,6 +10,8 @@ public class Protocol {
     //WebService
     public static final String GET = "GET";
     public static final String POST = "POST";
+    public static final String STATUS = "status";
+    public static final String MESSAGE = "message";
 
     //Login protocol
     public static final String USERID = "id";
@@ -44,4 +46,5 @@ public class Protocol {
 
     //Date
     public static final String CUR_DATE_TIME = "date";
+
 }

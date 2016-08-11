@@ -12,10 +12,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.kreators.crtoolv1.Commons.Protocol;
 import com.kreators.crtoolv1.Fragment.Adapter.SNAdapter;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,13 +27,14 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
     private ReportSalesOutByOutletListener activityCallBack;
     private SearchView mSearchView;
     private ListView mListView;
-    private ArrayList<String> snArrayList;
     private SNAdapter snAdapter;
+    private List<String> crOutletSalesOutList = new ArrayList<>();
     View v;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_report_sales_out, container, false);
+        crOutletSalesOutList = getArguments().getStringArrayList(Protocol.SN_OUTLET_NAME);
         bind();
         setupSearchView();
         return v;
@@ -51,14 +54,7 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
     private void bind() {
         mSearchView=(SearchView) v.findViewById(R.id.svSearchSN);
         mListView=(ListView) v.findViewById(R.id.lvListViewSN);
-
-        snArrayList= new ArrayList<>();
-        snArrayList.add("Outlet Marina");
-        snArrayList.add("Outlet Datokromo Trade Centre");
-        snArrayList.add("Outlet Galaxy Mall");
-        snArrayList.add("Outlet THR");
-        snArrayList.add("Outlet Tunjungan Plaza");
-        snAdapter=new SNAdapter(getActivity(), snArrayList);
+        snAdapter=new SNAdapter(getActivity(), (ArrayList<String>) crOutletSalesOutList);
         mListView.setAdapter(snAdapter);
         mListView.setTextFilterEnabled(true);
     }
