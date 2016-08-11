@@ -122,7 +122,9 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
 
                     if (jsonObject.getBoolean("status")) {
                         Intent intent = new Intent(HomeActivity.this, SalesOutActivity.class);
-                        intent.putExtra("choosenOutlet", outlet.getOutletName());
+                        //intent.putExtra(Protocol.CRID, user.get(Protocol.USERID));
+                        intent.putExtra(Protocol.OUTLETID, String.valueOf(outlet.getOutletID()));
+                        intent.putExtra(Protocol.OUTLETNAME, outlet.getOutletName());
                         startActivity(intent);
                     } else {
                         Toast.makeText(HomeActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -182,9 +184,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
                             showDialog(nearestOutlet);
                         }
                         else{
-                            Intent intent = new Intent(HomeActivity.this, SalesOutActivity.class);
-                            intent.putExtra("choosenOutlet", nearestOutlet.get(0).toString());
-                            startActivity(intent);
+                            onReturnValue(nearestOutlet.get(0));
                         }
                     }
                     else {
@@ -262,7 +262,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
         pd.setCancelable(false);
         pd.setIndeterminate(true);
 
-        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        sdf = new SimpleDateFormat(Constant.SYSTEM_DATE_COMPLETE);
 
         sessionManager = new SessionManager(getApplicationContext());
         user = sessionManager.getUserDetails();

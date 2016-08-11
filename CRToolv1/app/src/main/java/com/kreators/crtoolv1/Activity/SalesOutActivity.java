@@ -16,6 +16,8 @@ import me.dm7.barcodescanner.zbar.Result;
 
 public class SalesOutActivity extends AppCompatActivity implements SalesOutListener {
 
+    private String curOutletID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,14 +39,19 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
             // Create a new Fragment to be placed in the activity layout
             SalesOutInputFragment salesOutInputFragment = new SalesOutInputFragment();
 
-            String curOutlet = getIntent().getStringExtra("choosenOutlet");
+            curOutletID = getIntent().getStringExtra(Protocol.OUTLETID);
+            String curOutletName = getIntent().getStringExtra(Protocol.OUTLETNAME);
 
-            if(curOutlet != null){
-                setTitle(curOutlet);
+            if(curOutletID != null && curOutletName != null){
+                setTitle(curOutletName);
+
+                Bundle b = new Bundle();
+                b.putString(Protocol.OUTLETID, curOutletID);
+                salesOutInputFragment.setArguments(b);
             }
 
             // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().add(R.id.sales_out_activity, salesOutInputFragment, "MAIN").commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.sales_out_activity, salesOutInputFragment).commit();
         }
 
     }
@@ -78,13 +85,18 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
             Toast.makeText(this, "Error No Contents", Toast.LENGTH_LONG).show();
         } else {
             String scanContent = rawResult.getContents();
+
             getSupportFragmentManager().popBackStack();
+
             SalesOutInputFragment salesOutInputFragment = new SalesOutInputFragment();
+
             Bundle b = new Bundle();
             b.putString(Protocol.CONTENT, scanContent);
+            b.putString(Protocol.OUTLETID, curOutletID);
             salesOutInputFragment.setArguments(b);
+
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.sales_out_activity, salesOutInputFragment, "INPUT");
+            transaction.replace(R.id.sales_out_activity, salesOutInputFragment);
             transaction.commit();
         }
     }
