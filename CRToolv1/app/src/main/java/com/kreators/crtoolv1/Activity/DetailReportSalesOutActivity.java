@@ -1,9 +1,9 @@
 package com.kreators.crtoolv1.Activity;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.kreators.crtoolv1.Commons.Constant;
 import com.kreators.crtoolv1.Commons.Protocol;
@@ -53,6 +53,11 @@ public class DetailReportSalesOutActivity extends AppCompatActivity implements R
     @Override
     public void adapterSalesOutByDateButtonClick(String dateClicked) {
         HistorySalesOutFragment historySalesOutFragment=  new HistorySalesOutFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(Protocol.SN_OUTLET_NAME, outletSelected);
+        args.putSerializable(Protocol.SN_DATE, dateClicked);
+        args.putParcelableArrayList(Protocol.SO_REPORT,(ArrayList<? extends Parcelable>) salesOutReportList);
+        historySalesOutFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.detailReportSalesOutMainContent, historySalesOutFragment);
         transaction.addToBackStack(null);
@@ -62,6 +67,11 @@ public class DetailReportSalesOutActivity extends AppCompatActivity implements R
     @Override
     public void adapterSalesOutByOutletButtonClick(String outletClicked) {
         HistorySalesOutFragment historySalesOutFragment=  new HistorySalesOutFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(Protocol.SN_OUTLET_NAME, outletClicked);
+        args.putSerializable(Protocol.SN_DATE, dateSelected);
+        args.putParcelableArrayList(Protocol.SO_REPORT,(ArrayList<? extends Parcelable>) salesOutReportList);
+        historySalesOutFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.detailReportSalesOutMainContent, historySalesOutFragment);
         transaction.addToBackStack(null);
@@ -69,8 +79,14 @@ public class DetailReportSalesOutActivity extends AppCompatActivity implements R
     }
 
     @Override
-    public void adapterHistorySalesOutButtonClick() {
+    public void adapterHistorySalesOutButtonClick(String date, String outlet, String name) {
         SerialNumberSalesOutFragment serialNumberSalesOutFragment =  new SerialNumberSalesOutFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(Protocol.SN_OUTLET_NAME, outlet);
+        args.putSerializable(Protocol.SN_DATE, date);
+        args.putSerializable(Protocol.SN_ITEM_DESC, name);
+        args.putParcelableArrayList(Protocol.SO_REPORT,(ArrayList<? extends Parcelable>) salesOutReportList);
+        serialNumberSalesOutFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.detailReportSalesOutMainContent, serialNumberSalesOutFragment);
         transaction.addToBackStack(null);
@@ -85,7 +101,6 @@ public class DetailReportSalesOutActivity extends AppCompatActivity implements R
                 outletSelected = (String) args.getSerializable(Protocol.SN_OUTLET_NAME);
             } else if (fragmentToInflate.equals(Constant.inflateFragmentByOutlet)) {
                 dateSelected = (String) args.getSerializable(Protocol.SN_DATE);
-                Log.d("a","a");
             }
             salesOutReportList = args.getParcelableArrayList(Protocol.SO_REPORT);
         }
