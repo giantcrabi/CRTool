@@ -12,10 +12,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.kreators.crtoolv1.Commons.Protocol;
 import com.kreators.crtoolv1.Fragment.Adapter.SNAdapter;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,13 +27,15 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
     private ReportSalesOutByDateListener activityCallBack;
     private SearchView mSearchView;
     private ListView mListView;
-    private ArrayList<String> snArrayList;
     private SNAdapter snAdapter;
+    private List<String> crDateSalesOutList = new ArrayList<>();
     View v;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_report_sales_out, container, false);
+        crDateSalesOutList = getArguments().getStringArrayList(Protocol.SN_DATE);
         bind();
         setupSearchView();
         return v;
@@ -52,14 +56,7 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
     private void bind() {
         mSearchView=(SearchView) v.findViewById(R.id.svSearchSN);
         mListView=(ListView) v.findViewById(R.id.lvListViewSN);
-
-        snArrayList= new ArrayList<>();
-        snArrayList.add("21 Agustus 2016");
-        snArrayList.add("17 Agustus 2016");
-        snArrayList.add("6  Agustus 2016");
-        snArrayList.add("16 July    2016");
-        snArrayList.add("27 Juni    2016");
-        snAdapter=new SNAdapter(getActivity(), snArrayList);
+        snAdapter=new SNAdapter(getActivity(), (ArrayList<String>) crDateSalesOutList);
         mListView.setAdapter(snAdapter);
         mListView.setTextFilterEnabled(true);
     }

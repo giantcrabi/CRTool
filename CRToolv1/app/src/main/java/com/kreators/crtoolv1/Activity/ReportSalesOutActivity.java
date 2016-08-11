@@ -31,9 +31,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Julio Anthony Leonar on 7/29/2016.
@@ -50,8 +49,8 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
     private DateParameter dateParameter;
     private HashMap<String, String> userLogin = new HashMap<>();
     private List<SalesOutReport> salesOutReportList = new ArrayList<>();
-    private Set<String> crOutletSalesOutList = new LinkedHashSet<>();
-    private Set<String> crDateSalesOutList = new LinkedHashSet<>();
+    private ArrayList<String> crOutletSalesOutList = new ArrayList<>();
+    private ArrayList<String> crDateSalesOutList = new ArrayList<>();
 
     protected FragmentManager fragmentManager;
 
@@ -61,7 +60,6 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_sales_out);
         retrieve();
-        bind();
         getSalesOutData();
     }
 
@@ -75,7 +73,7 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
         pd.setCancelable(false);
         pd.setIndeterminate(true);
     }
-    private void bind() {
+    public void bind() {
         fragmentManager = getSupportFragmentManager();
         viewPager = (ViewPager) findViewById(R.id.activityDetailHotel);
         setupViewPager(viewPager);
@@ -89,16 +87,17 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
         adapter = new ViewPagerAdapter(fragmentManager);
 
         ReportSalesOutByDateFragment reportSalesOutByDateFragment =  new ReportSalesOutByDateFragment();
-        Bundle dateList= new Bundle();
-        dateList.putParcelableArray(Protocol.SN_DATE,crDateSalesOutList);
-        adapter.addFragment(reportSalesOutByDateFragment, "By Date");
+        Bundle argsDate = new Bundle();
+        argsDate.putStringArrayList(Protocol.SN_DATE,crDateSalesOutList);
+        reportSalesOutByDateFragment.setArguments(argsDate);
+        adapter.addFragment(reportSalesOutByDateFragment, Constant.fragmentTitleByDate);
+
 
         ReportSalesOutByOutletFragment reportSalesOutByOutletFragment = new ReportSalesOutByOutletFragment();
-        adapter.addFragment(reportSalesOutByOutletFragment, "By Outlet");
-
-
-
-
+        Bundle argsOutlet = new Bundle();
+        argsOutlet.putStringArrayList(Protocol.SN_OUTLET_NAME,crOutletSalesOutList);
+        reportSalesOutByOutletFragment.setArguments(argsOutlet);
+        adapter.addFragment(reportSalesOutByOutletFragment,Constant.fragmentTitleByOutlet);
         viewPager.setAdapter(adapter);
     }
 
@@ -134,11 +133,17 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
                 try {
                     SalesOutReport salesOutReport;
                     JSONObject response;
-                    String a,b,c;
-                    long d;
-                    int e;
+                    boolean status = true;
+                    String message = "";
+
                     for(int i = 0; i < result.length(); i++) {
                         response = result.getJSONObject(i);
+
+                        if(response.has(Protocol.STATUS)) {
+                            status = response.getBoolean(Protocol.STATUS);
+                            message = response.getString(Protocol.MESSAGE);
+                            break;
+                        }
 
                         salesOutReport = new SalesOutReport(response.getLong(Protocol.SN),response.getString(Protocol.SN_OUTLET_NAME),
                                 response.getString(Protocol.SN_DATE), response.getString(Protocol.SN_ITEM_DESC),
@@ -150,12 +155,19 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
                         pd.dismiss();
                     }
 
-                    getCROutletSalesOut();
-                    getCRDateSalesOut();
+                    if (status) {
+                        getCROutletSalesOut();
+                        getCRDateSalesOut();
+                        bind();
+                    } else {
+                        ReportSalesOutActivity.this.finish();
+                        Toast.makeText(ReportSalesOutActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
 
             @Override
@@ -174,12 +186,22 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
         for(num=0; num < salesOutReportList.size();num++) {
             crOutletSalesOutList.add(salesOutReportList.get(num).getOutletName());
         }
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.addAll(crOutletSalesOutList);
+        crOutletSalesOutList.clear();
+        crOutletSalesOutList.addAll(hashSet);
+        hashSet.clear();
     }
     private void getCRDateSalesOut () {
         int num;
         for(num=0; num < salesOutReportList.size();num++) {
             crDateSalesOutList.add(salesOutReportList.get(num).getPostDate());
         }
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.addAll(crDateSalesOutList);
+        crDateSalesOutList.clear();
+        crDateSalesOutList.addAll(hashSet);
+        hashSet.clear();
     }
 
 }
