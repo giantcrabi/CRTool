@@ -35,70 +35,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements SelectOutletDialogFragment.MyDialogFragmentListener {
-
     public static final String TAG = HomeActivity.class.getSimpleName();
-
     private static final int PERMISSION_LOCATION_REQUEST_CODE = 1;
     private static final int REQUEST_CHECK_SETTINGS = 0x1;
-
     private VolleyManager volleyManager;
     private GoogleLocationRequest googleLocationRequest;
-
     private double curLat;
     private double curLon;
-
     private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSION_LOCATION_REQUEST_CODE);
-        }
-
-        googleLocationRequest = new GoogleLocationRequest(this);
-        googleLocationRequest.setListener(new GoogleLocationListener() {
-            @Override
-            public void onConnected(GoogleLocationRequest request) {
-                if (pd != null) {
-                    pd.dismiss();
-                }
-            }
-
-            @Override
-            public void onConnectionSuspended(GoogleLocationRequest request, String errorMessage) {
-                if (pd != null) {
-                    pd.dismiss();
-                }
-                Toast.makeText(HomeActivity.this, errorMessage, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onConnectionFailed(GoogleLocationRequest request, String errorMessage) {
-                if (pd != null) {
-                    pd.dismiss();
-                }
-                Toast.makeText(HomeActivity.this, errorMessage, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onLocationChanged(GoogleLocationRequest request, Location location) {
-                storeCurrentLocation(location);
-                searchNearestOutlet();
-            }
-        });
-
-        volleyManager = VolleyManager.getInstance(getApplicationContext());
-
-        pd = new ProgressDialog(this);
-        pd.setMessage("Please wait.");
-        pd.setCancelable(false);
-        pd.setIndeterminate(true);
+        setUpGoogleLocationRequest();
+        initialization();
     }
 
     @Override
@@ -116,11 +67,9 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
         switch (requestCode) {
             case PERMISSION_LOCATION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                 } else {
                     Toast.makeText(this, "Need your location!", Toast.LENGTH_SHORT).show();
                 }
-
                 break;
         }
     }
@@ -128,14 +77,12 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            // Check for the integer request code originally supplied to startResolutionForResult().
             case REQUEST_CHECK_SETTINGS:
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         googleLocationRequest.startLocationUpdates();
                         break;
                     case Activity.RESULT_CANCELED:
-                        //checkLocationSettings();
                         break;
                 }
                 break;
@@ -157,7 +104,6 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     private void searchNearestOutlet() {
         pd.setTitle("Searching...");
         pd.show();
-
         GetVolleyRequest request = new GetVolleyRequest(Url.CHECK_IN_OUTLET);
         request.putParams("lon", String.valueOf(curLon));
         request.putParams("lat", String.valueOf(curLat));
@@ -214,16 +160,11 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     }
 
     private void showDialog(List<String> nearestOutlet) {
-        // DialogFragment.show() will take care of adding the fragment
-        // in a transaction.  We also want to remove any currently showing
-        // dialog, so make our own transaction and take care of that here.
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("Select Outlet");
         if (prev != null) {
             ft.remove(prev);
         }
-
-        // Create and show the dialog.
         SelectOutletDialogFragment SO = SelectOutletDialogFragment.newInstance(nearestOutlet);
         SO.show(ft,"Select Outlet");
     }
@@ -253,7 +194,6 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
-                        //HomeActivity.super.onBackPressed();
                         HomeActivity.this.finish();
                     }
                 });
@@ -264,5 +204,56 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
                     }
                 });
         builder.create().show();
+    }
+
+    private void initialization(){
+        volleyManager = VolleyManager.getInstance(getApplicationContext());
+        pd = new ProgressDialog(this);
+        pd.setMessage("Please wait.");
+        pd.setCancelable(false);
+        pd.setIndeterminate(true);
+    }
+
+
+    private void setUpGoogleLocationRequest() {
+
+        if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_LOCATION_REQUEST_CODE);
+        }
+
+        googleLocationRequest = new GoogleLocationRequest(this);
+        googleLocationRequest.setListener(new GoogleLocationListener() {
+            @Override
+            public void onConnected(GoogleLocationRequest request) {
+                if (pd != null) {
+                    pd.dismiss();
+                }
+            }
+
+            @Override
+            public void onConnectionSuspended(GoogleLocationRequest request, String errorMessage) {
+                if (pd != null) {
+                    pd.dismiss();
+                }
+                Toast.makeText(HomeActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onConnectionFailed(GoogleLocationRequest request, String errorMessage) {
+                if (pd != null) {
+                    pd.dismiss();
+                }
+                Toast.makeText(HomeActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onLocationChanged(GoogleLocationRequest request, Location location) {
+                storeCurrentLocation(location);
+                searchNearestOutlet();
+            }
+        });
     }
 }

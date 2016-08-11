@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kreators.crtoolv1.Commons.Protocol;
 import com.kreators.crtoolv1.Commons.Url;
 import com.kreators.crtoolv1.Fragment.Listener.SalesOutListener;
 import com.kreators.crtoolv1.Network.GetVolleyRequest;
@@ -55,7 +56,7 @@ public class SalesOutInputFragment extends Fragment {
         Bundle bundle = getArguments();
 
         if(bundle != null) {
-            textSN.setText(bundle.getString("Content"));
+            textSN.setText(bundle.getString(Protocol.CONTENT));
         }
 
         final Button btnSN = (Button) view.findViewById(R.id.btnInputSN);
@@ -98,9 +99,9 @@ public class SalesOutInputFragment extends Fragment {
     private void inputSNButtonClicked(String SN) {
         pd.show();
         GetVolleyRequest request = new GetVolleyRequest(Url.SALES_OUT_SN);
-        request.putParams("CR", "1");
-        request.putParams("outlet", "1");
-        request.putParams("SN", SN);
+        request.putParams(Protocol.CR, "1");
+        request.putParams(Protocol.OUTLET, "1");
+        request.putParams(Protocol.SN, SN);
         request.setListener(new VolleyListener() {
             @Override
             public void onSuccess(VolleyRequest request, JSONArray result) {

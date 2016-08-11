@@ -40,8 +40,7 @@ public class GetVolleyRequest extends VolleyRequest {
     public JsonArrayRequest generatePostRequest() {
         StringBuilder builder = new StringBuilder();
         builder.append(getUrl());
-        return new JsonArrayRequest(Request.Method.POST, builder.toString(), null, GetVolleyRequest.this, GetVolleyRequest.this)
-        {
+        return new JsonArrayRequest(Request.Method.POST, builder.toString(), null, GetVolleyRequest.this, GetVolleyRequest.this) {
             @Override
             public String getBodyContentType() {
                 return "application/json; charset=utf-8";

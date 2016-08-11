@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.kreators.crtoolv1.Commons.Protocol;
 import com.kreators.crtoolv1.Fragment.Listener.SalesOutListener;
 import com.kreators.crtoolv1.Fragment.SalesOutInputFragment;
 import com.kreators.crtoolv1.Fragment.SalesOutScanFragment;
@@ -77,20 +78,13 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
             Toast.makeText(this, "Error No Contents", Toast.LENGTH_LONG).show();
         } else {
             String scanContent = rawResult.getContents();
-            //String scanFormat = rawResult.getBarcodeFormat().getName();
-
             getSupportFragmentManager().popBackStack();
-
             SalesOutInputFragment salesOutInputFragment = new SalesOutInputFragment();
-
             Bundle b = new Bundle();
-            b.putString("Content", scanContent);
+            b.putString(Protocol.CONTENT, scanContent);
             salesOutInputFragment.setArguments(b);
-
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
             transaction.replace(R.id.sales_out_activity, salesOutInputFragment, "INPUT");
-
             transaction.commit();
         }
     }

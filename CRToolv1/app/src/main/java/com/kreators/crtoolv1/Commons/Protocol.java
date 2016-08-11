@@ -5,5 +5,8 @@ package com.kreators.crtoolv1.Commons;
  */
 public class Protocol {
     public static final String FRAGMENT_TAG = "fragment_tag";
-
+    public static final String CR = "CR";
+    public static final String SN = "SN";
+    public static final String OUTLET = "outlet";
+    public static final String CONTENT = "content";
 }

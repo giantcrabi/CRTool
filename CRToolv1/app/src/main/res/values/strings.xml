@@ -21,7 +21,7 @@
     <string name="date_to">To</string>
     <string name="track_record_bulan">Month</string>
     <string name="track_record_appr">Appr(Ribu)</string>
-    <string name="track_record_retur">Retur(Ribu)</string>
+    <string name="track_record_target">Target(Ribu)</string>
     <string name="track_record_presentasi">Percentage</string>
     <string name="bullet">\u25CF\t</string>
     <string name="ketentuan1">Setelah submit SN, silahkan mengirimkan kartu garansi ke kantor TDI\n
