@@ -28,7 +28,7 @@ public class ReportMainFragment extends Fragment {
     private Button btnFrom, btnTo, btnTR, btnSO;
     private Date date1, date2;
     private long today,date1long, date2long;
-    private Calendar toDate, fromDate;
+    private Calendar toDate, fromDate, pastFiveYear, todayDate;
     private static final SimpleDateFormat dateStandartFormatter = new SimpleDateFormat(Constant.SYSTEM_DATE_STANDART, Locale.US);
     private String dateFrom, dateTo;
 
@@ -52,8 +52,12 @@ public class ReportMainFragment extends Fragment {
     private void setDefaultLayout() {
         fromDate = Calendar.getInstance();
         toDate = Calendar.getInstance();
+        pastFiveYear = Calendar.getInstance();
+        todayDate = Calendar.getInstance();
         fromDate.add(Calendar.YEAR, -5);
         toDate.add(Calendar.DATE, 1);
+        todayDate.add(Calendar.DATE,2);
+        pastFiveYear.add(Calendar.YEAR,-5);
         date1long = fromDate.getTimeInMillis();
         date2long = toDate.getTimeInMillis();
         today = Calendar.getInstance().getTimeInMillis();
@@ -102,20 +106,34 @@ public class ReportMainFragment extends Fragment {
         final CalendarPickerView dialogView = (CalendarPickerView) dg.findViewById(R.id.calendarView);
 
         dialogView.setCustomDayView(new DefaultDayViewAdapter());
-        dialogView.init(fromDate.getTime(),toDate.getTime())
-                .inMode(CalendarPickerView.SelectionMode.SINGLE)
-                .withSelectedDate(new Date(today));
+
+        if(isFrom) {
+            dialogView.init(pastFiveYear.getTime(),toDate.getTime())
+                    .inMode(CalendarPickerView.SelectionMode.SINGLE)
+                    .withSelectedDate(new Date(today));
+        } else {
+            dialogView.init(fromDate.getTime(), todayDate.getTime())
+                    .inMode(CalendarPickerView.SelectionMode.SINGLE)
+                    .withSelectedDate(new Date(today));
+        }
         Button btnOK = (Button) dg.findViewById(R.id.btnOK);
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn.setText(IndoCalendarFormat.getFullDate(dialogView.getSelectedDate().getTime()));
                 if(isFrom) {
                     fromDate.setTime(dialogView.getSelectedDate());
                     btnTo.setEnabled(true);
+                } else {
+                    toDate.setTime(dialogView.getSelectedDate());
                 }
-                date.setTime(dialogView.getSelectedDate().getTime());
-                dg.dismiss();
+
+                if(fromDate.getTimeInMillis() != toDate.getTimeInMillis()) {
+                    btn.setText(IndoCalendarFormat.getFullDate(dialogView.getSelectedDate().getTime()));
+                    date.setTime(dialogView.getSelectedDate().getTime());
+                    dg.dismiss();
+                } else {
+                    Toast.makeText(getActivity(), Constant.dontSelectSameDate, Toast.LENGTH_SHORT).show();
+                }
             }
         });
         dg.setOnShowListener(new DialogInterface.OnShowListener() {

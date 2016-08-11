@@ -3,6 +3,7 @@ package com.kreators.crtoolv1.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,7 @@ import com.kreators.crtoolv1.Fragment.Adapter.ViewPagerAdapter;
 import com.kreators.crtoolv1.Fragment.ReportSalesOutByDateFragment;
 import com.kreators.crtoolv1.Fragment.ReportSalesOutByOutletFragment;
 import com.kreators.crtoolv1.Model.DateParameter;
+import com.kreators.crtoolv1.Model.IndoCalendarFormat;
 import com.kreators.crtoolv1.Model.SalesOutReport;
 import com.kreators.crtoolv1.Network.GetVolleyRequest;
 import com.kreators.crtoolv1.Network.VolleyListener;
@@ -29,10 +31,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Julio Anthony Leonar on 7/29/2016.
@@ -51,7 +58,7 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
     private List<SalesOutReport> salesOutReportList = new ArrayList<>();
     private ArrayList<String> crOutletSalesOutList = new ArrayList<>();
     private ArrayList<String> crDateSalesOutList = new ArrayList<>();
-
+    private static final SimpleDateFormat dateStandartFormatter = new SimpleDateFormat(Constant.SYSTEM_DATE_STANDART, Locale.US);
     protected FragmentManager fragmentManager;
 
 
@@ -60,7 +67,7 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_sales_out);
         retrieve();
-        getSalesOutData();
+        setUpData();
     }
 
     private void retrieve(){
@@ -102,25 +109,29 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
     }
 
     @Override
-    public void adapterSalesOutByDateButtonClick() {
+    public void adapterSalesOutByDateButtonClick(String dateClicked) {
         Intent intent = new Intent(this, DetailReportSalesOutActivity.class);
         Bundle args = new Bundle();
         args.putSerializable(Protocol.FRAGMENT_TAG,Constant.inflateFragmentByOutlet);
+        args.putSerializable(Protocol.SN_DATE, dateClicked);
+        args.putParcelableArrayList(Protocol.SO_REPORT,(ArrayList<? extends Parcelable>) salesOutReportList);
         intent.putExtras(args);
         startActivity(intent);
     }
 
     @Override
-    public void adapterSalesOutByOutletButtonClick() {
+    public void adapterSalesOutByOutletButtonClick(String outletClicked) {
         Intent intent = new Intent(this, DetailReportSalesOutActivity.class);
         Bundle args = new Bundle();
         args.putSerializable(Protocol.FRAGMENT_TAG, Constant.inflateFragmentByDate);
+        args.putSerializable(Protocol.SN_OUTLET_NAME, outletClicked);
+        args.putParcelableArrayList(Protocol.SO_REPORT,(ArrayList<? extends Parcelable>) salesOutReportList);
         intent.putExtras(args);
         startActivity(intent);
     }
 
 
-    private void getSalesOutData() {
+    private void setUpData() {
         pd.setTitle(Constant.salesOutDialog);
         pd.show();
         GetVolleyRequest request = new GetVolleyRequest(Url.GET_SALES_OUT_REPORT);
@@ -166,12 +177,15 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
 
             }
 
             @Override
             public void onError(VolleyRequest request, String errorMessage) {
+                finish();
                 Toast.makeText(ReportSalesOutActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 if (pd != null) {
                     pd.dismiss();
@@ -181,8 +195,9 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
         volleyManager.createRequest(request,Protocol.GET);
     }
 
-    private void getCROutletSalesOut () {
+    private void getCROutletSalesOut (){
         int num;
+
         for(num=0; num < salesOutReportList.size();num++) {
             crOutletSalesOutList.add(salesOutReportList.get(num).getOutletName());
         }
@@ -192,10 +207,14 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
         crOutletSalesOutList.addAll(hashSet);
         hashSet.clear();
     }
-    private void getCRDateSalesOut () {
+    private void getCRDateSalesOut () throws ParseException {
         int num;
+        Calendar calendar = Calendar.getInstance();
+        Date date;
         for(num=0; num < salesOutReportList.size();num++) {
-            crDateSalesOutList.add(salesOutReportList.get(num).getPostDate());
+            date = dateStandartFormatter.parse(salesOutReportList.get(num).getPostDate());
+            calendar.setTime(date);
+            crDateSalesOutList.add(IndoCalendarFormat.getDate(calendar.getTimeInMillis()));
         }
         HashSet<String> hashSet = new HashSet<>();
         hashSet.addAll(crDateSalesOutList);

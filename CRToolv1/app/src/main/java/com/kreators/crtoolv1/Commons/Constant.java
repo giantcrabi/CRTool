@@ -15,7 +15,9 @@ public class Constant {
     //Date Format
     public static final String SYSTEM_DATE_STANDART = "yyyy-MM-dd";
 
+    //Message
     public static final String selectDateTo = "Please select date From First";
+    public static final String dontSelectSameDate = "Don't Select the same date";
 
     //Fragment Inflater
     public static final String inflateFragmentByDate = "ByDate";

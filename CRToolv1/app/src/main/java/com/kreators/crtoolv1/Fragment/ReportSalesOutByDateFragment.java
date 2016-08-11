@@ -48,7 +48,7 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapterSalesOutByDateButtonClick();
+                adapterSalesOutByDateButtonClick(crDateSalesOutList.get(position));
             }
         });
     }
@@ -93,11 +93,11 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
                     + " must implement ReportMainListener");
         }
     }
-    public void adapterSalesOutByDateButtonClick() {
-        activityCallBack.adapterSalesOutByDateButtonClick();
+    public void adapterSalesOutByDateButtonClick(String dateClicked) {
+        activityCallBack.adapterSalesOutByDateButtonClick(dateClicked);
     }
     public interface ReportSalesOutByDateListener {
-        void adapterSalesOutByDateButtonClick();
+        void adapterSalesOutByDateButtonClick(String dateClicked);
     }
 
 

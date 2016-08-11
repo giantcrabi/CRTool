@@ -46,7 +46,7 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapterSalesOutByOutletButtonClick();
+                adapterSalesOutByOutletButtonClick(crOutletSalesOutList.get(position));
             }
         });
     }
@@ -91,11 +91,11 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
                     + " must implement ReportMainListener");
         }
     }
-    public void adapterSalesOutByOutletButtonClick() {
-        activityCallBack.adapterSalesOutByOutletButtonClick();
+    public void adapterSalesOutByOutletButtonClick(String outletClicked) {
+        activityCallBack.adapterSalesOutByOutletButtonClick(outletClicked);
     }
     public interface ReportSalesOutByOutletListener {
-        void adapterSalesOutByOutletButtonClick();
+        void adapterSalesOutByOutletButtonClick(String outletClicked);
     }
 
 
