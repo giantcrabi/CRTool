@@ -19,12 +19,23 @@ public class Protocol {
     public static final String IS_LOGIN = "IsLoggedIn";
     public static final    int PRIVATE_MODE = 0;
 
+
     //CR
     public static final String CRID = "idCR";
 
-    //SN
+    //ReportProtocol
+    public static final String DATE_PARAMETER = "dateParameter";
+    public static final String DATE_FROM = "datefrom";
+    public static final String DATE_TO = "dateto";
+
+    //SalesOutReportProtocol
     public static final String SN = "SN";
-    public static final String CONTENT = "content";
+    public static final String SN_OUTLET_NAME = "Name";
+    public static final String SN_DATE ="RegDate";
+    public static final String SN_ITEM_DESC ="ItemDesc";
+    public static final String SN_STATUS ="InctvStatus";
+
+   public static final String CONTENT = "content";
 
     //Outlet
     public static final String OUTLETID = "idoutlet";

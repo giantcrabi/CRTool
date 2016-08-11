@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.kreators.crtoolv1.Commons.Protocol;
 import com.kreators.crtoolv1.Fragment.ReportMainFragment;
 import com.kreators.crtoolv1.Fragment.ReportTrackRecordFragment;
+import com.kreators.crtoolv1.Model.DateParameter;
 import com.kreators.crtoolv1.R;
 
 public class ReportActivity extends AppCompatActivity implements ReportMainFragment.ReportMainListener{
@@ -24,7 +26,7 @@ public class ReportActivity extends AppCompatActivity implements ReportMainFragm
         }
     }
 
-    public void onReportTrackRecordButtonClick() {
+    public void onReportTrackRecordButtonClick(String dateFrom, String dateTo) {
         ReportTrackRecordFragment reportTrackRecordFragment =  new ReportTrackRecordFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.reportActivity, reportTrackRecordFragment);
@@ -32,8 +34,10 @@ public class ReportActivity extends AppCompatActivity implements ReportMainFragm
         transaction.commit();
     }
 
-    public void onReportSalesOutButtonClick() {
+    public void onReportSalesOutButtonClick(String dateFrom, String dateTo) {
         Intent intent = new Intent(this, ReportSalesOutActivity.class);
+        DateParameter dateArgs = new DateParameter(dateFrom,dateTo);
+        intent.putExtra(Protocol.DATE_PARAMETER,dateArgs);
         startActivity(intent);
     }
 
