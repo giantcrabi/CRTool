@@ -24,7 +24,7 @@ public class ReportActivity extends AppCompatActivity implements ReportMainFragm
         }
     }
 
-    public void onReportTrackRecordButtonClick() {
+    public void onReportTrackRecordButtonClick(String dateFrom, String dateTo) {
         ReportTrackRecordFragment reportTrackRecordFragment =  new ReportTrackRecordFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.reportActivity, reportTrackRecordFragment);
@@ -32,7 +32,7 @@ public class ReportActivity extends AppCompatActivity implements ReportMainFragm
         transaction.commit();
     }
 
-    public void onReportSalesOutButtonClick() {
+    public void onReportSalesOutButtonClick(String dateFrom, String dateTo) {
         Intent intent = new Intent(this, ReportSalesOutActivity.class);
         startActivity(intent);
     }
