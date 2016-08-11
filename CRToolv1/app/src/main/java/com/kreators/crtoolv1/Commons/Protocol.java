@@ -20,9 +20,10 @@ public class Protocol {
     public static final    int PRIVATE_MODE = 0;
 
 
-    //CR
-    public static final String CRID = "CRID";
-
+    //ReportProtocol
+    public static final String DATE_PARAMETER = "dateParameter";
+    public static final String DATE_FROM = "datefrom";
+    public static final String DATE_TO = "dateto";
 
     public static final String CR = "CR";
     public static final String SN = "SN";

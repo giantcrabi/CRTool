@@ -8,6 +8,7 @@ public class Constant {
     public static final String inflateFragmentByOutlet = "ByOutlet";
 
     public static final String loginDialog = "Logging In...";
+    public static final String salesOutDialog = "Fetching Data...";
 
     //Date
     public static final String SYSTEM_DATE_STANDART = "yyyy-MM-dd";

@@ -28,13 +28,13 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity {
+    private SessionManager session;
     private VolleyManager volleyManager;
     private ProgressDialog pd;
     private EditText editTextUsername,editTextPassword;
     private String username,password;
     private Button buttonLogin;
-    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
-                    } else {
                     }
 
                 } catch (JSONException e) {
@@ -93,29 +92,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         volleyManager.createRequest(request,Protocol.POST);
     }
 
-    @Override
-    public void onClick(View v) {
-        username = editTextUsername.getText().toString();
-        password = md5(editTextPassword.getText().toString());
-        Log.d("a","a");
-        if (!username.equals("") && !password.equals("")) {
-            checkLogin();
-        } else {
-            Toast.makeText(LoginActivity.this, "Fill Username or Password", Toast.LENGTH_LONG).show();
-        }
-    }
-
     public void initialization() {
-        session = new SessionManager(getApplicationContext());
         editTextUsername = (EditText) findViewById(R.id.usernameLogin);
         editTextPassword = (EditText) findViewById(R.id.passwordLogin);
         volleyManager = VolleyManager.getInstance(getApplicationContext());
+        session = new SessionManager(getApplicationContext());
         pd = new ProgressDialog(this);
         pd.setMessage("Please wait.");
         pd.setCancelable(false);
         pd.setIndeterminate(true);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
-        buttonLogin.setOnClickListener(this);
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                username = editTextUsername.getText().toString();
+                password = md5(editTextPassword.getText().toString());
+                Log.d("a","a");
+                if (!username.equals("") && !password.equals("")) {
+                    checkLogin();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Fill Username or Password", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     public static String md5(String string) {
