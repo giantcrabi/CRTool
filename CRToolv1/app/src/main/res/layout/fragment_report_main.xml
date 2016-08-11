@@ -40,7 +40,7 @@
         <Button
             android:layout_height="match_parent"
             android:id="@+id/btnDateFrom"
-            style="@style/DarkButton"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="@dimen/zero_weight"
             android:layout_marginTop="@dimen/activity_horizontal_margin0.25"
             android:layout_marginRight="@dimen/activity_horizontal_margin0.5"
@@ -52,7 +52,8 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/activity_horizontal_margin0.25"
             android:id="@+id/btnDateTo"
-            style="@style/DarkButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:enabled="false"
             android:layout_width="@dimen/zero_weight"
             android:layout_marginLeft="@dimen/activity_horizontal_margin0.5"
             android:layout_weight="1"

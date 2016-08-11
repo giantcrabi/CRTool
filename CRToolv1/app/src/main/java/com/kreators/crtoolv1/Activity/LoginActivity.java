@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,10 @@ import com.kreators.crtoolv1.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private VolleyManager volleyManager;
@@ -91,7 +96,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         username = editTextUsername.getText().toString();
-        password = editTextPassword.getText().toString();
+        password = md5(editTextPassword.getText().toString());
+        Log.d("a","a");
         if (!username.equals("") && !password.equals("")) {
             checkLogin();
         } else {
@@ -110,6 +116,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         pd.setIndeterminate(true);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         buttonLogin.setOnClickListener(this);
+    }
+
+    public static String md5(String string) {
+        byte[] hash;
+
+        try {
+            hash = MessageDigest.getInstance("MD5").digest(string.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Huh, MD5 should be supported?", e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Huh, UTF-8 should be supported?", e);
+        }
+
+        StringBuilder hex = new StringBuilder(hash.length * 2);
+
+        for (byte b : hash) {
+            int i = (b & 0xFF);
+            if (i < 0x10) hex.append('0');
+            hex.append(Integer.toHexString(i));
+        }
+
+        return hex.toString();
     }
 }
 

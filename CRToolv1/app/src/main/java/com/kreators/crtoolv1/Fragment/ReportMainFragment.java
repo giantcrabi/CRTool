@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.kreators.crtoolv1.Commons.Constant;
 import com.kreators.crtoolv1.Model.IndoCalendarFormat;
 import com.kreators.crtoolv1.R;
 import com.squareup.timessquare.CalendarPickerView;
@@ -20,12 +19,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ReportMainFragment extends Fragment {
-
-    ReportMainListener activityCallback;
+    private ReportMainListener activityCallback;
     private View view;
     private Button btnFrom, btnTo, btnTR, btnSO;
     private Date date1, date2;
-    private long today;
+    private long today,date1long, date2long;
+    private Calendar toDate, fromDate;
 
 
     @Override
@@ -44,9 +43,15 @@ public class ReportMainFragment extends Fragment {
     }
 
     private void setDefaultLayout() {
+        fromDate = Calendar.getInstance();
+        toDate = Calendar.getInstance();
+        fromDate.add(Calendar.YEAR, -5);
+        toDate.add(Calendar.DATE, 1);
+        date1long = fromDate.getTimeInMillis();
+        date2long = toDate.getTimeInMillis();
         today = Calendar.getInstance().getTimeInMillis();
-        date1 = new Date(today- Constant.longOneDay);
-        date2 = new Date(today);
+        date1 = new Date(date1long);
+        date2 = new Date(date2long);
         btnFrom.setText(IndoCalendarFormat.getFullDate(date1.getTime()));
         btnTo.setText(IndoCalendarFormat.getFullDate(date2.getTime()));
     }
@@ -55,15 +60,13 @@ public class ReportMainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         btnFrom.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                showCalendarInDialog(btnFrom, date1);
+            public void onClick(View v) {showCalendarInDialog(btnFrom, date1, true);
             }
         });
-
         btnTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCalendarInDialog(btnTo, date2);
+                showCalendarInDialog(btnTo, date2, false);
             }
         });
         btnTR.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +74,6 @@ public class ReportMainFragment extends Fragment {
                 reportTrackRecordButtonClicked();
             }
         });
-
         btnSO.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 reportSalesOutButtonClicked();
@@ -79,16 +81,13 @@ public class ReportMainFragment extends Fragment {
         });
     }
 
-    private void showCalendarInDialog(final Button btn, final Date date) {
+    private void showCalendarInDialog(final Button btn, final Date date, final boolean isFrom) {
         final Dialog dg = new Dialog(getActivity(), R.style.FullscreenAppCompatDialogTheme);
         dg.setContentView(R.layout.dialog_calendar);
         final CalendarPickerView dialogView = (CalendarPickerView) dg.findViewById(R.id.calendarView);
-        final Calendar prevYear = Calendar.getInstance();
-        final Calendar nextDay = Calendar.getInstance();
-        prevYear.add(Calendar.YEAR, -5);
-        nextDay.add(Calendar.DATE, 1);
+
         dialogView.setCustomDayView(new DefaultDayViewAdapter());
-        dialogView.init(prevYear.getTime(),nextDay.getTime())
+        dialogView.init(fromDate.getTime(),toDate.getTime())
                 .inMode(CalendarPickerView.SelectionMode.SINGLE)
                 .withSelectedDate(new Date(today));
         Button btnOK = (Button) dg.findViewById(R.id.btnOK);
@@ -96,6 +95,10 @@ public class ReportMainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 btn.setText(IndoCalendarFormat.getFullDate(dialogView.getSelectedDate().getTime()));
+                if(isFrom) {
+                    fromDate.setTime(dialogView.getSelectedDate());
+                    btnTo.setEnabled(true);
+                }
                 date.setTime(dialogView.getSelectedDate().getTime());
                 dg.dismiss();
             }
