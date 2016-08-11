@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.kreators.crtoolv1.Commons.Constant;
 import com.kreators.crtoolv1.Model.IndoCalendarFormat;
@@ -78,6 +79,8 @@ public class ReportMainFragment extends Fragment {
         });
         btnTR.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                dateFrom = dateStandartFormatter.format(new Date(date1.getTime()));
+                dateTo =dateStandartFormatter.format(new Date(date2.getTime()));
                 reportTrackRecordButtonClicked(dateFrom,dateTo);
             }
         });
@@ -85,7 +88,10 @@ public class ReportMainFragment extends Fragment {
             public void onClick(View v) {
                 dateFrom = dateStandartFormatter.format(new Date(date1.getTime()));
                 dateTo =dateStandartFormatter.format(new Date(date2.getTime()));
-                reportSalesOutButtonClicked(dateFrom,dateTo);
+
+                if(btnTo.isEnabled()) reportSalesOutButtonClicked(dateFrom,dateTo); else{
+                    Toast.makeText(getActivity(), Constant.selectDateTo, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

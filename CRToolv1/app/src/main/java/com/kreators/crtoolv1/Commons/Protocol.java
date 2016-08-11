@@ -25,10 +25,16 @@ public class Protocol {
     public static final String DATE_FROM = "datefrom";
     public static final String DATE_TO = "dateto";
 
-    public static final String CR = "CR";
+    //SalesOutReportProtocol
     public static final String SN = "SN";
+    public static final String SN_OUTLET_NAME = "Name";
+    public static final String SN_DATE ="RegDate";
+    public static final String SN_ITEM_DESC ="ItemDesc";
+    public static final String SN_STATUS ="InctvStatus";
 
 
+
+    public static final String CR = "CR";
     public static final String OUTLET = "outlet";
     public static final String CONTENT = "content";
 

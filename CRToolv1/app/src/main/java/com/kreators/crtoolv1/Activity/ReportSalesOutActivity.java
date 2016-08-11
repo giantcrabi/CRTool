@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.kreators.crtoolv1.Commons.Constant;
@@ -18,6 +19,7 @@ import com.kreators.crtoolv1.Fragment.Adapter.ViewPagerAdapter;
 import com.kreators.crtoolv1.Fragment.ReportSalesOutByDateFragment;
 import com.kreators.crtoolv1.Fragment.ReportSalesOutByOutletFragment;
 import com.kreators.crtoolv1.Model.DateParameter;
+import com.kreators.crtoolv1.Model.SalesOutReport;
 import com.kreators.crtoolv1.Network.GetVolleyRequest;
 import com.kreators.crtoolv1.Network.VolleyListener;
 import com.kreators.crtoolv1.Network.VolleyManager;
@@ -28,7 +30,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Julio Anthony Leonar on 7/29/2016.
@@ -44,6 +50,10 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
     private ViewPager viewPager;
     private DateParameter dateParameter;
     private HashMap<String, String> userLogin = new HashMap<>();
+    private List<SalesOutReport> salesOutReportList = new ArrayList<>();
+    private Set<String> crOutletSalesOutList = new LinkedHashSet<>();
+    private Set<String> crDateSalesOutList = new LinkedHashSet<>();
+
     protected FragmentManager fragmentManager;
 
 
@@ -115,20 +125,27 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
             @Override
             public void onSuccess(VolleyRequest request, JSONArray result) {
                 try {
+                    SalesOutReport salesOutReport;
                     JSONObject response;
-
-                    int crID=0;
-                    boolean status=false;
-                    String message="";
+                    String a,b,c;
+                    long d;
+                    int e;
                     for(int i = 0; i < result.length(); i++) {
                         response = result.getJSONObject(i);
-                        message = response.getString("message");
-                        status = response.getBoolean("status");
-                        if(response.has("ID")) crID = response.getInt("ID");
+
+                        salesOutReport = new SalesOutReport(response.getLong(Protocol.SN),response.getString(Protocol.SN_OUTLET_NAME),
+                                response.getString(Protocol.SN_DATE), response.getString(Protocol.SN_ITEM_DESC),
+                                response.getInt(Protocol.SN_STATUS));
+                        salesOutReportList.add(salesOutReport);
                     }
+
                     if (pd != null) {
                         pd.dismiss();
                     }
+
+                    getCROutletSalesOut();
+                    getCRDateSalesOut();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -143,6 +160,21 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
             }
         });
         volleyManager.createRequest(request,Protocol.GET);
+    }
+
+    private void getCROutletSalesOut () {
+        int num;
+        for(num=0; num < salesOutReportList.size();num++) {
+            crOutletSalesOutList.add(salesOutReportList.get(num).getOutletName());
+        }
+        Log.d("a","a");
+    }
+    private void getCRDateSalesOut () {
+        int num;
+        for(num=0; num < salesOutReportList.size();num++) {
+            crDateSalesOutList.add(salesOutReportList.get(num).getPostDate());
+        }
+        Log.d("a","a");
     }
 
 }
