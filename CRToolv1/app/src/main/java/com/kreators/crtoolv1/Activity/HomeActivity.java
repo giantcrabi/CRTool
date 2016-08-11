@@ -31,7 +31,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements SelectOutletDialogFragment.MyDialogFragmentListener {
@@ -41,8 +43,9 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     private VolleyManager volleyManager;
     private GoogleLocationRequest googleLocationRequest;
     private double curLat;
-    private double curLon;
+    private double curLng;
     private ProgressDialog pd;
+    private SimpleDateFormat sdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,14 +101,14 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
 
     private void storeCurrentLocation(Location location) {
         curLat = location.getLatitude();
-        curLon = location.getLongitude();
+        curLng = location.getLongitude();
     }
 
     private void searchNearestOutlet() {
         pd.setTitle("Searching...");
         pd.show();
         GetVolleyRequest request = new GetVolleyRequest(Url.CHECK_IN_OUTLET);
-        request.putParams("lon", String.valueOf(curLon));
+        request.putParams("lng", String.valueOf(curLng));
         request.putParams("lat", String.valueOf(curLat));
         request.setListener(new VolleyListener() {
             @Override
@@ -114,13 +117,18 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
                 try {
                     List<String> nearestOutlet= new ArrayList<String>();
                     JSONObject outletObj;
+                    int outletID;
                     String outletName;
+
+                    Date dt = new Date();
+                    String currentTime = sdf.format(dt);
 
                     for(int i = 0; i < result.length(); i++) {
                         outletObj = result.getJSONObject(i);
                         if(outletObj.has("status")) {
                             break;
                         }
+                        outletID = outletObj.getInt("ID");
                         outletName = outletObj.getString("Name");
                         nearestOutlet.add(outletName);
                     }
@@ -208,10 +216,13 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
 
     private void initialization(){
         volleyManager = VolleyManager.getInstance(getApplicationContext());
+
         pd = new ProgressDialog(this);
         pd.setMessage("Please wait.");
         pd.setCancelable(false);
         pd.setIndeterminate(true);
+
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     }
 
 
