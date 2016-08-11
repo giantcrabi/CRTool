@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.kreators.crtoolv1.Commons.Url;
 import com.kreators.crtoolv1.Fragment.Dialog.SelectOutletDialogFragment;
+import com.kreators.crtoolv1.Model.Outlet;
 import com.kreators.crtoolv1.Network.GetVolleyRequest;
 import com.kreators.crtoolv1.Network.GoogleLocationListener;
 import com.kreators.crtoolv1.Network.GoogleLocationRequest;
@@ -93,9 +94,9 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     }
 
     @Override
-    public void onReturnValue(String loc) {
+    public void onReturnValue(Outlet outlet) {
         Intent intent = new Intent(this, SalesOutActivity.class);
-        intent.putExtra("choosenOutlet", loc);
+        intent.putExtra("choosenOutlet", outlet.getOutletName());
         startActivity(intent);
     }
 
@@ -115,10 +116,8 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
             public void onSuccess(VolleyRequest request, JSONArray result) {
                 Log.e(TAG, result.toString());
                 try {
-                    List<String> nearestOutlet= new ArrayList<String>();
+                    List<Outlet> nearestOutlet= new ArrayList<>();
                     JSONObject outletObj;
-                    int outletID;
-                    String outletName;
 
                     Date dt = new Date();
                     String currentTime = sdf.format(dt);
@@ -128,9 +127,11 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
                         if(outletObj.has("status")) {
                             break;
                         }
-                        outletID = outletObj.getInt("ID");
-                        outletName = outletObj.getString("Name");
-                        nearestOutlet.add(outletName);
+
+                        Outlet outlet = new Outlet();
+                        outlet.setOutletID(outletObj.getInt("ID"));
+                        outlet.setOutletName(outletObj.getString("Name"));
+                        nearestOutlet.add(outlet);
                     }
 
                     if (pd != null) {
@@ -167,7 +168,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
         volleyManager.createRequest(request, "GET");
     }
 
-    private void showDialog(List<String> nearestOutlet) {
+    private void showDialog(List<Outlet> nearestOutlet) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("Select Outlet");
         if (prev != null) {

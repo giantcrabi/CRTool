@@ -27,7 +27,7 @@ public class TrackRecordAdapter extends BaseAdapter {
     }
 
 
-    public class EmployeeHolder
+    public class TrackRecordHolder
     {
         TextView bulan;
         TextView appr;
@@ -54,10 +54,10 @@ public class TrackRecordAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        EmployeeHolder holder;
+        TrackRecordHolder holder;
         if(convertView==null) {
             convertView= LayoutInflater.from(context).inflate(R.layout.adapter_track_record, parent, false);
-            holder=new EmployeeHolder();
+            holder=new TrackRecordHolder();
             holder.bulan=(TextView) convertView.findViewById(R.id.tvBulanTrackRecord);
             holder.appr=(TextView) convertView.findViewById(R.id.tvApprTrackRecord);
             holder.retur=(TextView) convertView.findViewById(R.id.tvReturTrackRecord);
@@ -65,7 +65,7 @@ public class TrackRecordAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         else {
-            holder=(EmployeeHolder) convertView.getTag();
+            holder=(TrackRecordHolder) convertView.getTag();
         }
         holder.bulan.setText(trArrayList.get(position).getBulan());
         holder.appr.setText(trArrayList.get(position).getAppr());

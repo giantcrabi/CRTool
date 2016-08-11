@@ -24,7 +24,7 @@
     <string name="track_record_appr">Appr(Ribu)</string>
     <string name="track_record_bulan">Bulan</string>
     <string name="track_record_presentasi">Persentasi</string>
-    <string name="track_record_retur">Retur(Ribu)</string>
+    <string name="track_record_target">Target(Ribu)</string>
     <string name="track_record_table_title">Pencapaian CR 6 Bulan Terakhir</string>
 
 </resources>

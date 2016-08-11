@@ -18,7 +18,7 @@
             style="@style/TextViewTable"/>
         <TextView
             android:id="@+id/tvReturTrackRecord"
-            android:text="@string/track_record_retur"
+            android:text="@string/track_record_target"
             style="@style/TextViewTable"/>
         <TextView
             android:id="@+id/tvPresentasiTrackRecord"

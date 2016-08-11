@@ -18,11 +18,9 @@
 
         <Button
             android:id="@+id/scanSN"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:textSize="@dimen/font_small_0"
-            android:textColor="@android:color/white"
             android:drawableLeft="@drawable/ic_settings_overscan_white_36dp"
             android:text="@string/scan_sn" />
 
@@ -42,8 +40,12 @@
 
         <Button
             android:id="@+id/btnInputSN"
-            style="@style/LightButton"
-            android:text="@string/input_sn" />
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_in_a_box"
+            android:text="@string/input_sn"
+            android:textSize="@dimen/font_medium_0" />
 
     </LinearLayout>
 
@@ -73,43 +75,49 @@
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/bullet"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/ketentuan1"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bullet" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/ketentuan1" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/bullet"/>
+                        android:text="@string/bullet" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/ketentuan2"/>
+                        android:text="@string/ketentuan2" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/bullet"/>
+                        android:text="@string/bullet" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/ketentuan3"/>
+                        android:text="@string/ketentuan3" />
                 </TableRow>
             </TableLayout>
 
