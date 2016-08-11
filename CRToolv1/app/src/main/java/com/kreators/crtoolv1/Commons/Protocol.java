@@ -43,10 +43,11 @@ public class Protocol {
 
     //Outlet
     public static final String OUTLETID = "idoutlet";
+    public static final String OUTLETNAME = "outletName";
     public static final String LATITUDE = "lat";
     public static final String LONGITUDE = "lng";
 
     //Date
-    public static final String CUR_DATE_TIME = "date";
-
+    public static final String CUR_DATE = "date";
+    public static final String CUR_DATE_TIME = "datetime";
 }

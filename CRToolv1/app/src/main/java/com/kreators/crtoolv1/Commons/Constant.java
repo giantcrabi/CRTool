@@ -11,9 +11,11 @@ public class Constant {
     public static final String checkinDialog = "Checking In...";
     public static final String searchDialog = "Searching...";
     public static final String salesOutDialog = "Fetching Data...";
+    public static final String submitDialog = "Submitting...";
 
     //Date Format
     public static final String SYSTEM_DATE_STANDART = "yyyy-MM-dd";
+    public static final String SYSTEM_DATE_COMPLETE = "yyyy-MM-dd HH:mm:ss.SSS";
 
     //Message
     public static final String selectDateTo = "Please select date From First";

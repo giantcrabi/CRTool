@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kreators.crtoolv1.Commons.Constant;
 import com.kreators.crtoolv1.Commons.Protocol;
+import com.kreators.crtoolv1.Commons.SessionManager;
 import com.kreators.crtoolv1.Commons.Url;
 import com.kreators.crtoolv1.Fragment.Listener.SalesOutListener;
 import com.kreators.crtoolv1.Network.GetVolleyRequest;
@@ -24,15 +26,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
 /**
  * Created by DELL on 14/06/2016.
  */
 public class SalesOutInputFragment extends Fragment {
 
+    private String outletID;
     private TextView textSN;
     private SalesOutListener activityCallback;
     private VolleyManager volleyManager;
     private ProgressDialog pd;
+    private SimpleDateFormat sdf;
+    private SessionManager sessionManager;
+    private HashMap<String, String> user = new HashMap<>();
 
     @Override
     public void onAttach(Context context) {
@@ -56,7 +66,11 @@ public class SalesOutInputFragment extends Fragment {
         Bundle bundle = getArguments();
 
         if(bundle != null) {
-            textSN.setText(bundle.getString(Protocol.CONTENT));
+            String contentSN = bundle.getString(Protocol.CONTENT);
+            outletID = bundle.getString(Protocol.OUTLETID);
+            if(contentSN != null) {
+                textSN.setText(contentSN);
+            }
         }
 
         final Button btnSN = (Button) view.findViewById(R.id.btnInputSN);
@@ -82,10 +96,15 @@ public class SalesOutInputFragment extends Fragment {
         volleyManager = VolleyManager.getInstance(getActivity().getApplicationContext());
 
         pd = new ProgressDialog(getActivity());
-        pd.setMessage("Please wait.");
-        pd.setTitle("Submitting...");
+        pd.setMessage(Constant.msgDialog);
+        pd.setTitle(Constant.submitDialog);
         pd.setCancelable(false);
         pd.setIndeterminate(true);
+
+        sdf = new SimpleDateFormat(Constant.SYSTEM_DATE_STANDART);
+
+        sessionManager = new SessionManager(getActivity());
+        user = sessionManager.getUserDetails();
 
         return view;
     }
@@ -98,10 +117,15 @@ public class SalesOutInputFragment extends Fragment {
 
     private void inputSNButtonClicked(String SN) {
         pd.show();
+
+        Date dt = new Date();
+        String currentDate = sdf.format(dt);
+
         GetVolleyRequest request = new GetVolleyRequest(Url.SALES_OUT_SN);
-        request.putParams(Protocol.CRID, "1");
-        request.putParams(Protocol.OUTLETID, "1");
+        request.putParams(Protocol.CRID, user.get(Protocol.USERID));
+        request.putParams(Protocol.OUTLETID, outletID);
         request.putParams(Protocol.SN, SN);
+        request.putParams(Protocol.CUR_DATE, currentDate);
         request.setListener(new VolleyListener() {
             @Override
             public void onSuccess(VolleyRequest request, JSONArray result) {
