@@ -19,8 +19,8 @@
 
     <EditText
         style="@style/ShortInput"
-        android:id="@+id/emailLogin"
-        android:hint="@string/email"
+        android:id="@+id/usernameLogin"
+        android:hint="@string/username"
         android:inputType="textEmailAddress" />
 
     <EditText
