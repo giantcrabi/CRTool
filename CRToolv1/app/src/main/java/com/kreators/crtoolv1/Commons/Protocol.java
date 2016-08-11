@@ -19,17 +19,18 @@ public class Protocol {
     public static final String IS_LOGIN = "IsLoggedIn";
     public static final    int PRIVATE_MODE = 0;
 
-
     //CR
-    public static final String CRID = "CRID";
+    public static final String CRID = "idCR";
 
-
-    public static final String CR = "CR";
+    //SN
     public static final String SN = "SN";
-
-
-    public static final String OUTLET = "outlet";
     public static final String CONTENT = "content";
 
+    //Outlet
+    public static final String OUTLETID = "idoutlet";
+    public static final String LATITUDE = "lat";
+    public static final String LONGITUDE = "lng";
 
+    //Date
+    public static final String CUR_DATE_TIME = "date";
 }

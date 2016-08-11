@@ -8,6 +8,9 @@ public class Constant {
     public static final String inflateFragmentByDate = "ByDate";
     public static final String inflateFragmentByOutlet = "ByOutlet";
 
+    public static final String msgDialog = "Please wait.";
+    public static final String connectDialog = "Connecting...";
     public static final String loginDialog = "Logging In...";
-
+    public static final String checkinDialog = "Checking In...";
+    public static final String searchDialog = "Searching...";
 }

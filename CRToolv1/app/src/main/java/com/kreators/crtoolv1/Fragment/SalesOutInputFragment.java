@@ -99,8 +99,8 @@ public class SalesOutInputFragment extends Fragment {
     private void inputSNButtonClicked(String SN) {
         pd.show();
         GetVolleyRequest request = new GetVolleyRequest(Url.SALES_OUT_SN);
-        request.putParams(Protocol.CR, "1");
-        request.putParams(Protocol.OUTLET, "1");
+        request.putParams(Protocol.CRID, "1");
+        request.putParams(Protocol.OUTLETID, "1");
         request.putParams(Protocol.SN, SN);
         request.setListener(new VolleyListener() {
             @Override

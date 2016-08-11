@@ -13,10 +13,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.kreators.crtoolv1.Commons.Constant;
+import com.kreators.crtoolv1.Commons.Protocol;
+import com.kreators.crtoolv1.Commons.SessionManager;
 import com.kreators.crtoolv1.Commons.Url;
 import com.kreators.crtoolv1.Fragment.Dialog.SelectOutletDialogFragment;
 import com.kreators.crtoolv1.Model.Outlet;
@@ -35,6 +37,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements SelectOutletDialogFragment.MyDialogFragmentListener {
@@ -47,6 +50,8 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     private double curLng;
     private ProgressDialog pd;
     private SimpleDateFormat sdf;
+    private SessionManager sessionManager;
+    private HashMap<String, String> user = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
             googleLocationRequest.removeLocationUpdates();
             googleLocationRequest.setGoogleAPIConnection(false);
         }
-        volleyManager.cancelPendingRequests("GET");
+        volleyManager.cancelPendingRequests(Protocol.GET);
     }
 
     @Override
@@ -94,10 +99,48 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     }
 
     @Override
-    public void onReturnValue(Outlet outlet) {
-        Intent intent = new Intent(this, SalesOutActivity.class);
-        intent.putExtra("choosenOutlet", outlet.getOutletName());
-        startActivity(intent);
+    public void onReturnValue(final Outlet outlet) {
+        pd.setTitle(Constant.checkinDialog);
+        pd.show();
+
+        Date dt = new Date();
+        String currentTime = sdf.format(dt);
+
+        GetVolleyRequest request = new GetVolleyRequest(Url.POST_CHECK_IN_OUTLET);
+        request.putParams(Protocol.CRID, user.get(Protocol.USERID));
+        request.putParams(Protocol.OUTLETID, String.valueOf(outlet.getOutletID()));
+        request.putParams(Protocol.CUR_DATE_TIME, currentTime);
+        request.setListener(new VolleyListener() {
+            @Override
+            public void onSuccess(VolleyRequest request, JSONArray result) {
+                try {
+                    JSONObject jsonObject = result.getJSONObject(0);
+
+                    if (pd != null) {
+                        pd.dismiss();
+                    }
+
+                    if (jsonObject.getBoolean("status")) {
+                        Intent intent = new Intent(HomeActivity.this, SalesOutActivity.class);
+                        intent.putExtra("choosenOutlet", outlet.getOutletName());
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(HomeActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(VolleyRequest request, String errorMessage) {
+                Toast.makeText(HomeActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                if (pd != null) {
+                    pd.dismiss();
+                }
+            }
+        });
+        volleyManager.createRequest(request, Protocol.POST);
     }
 
     private void storeCurrentLocation(Location location) {
@@ -106,21 +149,17 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     }
 
     private void searchNearestOutlet() {
-        pd.setTitle("Searching...");
+        pd.setTitle(Constant.searchDialog);
         pd.show();
-        GetVolleyRequest request = new GetVolleyRequest(Url.CHECK_IN_OUTLET);
-        request.putParams("lng", String.valueOf(curLng));
-        request.putParams("lat", String.valueOf(curLat));
+        GetVolleyRequest request = new GetVolleyRequest(Url.GET_CHECK_IN_OUTLET);
+        request.putParams(Protocol.LONGITUDE, String.valueOf(curLng));
+        request.putParams(Protocol.LATITUDE, String.valueOf(curLat));
         request.setListener(new VolleyListener() {
             @Override
             public void onSuccess(VolleyRequest request, JSONArray result) {
-                Log.e(TAG, result.toString());
                 try {
                     List<Outlet> nearestOutlet= new ArrayList<>();
                     JSONObject outletObj;
-
-                    Date dt = new Date();
-                    String currentTime = sdf.format(dt);
 
                     for(int i = 0; i < result.length(); i++) {
                         outletObj = result.getJSONObject(i);
@@ -165,7 +204,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
                 }
             }
         });
-        volleyManager.createRequest(request, "GET");
+        volleyManager.createRequest(request, Protocol.GET);
     }
 
     private void showDialog(List<Outlet> nearestOutlet) {
@@ -182,7 +221,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
         if (googleLocationRequest.getConnectionStatus()) {
             googleLocationRequest.checkLocationSettings();
         } else {
-            pd.setTitle("Connecting...");
+            pd.setTitle(Constant.connectDialog);
             pd.show();
             googleLocationRequest.setGoogleAPIConnection(true);
         }
@@ -219,11 +258,14 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
         volleyManager = VolleyManager.getInstance(getApplicationContext());
 
         pd = new ProgressDialog(this);
-        pd.setMessage("Please wait.");
+        pd.setMessage(Constant.msgDialog);
         pd.setCancelable(false);
         pd.setIndeterminate(true);
 
         sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+        sessionManager = new SessionManager(getApplicationContext());
+        user = sessionManager.getUserDetails();
     }
 
 
