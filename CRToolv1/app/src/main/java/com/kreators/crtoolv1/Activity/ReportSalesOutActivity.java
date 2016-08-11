@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.kreators.crtoolv1.Commons.Constant;
@@ -88,10 +87,18 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(fragmentManager);
+
         ReportSalesOutByDateFragment reportSalesOutByDateFragment =  new ReportSalesOutByDateFragment();
-        ReportSalesOutByOutletFragment reportSalesOutByOutletFragment = new ReportSalesOutByOutletFragment();
+        Bundle dateList= new Bundle();
+        dateList.putParcelableArray(Protocol.SN_DATE,crDateSalesOutList);
         adapter.addFragment(reportSalesOutByDateFragment, "By Date");
+
+        ReportSalesOutByOutletFragment reportSalesOutByOutletFragment = new ReportSalesOutByOutletFragment();
         adapter.addFragment(reportSalesOutByOutletFragment, "By Outlet");
+
+
+
+
         viewPager.setAdapter(adapter);
     }
 
@@ -167,14 +174,12 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
         for(num=0; num < salesOutReportList.size();num++) {
             crOutletSalesOutList.add(salesOutReportList.get(num).getOutletName());
         }
-        Log.d("a","a");
     }
     private void getCRDateSalesOut () {
         int num;
         for(num=0; num < salesOutReportList.size();num++) {
             crDateSalesOutList.add(salesOutReportList.get(num).getPostDate());
         }
-        Log.d("a","a");
     }
 
 }
