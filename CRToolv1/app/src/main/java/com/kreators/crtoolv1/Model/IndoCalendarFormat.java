@@ -32,6 +32,30 @@ public class IndoCalendarFormat {
         return months[month];
     }
 
+    public static String getMonthSimpleNameFromIndex (int idx) {
+        return months_short[idx-1];
+    }
+
+    public static String getMonthNameFromIndex (int idx) {
+        return months[idx-1];
+    }
+
+
+    public static int getMonthIndex(long time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        final int month = calendar.get(Calendar.MONTH);
+        return month+1;
+    }
+
+    public static int getMonthIndexFromName(String name) {
+        int num;
+        for(num=0;num<months.length;num++) {
+            if(name == months[num]) return num+1;
+        }
+        return 0;
+    }
+
     public static String getDate(long time) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);

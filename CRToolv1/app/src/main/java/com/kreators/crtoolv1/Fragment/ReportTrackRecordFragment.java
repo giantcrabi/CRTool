@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,67 +50,19 @@ public class ReportTrackRecordFragment extends Fragment {
     private ListView mListView;
     private ArrayList<TrackRecord> trArrayList;
     private TrackRecordAdapter trAdapter;
-    private List<TrackRecord> trackRecordList = new ArrayList<TrackRecord>();
+    private List<TrackRecord> trackRecordList = new ArrayList<>();
     private SessionManager session;
     private VolleyManager volleyManager;
     private ProgressDialog pd;
     private String currentDate;
     private LineChart lineChart;
+    private int monthNow;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_report_track_record, container, false);
         initialization();
         fetchData();
-
-
-        bind();
-
-
-        ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(50f, 0));
-        entries.add(new Entry(75f, 1));
-        entries.add(new Entry(100f, 2));
-        entries.add(new Entry(60f, 3));
-        entries.add(new Entry(120f, 4));
-        entries.add(new Entry(30f, 5));
-        LineDataSet dataset = new LineDataSet(entries, "Pencapaian CR Selama 6 Bulan");
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add("FEB");
-        labels.add("MAR");
-        labels.add("APR");
-        labels.add("MAY");
-        labels.add("JUN");
-        labels.add("JUL");
-        LineData data = new LineData(labels, dataset);
-        dataset.setDrawCubic(true);
-        dataset.setDrawFilled(true);
-        lineChart.setData(data);
-        lineChart.animateY(3000);
-////        mListView=(ListView) v.findViewById(R.id.lvListViewTrackRecord);
-////        trAdapter=new TrackRecordAdapter(getActivity(), trArrayList);
-//        mListView.setAdapter(trAdapter);
         return v;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                showTrackRecordDetails((TrackRecord) parent.getItemAtPosition(position));
-//            }
-//        });
-    }
-
-    private void showTrackRecordDetails(TrackRecord trackRecordDetails) {
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-        android.app.Fragment prev = getActivity().getFragmentManager().findFragmentByTag("Report Track Record");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        TrackRecordDialogFragment TR = TrackRecordDialogFragment.newInstance(trackRecordDetails);
-        TR.show(ft,"Report Track Record");
     }
 
     private void initialization() {
@@ -117,7 +72,7 @@ public class ReportTrackRecordFragment extends Fragment {
         pd.setMessage("Please wait.");
         pd.setCancelable(false);
         pd.setIndeterminate(true);
-
+        mListView = (ListView) v.findViewById(R.id.lvListViewTrackRecord);
         Date dt = new Date();
         currentDate = sdf.format(dt);
 
@@ -169,26 +124,92 @@ public class ReportTrackRecordFragment extends Fragment {
     private void setUpData() throws ParseException {
         Calendar calendar = Calendar.getInstance();
         Date date;
+        date = sdf.parse(currentDate);
+        calendar.setTime(date);
+        monthNow = IndoCalendarFormat.getMonthIndex(calendar.getTimeInMillis());
 
+        HashMap<String, Long> hashMap = new HashMap<>();
         int num;
-        for(num=0;num<trackRecordList.size();num++) {
-            date = sdf.parse(trackRecordList.get(num).getBulan());
-            calendar.setTime(date);
-            trackRecordList.get(num).setBulan(IndoCalendarFormat.getMonthName(calendar.getTimeInMillis()));
-        }
 
         for(num=0;num<trackRecordList.size();num++) {
             date = sdf.parse(trackRecordList.get(num).getBulan());
             calendar.setTime(date);
             trackRecordList.get(num).setBulan(IndoCalendarFormat.getMonthName(calendar.getTimeInMillis()));
         }
+
+        for(num=0;num<6;num++) {
+            hashMap.put(IndoCalendarFormat.getMonthNameFromIndex(monthNow), (long) 0);
+            monthNow--;
+            if(monthNow == 0 ) monthNow = 12;
+        }
+
+        for (TrackRecord i : trackRecordList) {
+            String name = i.getBulan();
+            long price = hashMap.containsKey(name) ? hashMap.get(name) : 0;
+            price += i.getPrice();
+            hashMap.put(name, price);
+        }
+
+        trackRecordList.clear();
+        Iterator hashMapIterator = hashMap.keySet().iterator();
+        while(hashMapIterator.hasNext()) {
+            String key=(String)hashMapIterator.next();
+            long value= hashMap.get(key);
+            trackRecordList.add(new TrackRecord(value,key,IndoCalendarFormat.getMonthIndexFromName(key)));
+        }
+        bind();
     }
 
     private void bind() {
         lineChart = (LineChart) v.findViewById(R.id.chart);
         lineChart.setDescription("% Pencapaian");
+        ArrayList<Entry> entries = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<String>();
 
+        int i,j,counter;
+        counter = 6;
+        while(counter != 0) {
+            counter--;
+            monthNow++;
+            labels.add(IndoCalendarFormat.getMonthSimpleNameFromIndex(monthNow));
+            if(monthNow==12) monthNow=1;
+            for(j=0;j<trackRecordList.size();j++) {
+                if(trackRecordList.get(j).getStatus() == monthNow) {
+                    entries.add(new Entry(trackRecordList.get(j).getPrice(),5-counter));
+                }
+            }
+        }
+        LineDataSet dataset = new LineDataSet(entries, "Pencapaian CR Selama 6 Bulan");
+        LineData data = new LineData(labels, dataset);
+        dataset.setDrawCubic(true);
+        dataset.setDrawFilled(true);
+        lineChart.setData(data);
+        lineChart.animateY(3000);
+        trAdapter=new TrackRecordAdapter(getContext(), (ArrayList<TrackRecord>) trackRecordList);
+        mListView.setAdapter(trAdapter);
     }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showTrackRecordDetails((TrackRecord) parent.getItemAtPosition(position));
+            }
+        });
+    }
+
+    private void showTrackRecordDetails(TrackRecord trackRecordDetails) {
+        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+        android.app.Fragment prev = getActivity().getFragmentManager().findFragmentByTag("Report Track Record");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        TrackRecordDialogFragment TR = TrackRecordDialogFragment.newInstance(trackRecordDetails);
+        TR.show(ft,"Report Track Record");
+    }
+
 
 
 }

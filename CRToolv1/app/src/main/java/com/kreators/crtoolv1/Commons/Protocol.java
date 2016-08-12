@@ -31,6 +31,7 @@ public class Protocol {
     public static final String DATE_PARAMETER = "dateParameter";
     public static final String DATE_FROM = "datefrom";
     public static final String DATE_TO = "dateto";
+    public static final String TRACK_RECORD_DETAILS = "detailTrackRecord";
 
     //SalesOutReportProtocol
     public static final String SO_REPORT = "salesOutREport";

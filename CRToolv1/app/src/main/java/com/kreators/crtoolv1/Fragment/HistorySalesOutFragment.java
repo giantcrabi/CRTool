@@ -66,6 +66,8 @@ public class HistorySalesOutFragment extends Fragment implements SearchView.OnQu
         int num;
         Calendar calendar = Calendar.getInstance();
         Date date;
+        itemName.clear();
+        crItemNameList.clear();
         for(num=0;num<salesOutReportList.size();num++) {
             if(salesOutReportList.get(num).getOutletName().equals(outletSelected)){
                 date = dateStandartFormatter.parse(salesOutReportList.get(num).getPostDate());

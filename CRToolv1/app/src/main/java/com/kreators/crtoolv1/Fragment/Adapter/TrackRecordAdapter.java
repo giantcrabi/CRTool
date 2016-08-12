@@ -27,6 +27,8 @@ public class TrackRecordAdapter extends BaseAdapter {
     }
 
 
+
+
     public class TrackRecordHolder
     {
         TextView bulan;
@@ -68,6 +70,9 @@ public class TrackRecordAdapter extends BaseAdapter {
             holder=(TrackRecordHolder) convertView.getTag();
         }
         holder.bulan.setText(trArrayList.get(position).getBulan());
+        holder.appr.setText(String.valueOf(trArrayList.get(position).getPrice()));
+        holder.retur.setText("3000000");
+        holder.presentasi.setText(String.valueOf(trArrayList.get(position).getPrice()/30000)+"%");
         return convertView;
 
     }

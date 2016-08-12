@@ -12,7 +12,7 @@
             android:text="@string/SN"
             style="@style/DarkButton"/>
         <TextView
-            android:text="Appr: 162"
+            android:text="Appr: 2"
             style="@style/SmallTextView"/>
         <TextView
             android:text="Retur: 0"
@@ -21,15 +21,19 @@
             android:text="@string/report_sales_out"
             style="@style/DarkButton"/>
         <TextView
+            android:id="@+id/tvApprTrackRecordDetail"
             android:text="Jumlah: Rp. 169.965.000,00"
             style="@style/SmallTextView"/>
         <TextView
+            android:id="@+id/tvTargetTrackRecordDetail"
             android:text="Target: Rp. 300.000.000,00"
             style="@style/SmallTextView"/>
         <TextView
+            android:id="@+id/tvKurangTrackrecordDetail"
             android:text="Kurang: Rp. 130.035.000,00"
             style="@style/SmallTextView"/>
         <TextView
+            android:id="@+id/tvPresentasiTrackRecordDetail"
             android:text="Presentasi: 56.65%"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"
             style="@style/SmallTextView"/>
