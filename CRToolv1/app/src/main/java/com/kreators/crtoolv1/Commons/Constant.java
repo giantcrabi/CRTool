@@ -20,6 +20,17 @@ public class Constant {
     //Message
     public static final String selectDateTo = "Please select date From First";
     public static final String dontSelectSameDate = "Don't Select the same date";
+    public static final String exitApp = "Apakah anda ingin keluar dari aplikasi?";
+    public static final String YES = "YA";
+    public static final String NO = "TIDAK";
+    public static final String noOutlets = "There aren't any outlets nearby";
+    public static final String needLocation = "Need your location!";
+    public static final String wrongInput = "Wrong input";
+    public static final String noContents = "Error no contents";
+    public static final String noLocation = "Cannot find your location";
+    public static final String locSuspend = "Location services suspended. Please reconnect";
+    public static final String locFailed = "Location services connection failed";
+    public static final String updateServices = "Please update your Google Play services";
 
     //Fragment Inflater
     public static final String inflateFragmentByDate = "ByDate";

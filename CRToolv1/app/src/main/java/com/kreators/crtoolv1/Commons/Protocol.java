@@ -44,6 +44,7 @@ public class Protocol {
     //Outlet
     public static final String OUTLETID = "idoutlet";
     public static final String OUTLETNAME = "outletName";
+    public static final String NEAREST = "nearestOutlet";
     public static final String LATITUDE = "lat";
     public static final String LONGITUDE = "lng";
 

@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.kreators.crtoolv1.Commons.Protocol;
 import com.kreators.crtoolv1.Fragment.Adapter.OutletAdapter;
 import com.kreators.crtoolv1.Model.Outlet;
 import com.kreators.crtoolv1.R;
@@ -31,7 +32,7 @@ public class SelectOutletDialogFragment extends DialogFragment implements Adapte
         SelectOutletDialogFragment f = new SelectOutletDialogFragment();
 
         Bundle args = new Bundle();
-        args.putParcelableArrayList("listNearestOutlet", (ArrayList<? extends Parcelable>) nearestOutlet);
+        args.putParcelableArrayList(Protocol.NEAREST, (ArrayList<? extends Parcelable>) nearestOutlet);
         f.setArguments(args);
 
         return f;
@@ -40,7 +41,7 @@ public class SelectOutletDialogFragment extends DialogFragment implements Adapte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mOutlets = getArguments().getParcelableArrayList("listNearestOutlet");
+        mOutlets = getArguments().getParcelableArrayList(Protocol.NEAREST);
     }
 
     @Override
