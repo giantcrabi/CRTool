@@ -80,7 +80,7 @@ public class SalesOutInputFragment extends Fragment {
                 if(input.length() > 0 && input.matches("[0-9]+")){
                     inputSNButtonClicked(input);
                 } else {
-                    Toast.makeText(getActivity(), "Wrong input", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), Constant.wrongInput, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -93,18 +93,7 @@ public class SalesOutInputFragment extends Fragment {
             }
         });
 
-        volleyManager = VolleyManager.getInstance(getActivity().getApplicationContext());
-
-        pd = new ProgressDialog(getActivity());
-        pd.setMessage(Constant.msgDialog);
-        pd.setTitle(Constant.submitDialog);
-        pd.setCancelable(false);
-        pd.setIndeterminate(true);
-
-        sdf = new SimpleDateFormat(Constant.SYSTEM_DATE_STANDART);
-
-        sessionManager = new SessionManager(getActivity());
-        user = sessionManager.getUserDetails();
+        initialization();
 
         return view;
     }
@@ -152,10 +141,25 @@ public class SalesOutInputFragment extends Fragment {
                 }
             }
         });
-        volleyManager.createRequest(request, "POST");
+        volleyManager.createRequest(request, Protocol.POST);
     }
 
     private void scanButtonClicked() {
         activityCallback.onScanButtonClick();
+    }
+
+    private void initialization() {
+        volleyManager = VolleyManager.getInstance(getActivity().getApplicationContext());
+
+        pd = new ProgressDialog(getActivity());
+        pd.setMessage(Constant.msgDialog);
+        pd.setTitle(Constant.submitDialog);
+        pd.setCancelable(false);
+        pd.setIndeterminate(true);
+
+        sdf = new SimpleDateFormat(Constant.SYSTEM_DATE_STANDART);
+
+        sessionManager = new SessionManager(getActivity());
+        user = sessionManager.getUserDetails();
     }
 }

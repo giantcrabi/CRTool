@@ -24,6 +24,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.kreators.crtoolv1.Commons.Constant;
 
 /**
  * Created by DELL on 08/08/2016.
@@ -53,7 +54,6 @@ public class GoogleLocationRequest implements GoogleApiClient.ConnectionCallback
                 addApi(LocationServices.API).
                 build();
 
-        // Create the LocationRequest object
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setSmallestDisplacement(10) // 10 meters
@@ -61,13 +61,13 @@ public class GoogleLocationRequest implements GoogleApiClient.ConnectionCallback
                 .setFastestInterval(10 * 1000); // 10 second, in milliseconds
 
         locRequestProgress = new ProgressDialog(context);
-        locRequestProgress.setTitle("Searching...");
-        locRequestProgress.setMessage("Please wait.");
+        locRequestProgress.setTitle(Constant.searchDialog);
+        locRequestProgress.setMessage(Constant.msgDialog);
         locRequestProgress.setCancelable(true);
         locRequestProgress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                Toast.makeText(mContext, "Cannot find your location", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, Constant.noLocation, Toast.LENGTH_SHORT).show();
                 removeLocationUpdates();
             }
         });
@@ -92,7 +92,7 @@ public class GoogleLocationRequest implements GoogleApiClient.ConnectionCallback
     @Override
     public void onConnectionSuspended(int errorCode) {
         if (mListener != null) {
-            String errorMessage = "Location services suspended. Please reconnect";
+            String errorMessage = Constant.locSuspend;
             mListener.onConnectionSuspended(this, errorMessage);
         }
     }
@@ -101,9 +101,9 @@ public class GoogleLocationRequest implements GoogleApiClient.ConnectionCallback
     public void onConnectionFailed(ConnectionResult connectionResult) {
         if (mListener != null) {
             int errorCode = connectionResult.getErrorCode();
-            String errorMessage = "Location services connection failed";
+            String errorMessage = Constant.locFailed;
             if(errorCode == 2){
-                errorMessage = "Please update your Google Play services";
+                errorMessage = Constant.updateServices;
             }
             mListener.onConnectionFailed(this, errorMessage);
         }
@@ -137,7 +137,7 @@ public class GoogleLocationRequest implements GoogleApiClient.ConnectionCallback
     public void checkLocationSettings(){
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(mLocationRequest);
-        builder.setAlwaysShow(true); //this is the key ingredient
+        builder.setAlwaysShow(true);
         PendingResult<LocationSettingsResult> result =
                 LocationServices.SettingsApi.checkLocationSettings(googleApiClient,
                         builder.build());
@@ -151,19 +151,12 @@ public class GoogleLocationRequest implements GoogleApiClient.ConnectionCallback
                         startLocationUpdates();
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        // Location settings are not satisfied. But could be fixed by showing the user
-                        // a dialog.
                         try {
-                            // Show the dialog by calling startResolutionForResult(),
-                            // and check the result in onActivityResult().
                             status.startResolutionForResult((Activity) mContext, REQUEST_CHECK_SETTINGS);
                         } catch (IntentSender.SendIntentException e) {
-                            // Ignore the error.
                         }
                         break;
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        // Location settings are not satisfied. However, we have no way to fix the
-                        // settings so we won't show the dialog.
                         break;
                 }
             }
@@ -176,8 +169,6 @@ public class GoogleLocationRequest implements GoogleApiClient.ConnectionCallback
 
             //lastLocation equivalent to user's current location
             Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-
-            //LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, mLocationRequest, this);
 
             if(lastLocation == null){
                 locRequestProgress.show();

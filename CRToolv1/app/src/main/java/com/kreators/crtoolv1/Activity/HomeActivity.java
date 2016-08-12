@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
             case PERMISSION_LOCATION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 } else {
-                    Toast.makeText(this, "Need your location!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, Constant.needLocation, Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -122,7 +122,6 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
 
                     if (jsonObject.getBoolean("status")) {
                         Intent intent = new Intent(HomeActivity.this, SalesOutActivity.class);
-                        //intent.putExtra(Protocol.CRID, user.get(Protocol.USERID));
                         intent.putExtra(Protocol.OUTLETID, String.valueOf(outlet.getOutletID()));
                         intent.putExtra(Protocol.OUTLETNAME, outlet.getOutletName());
                         startActivity(intent);
@@ -188,7 +187,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
                         }
                     }
                     else {
-                        Toast.makeText(HomeActivity.this, "There aren't any outlets nearby", Toast.LENGTH_LONG).show();
+                        Toast.makeText(HomeActivity.this, Constant.noOutlets, Toast.LENGTH_LONG).show();
                     }
 
                 } catch (JSONException e) {
@@ -217,43 +216,6 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
         SO.show(ft,"Select Outlet");
     }
 
-    public void checkIn(View view) {
-        if (googleLocationRequest.getConnectionStatus()) {
-            googleLocationRequest.checkLocationSettings();
-        } else {
-            pd.setTitle(Constant.connectDialog);
-            pd.show();
-            googleLocationRequest.setGoogleAPIConnection(true);
-        }
-    }
-
-    public void viewReport(View view) {
-        Intent intent = new Intent(this, ReportActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setCancelable(false);
-        builder.setMessage("Apakah anda ingin keluar dari aplikasi?");
-        builder.setPositiveButton("YA",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                        HomeActivity.this.finish();
-                    }
-                });
-        builder.setNegativeButton("TIDAK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        builder.create().show();
-    }
-
     private void initialization(){
         volleyManager = VolleyManager.getInstance(getApplicationContext());
 
@@ -267,7 +229,6 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
         sessionManager = new SessionManager(getApplicationContext());
         user = sessionManager.getUserDetails();
     }
-
 
     private void setUpGoogleLocationRequest() {
 
@@ -309,5 +270,42 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
                 searchNearestOutlet();
             }
         });
+    }
+
+    public void checkIn(View view) {
+        if (googleLocationRequest.getConnectionStatus()) {
+            googleLocationRequest.checkLocationSettings();
+        } else {
+            pd.setTitle(Constant.connectDialog);
+            pd.show();
+            googleLocationRequest.setGoogleAPIConnection(true);
+        }
+    }
+
+    public void viewReport(View view) {
+        Intent intent = new Intent(this, ReportActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+        builder.setCancelable(false);
+        builder.setMessage(Constant.exitApp);
+        builder.setPositiveButton(Constant.YES,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                        HomeActivity.this.finish();
+                    }
+                });
+        builder.setNegativeButton(Constant.NO,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        builder.create().show();
     }
 }

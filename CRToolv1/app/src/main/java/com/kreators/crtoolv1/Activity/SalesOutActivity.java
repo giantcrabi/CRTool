@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.kreators.crtoolv1.Commons.Constant;
 import com.kreators.crtoolv1.Commons.Protocol;
 import com.kreators.crtoolv1.Fragment.Listener.SalesOutListener;
 import com.kreators.crtoolv1.Fragment.SalesOutInputFragment;
@@ -25,18 +26,12 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
         if (findViewById(R.id.sales_out_activity) != null) {
 
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
             if (savedInstanceState != null) {
                 return;
             }
 
-            // Create a new Fragment to be placed in the activity layout
             SalesOutInputFragment salesOutInputFragment = new SalesOutInputFragment();
 
             curOutletID = getIntent().getStringExtra(Protocol.OUTLETID);
@@ -50,7 +45,6 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
                 salesOutInputFragment.setArguments(b);
             }
 
-            // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction().add(R.id.sales_out_activity, salesOutInputFragment).commit();
         }
 
@@ -82,7 +76,7 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
     @Override
     public void handleResult(Result rawResult) {
         if(rawResult.getContents() == null){
-            Toast.makeText(this, "Error No Contents", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, Constant.noContents, Toast.LENGTH_LONG).show();
         } else {
             String scanContent = rawResult.getContents();
 

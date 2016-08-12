@@ -24,14 +24,12 @@
     <string name="track_record_target">Target</string>
     <string name="track_record_presentasi">Percentage</string>
     <string name="bullet">\u25CF\t</string>
+    <string name="track_record_table_title">CR Track Record Last 6 Month</string>
+    <string name="email">Email</string>
+    <string name="report_history">History</string>
     <string name="ketentuan1">Setelah submit SN, silahkan mengirimkan kartu garansi ke kantor TDI\n
     \tIbu Frita/Romi\n\tJL. Ngagel Jaya Selatan blok H7 Kompleks RMI\n\t(ex. Kebun Bibit -Bratang)\n\tSurabaya 60283</string>
     <string name="ketentuan2">SN / IMEI akan di-approve setelah kartu garansi diterima</string>
     <string name="ketentuan3">Semua pertanyaan yang berkaitan dengan klaim harap ditujukan ke admintrp@terra.co.id</string>
-    <string name="track_record_table_title">CR Track Record Last 6 Month</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 </resources>
