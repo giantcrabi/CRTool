@@ -39,7 +39,7 @@ public class Protocol {
     public static final String SN_DATE ="RegDate";
     public static final String SN_ITEM_DESC ="ItemDesc";
     public static final String SN_STATUS ="InctvStatus";
-    public static final String SN_POSITION="position";
+    public static final String PRICE="Price";
 
     //Outlet
     public static final String OUTLETID = "idoutlet";

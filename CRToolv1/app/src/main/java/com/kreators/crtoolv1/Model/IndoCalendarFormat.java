@@ -29,7 +29,7 @@ public class IndoCalendarFormat {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);
         final int month = calendar.get(Calendar.MONTH);
-        return days[month];
+        return months[month];
     }
 
     public static String getDate(long time) {

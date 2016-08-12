@@ -6,6 +6,13 @@ import java.io.Serializable;
  * Created by Julio Anthony Leonar on 8/9/2016.
  */
 public class TrackRecord implements Serializable {
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
 
     public String getBulan() {
         return bulan;
@@ -15,39 +22,24 @@ public class TrackRecord implements Serializable {
         this.bulan = bulan;
     }
 
-    public String getAppr() {
-        return appr;
+    public int getStatus() {
+        return status;
     }
 
-    public void setAppr(String appr) {
-        this.appr = appr;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public String getRetur() {
-        return retur;
-    }
-
-    public void setRetur(String retur) {
-        this.retur = retur;
-    }
-
-    public String getPresentasi() {
-        return presentasi;
-    }
-
-    public void setPresentasi(String presentasi) {
-        this.presentasi = presentasi;
-    }
-
-    private String bulan;
-    private String appr;
-    private String retur;
-    private String presentasi;
-
-    public TrackRecord(String bulan, String appr, String retur, String presentasi) {
+    public TrackRecord(long price, String bulan, int status) {
+        this.price = price;
         this.bulan = bulan;
-        this.appr = appr;
-        this.retur = retur;
-        this.presentasi = presentasi;
+        this.status = status;
+    }
+
+    private long price;
+    private String bulan;
+    private int status;
+
+    public TrackRecord() {
     }
 }

@@ -12,4 +12,6 @@ public class Url {
     public static String GET_CHECK_IN_OUTLET = SERVER + "/outlet";
     public static String POST_CHECK_IN_OUTLET = SERVER + "/checkin";
     public static String GET_SALES_OUT_REPORT = SERVER + "/soreport";
+    public static String TRACK_RECORD_REPORT = SERVER + "/achievement";
+
 }

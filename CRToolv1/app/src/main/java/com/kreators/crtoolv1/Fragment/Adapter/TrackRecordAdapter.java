@@ -68,9 +68,6 @@ public class TrackRecordAdapter extends BaseAdapter {
             holder=(TrackRecordHolder) convertView.getTag();
         }
         holder.bulan.setText(trArrayList.get(position).getBulan());
-        holder.appr.setText(trArrayList.get(position).getAppr());
-        holder.retur.setText(trArrayList.get(position).getRetur());
-        holder.presentasi.setText(trArrayList.get(position).getPresentasi());
         return convertView;
 
     }
