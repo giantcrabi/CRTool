@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kreators.crtoolv1.Commons.Protocol;
+import com.kreators.crtoolv1.Model.IndoCurrencyFormat;
 import com.kreators.crtoolv1.Model.TrackRecord;
 import com.kreators.crtoolv1.R;
 
@@ -41,9 +42,9 @@ public class TrackRecordDialogFragment extends DialogFragment {
         bind();
         trackRecord = mTrackRecord;
         getDialog().setTitle(trackRecord.getBulan());
-        appr.setText("Appr: " + String.valueOf(trackRecord.getPrice()));
-        target.setText("Target: 3000000");
-        kurang.setText("Kurang: " + String.valueOf(3000000 - trackRecord.getPrice()));
+        appr.setText("Appr: " + IndoCurrencyFormat.transformIntegerToRupiah(trackRecord.getPrice()));
+        target.setText("Target: "+ IndoCurrencyFormat.transformIntegerToRupiah(3000000));
+        kurang.setText("Kurang: " + IndoCurrencyFormat.transformIntegerToRupiah(3000000 - trackRecord.getPrice()));
         presentasi.setText("Presentasi: " + String.valueOf(trackRecord.getPrice()/30000)+"%");
         return rootView;
     }

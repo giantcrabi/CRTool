@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.kreators.crtoolv1.Model.IndoCurrencyFormat;
 import com.kreators.crtoolv1.Model.TrackRecord;
 import com.kreators.crtoolv1.R;
 
@@ -70,8 +71,8 @@ public class TrackRecordAdapter extends BaseAdapter {
             holder=(TrackRecordHolder) convertView.getTag();
         }
         holder.bulan.setText(trArrayList.get(position).getBulan());
-        holder.appr.setText(String.valueOf(trArrayList.get(position).getPrice()));
-        holder.retur.setText("3000000");
+        holder.appr.setText(IndoCurrencyFormat.transformIntegerToRupiah(trArrayList.get(position).getPrice()));
+        holder.retur.setText(IndoCurrencyFormat.transformIntegerToRupiah(3000000));
         holder.presentasi.setText(String.valueOf(trArrayList.get(position).getPrice()/30000)+"%");
         return convertView;
 
