@@ -77,7 +77,8 @@ public class SalesOutInputFragment extends Fragment {
         btnSN.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String input = textSN.getText().toString();
-                if(input.length() > 0 && input.matches("[0-9]+")){
+                if( (input.matches("002[0-9]+") && input.length() >= 17 && input.length() <= 20) ||
+                        (input.matches("3[0-9]+") && input.length() == 15) ){
                     inputSNButtonClicked(input);
                 } else {
                     Toast.makeText(getActivity(), Constant.wrongInput, Toast.LENGTH_SHORT).show();
