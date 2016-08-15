@@ -34,17 +34,16 @@ public class Protocol {
     public static final String TRACK_RECORD_DETAILS = "detailTrackRecord";
 
     //SalesOutReportProtocol
-    public static final String SO_REPORT = "salesOutREport";
+    public static final String SO_REPORT = "salesOutReport";
     public static final String SN = "SN";
-    public static final String SN_OUTLET_NAME = "Name";
-    public static final String SN_DATE ="RegDate";
-    public static final String SN_ITEM_DESC ="ItemDesc";
-    public static final String SN_STATUS ="InctvStatus";
-    public static final String PRICE="Price";
+    public static final String SN_OUTLET_NAME = "OutletName";
+    public static final String SN_DATE = "RegDate";
+    public static final String SN_ITEM_DESC = "ItemDesc";
+    public static final String SN_STATUS = "InctvStatus";
+    public static final String PRICE = "SalesInPrice";
 
     //Outlet
     public static final String OUTLETID = "idoutlet";
-    public static final String OUTLETNAME = "outletName";
     public static final String NEAREST = "nearestOutlet";
     public static final String LATITUDE = "lat";
     public static final String LONGITUDE = "lng";

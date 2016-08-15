@@ -123,7 +123,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
                     if (jsonObject.getBoolean("status")) {
                         Intent intent = new Intent(HomeActivity.this, SalesOutActivity.class);
                         intent.putExtra(Protocol.OUTLETID, String.valueOf(outlet.getOutletID()));
-                        intent.putExtra(Protocol.OUTLETNAME, outlet.getOutletName());
+                        intent.putExtra(Protocol.SN_OUTLET_NAME, outlet.getOutletName());
                         startActivity(intent);
                     } else {
                         Toast.makeText(HomeActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();

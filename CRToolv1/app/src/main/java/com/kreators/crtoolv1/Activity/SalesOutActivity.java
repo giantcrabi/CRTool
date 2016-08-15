@@ -35,7 +35,7 @@ public class SalesOutActivity extends AppCompatActivity implements SalesOutListe
             SalesOutInputFragment salesOutInputFragment = new SalesOutInputFragment();
 
             curOutletID = getIntent().getStringExtra(Protocol.OUTLETID);
-            String curOutletName = getIntent().getStringExtra(Protocol.OUTLETNAME);
+            String curOutletName = getIntent().getStringExtra(Protocol.SN_OUTLET_NAME);
 
             if(curOutletID != null && curOutletName != null){
                 setTitle(curOutletName);
