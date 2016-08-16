@@ -5,7 +5,7 @@
     android:padding="@dimen/activity_horizontal_margin"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.kreators.crtoolv1.Fragment.HistorySalesOutFragment">
+    tools:context=".Fragment.ReportHistorySalesOutFragment">
 
     <SearchView
         android:id="@+id/svSearchHistorySalesOut"

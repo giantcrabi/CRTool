@@ -93,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void initialization() {
+        setTitle("Login");
         editTextUsername = (EditText) findViewById(R.id.usernameLogin);
         editTextPassword = (EditText) findViewById(R.id.passwordLogin);
         volleyManager = VolleyManager.getInstance(getApplicationContext());

@@ -15,6 +15,7 @@ public class ReportActivity extends AppCompatActivity implements ReportMainFragm
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("Report");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
         if (findViewById(R.id.reportActivity) != null) {

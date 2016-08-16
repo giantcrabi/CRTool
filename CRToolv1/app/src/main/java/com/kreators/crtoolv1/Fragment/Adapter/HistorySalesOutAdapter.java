@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.kreators.crtoolv1.Model.SerialNumber;
+import com.kreators.crtoolv1.Model.Report;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class HistorySalesOutAdapter extends BaseAdapter {
 
     public Context context;
-    public ArrayList<SerialNumber> snArrayList;
+    public ArrayList<Report> snArrayList;
 
-    public HistorySalesOutAdapter(Context context, ArrayList<SerialNumber> historyArrayList) {
+    public HistorySalesOutAdapter(Context context, ArrayList<Report> historyArrayList) {
         super();
         this.context = context;
         this.snArrayList = historyArrayList;

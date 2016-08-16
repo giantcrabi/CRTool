@@ -21,6 +21,7 @@ import com.kreators.crtoolv1.Fragment.ReportSalesOutByOutletFragment;
 import com.kreators.crtoolv1.Model.DateParameter;
 import com.kreators.crtoolv1.Model.IndoCalendarFormat;
 import com.kreators.crtoolv1.Model.SalesOutReport;
+import com.kreators.crtoolv1.Model.Report;
 import com.kreators.crtoolv1.Network.GetVolleyRequest;
 import com.kreators.crtoolv1.Network.VolleyListener;
 import com.kreators.crtoolv1.Network.VolleyManager;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -56,10 +57,12 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
     private DateParameter dateParameter;
     private HashMap<String, String> userLogin = new HashMap<>();
     private List<SalesOutReport> salesOutReportList = new ArrayList<>();
-    private ArrayList<String> crOutletSalesOutList = new ArrayList<>();
-    private ArrayList<String> crDateSalesOutList = new ArrayList<>();
+    private ArrayList<Report> crOutletSalesOutList = new ArrayList<>();
+    private ArrayList<Report> crDateSalesOutList = new ArrayList<>();
     private static final SimpleDateFormat dateStandartFormatter = new SimpleDateFormat(Constant.SYSTEM_DATE_STANDART, Locale.US);
+    private String[] tabsTitles = {Constant.fragmentTitleSalesOut + Constant.fragmentTitleByDate,Constant.fragmentTitleSalesOut + Constant.fragmentTitleByOutlet};
     protected FragmentManager fragmentManager;
+
 
 
     @Override
@@ -92,39 +95,54 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(fragmentManager);
-
         ReportSalesOutByDateFragment reportSalesOutByDateFragment =  new ReportSalesOutByDateFragment();
         Bundle argsDate = new Bundle();
-        argsDate.putStringArrayList(Protocol.SN_DATE,crDateSalesOutList);
+        argsDate.putSerializable(Protocol.SN_DATE,crDateSalesOutList);
         reportSalesOutByDateFragment.setArguments(argsDate);
         adapter.addFragment(reportSalesOutByDateFragment, Constant.fragmentTitleByDate);
-
-
         ReportSalesOutByOutletFragment reportSalesOutByOutletFragment = new ReportSalesOutByOutletFragment();
         Bundle argsOutlet = new Bundle();
-        argsOutlet.putStringArrayList(Protocol.SN_OUTLET_NAME,crOutletSalesOutList);
+        argsOutlet.putSerializable(Protocol.SN_OUTLET_NAME,crOutletSalesOutList);
         reportSalesOutByOutletFragment.setArguments(argsOutlet);
         adapter.addFragment(reportSalesOutByOutletFragment,Constant.fragmentTitleByOutlet);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                // TODO Auto-generated method stub
+                toolbar.setTitle(tabsTitles[position]);
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                // TODO Auto-generated method stub
+            }
+            @Override
+            public void onPageScrollStateChanged(int pos) {
+                // TODO Auto-generated method stub
+
+            }
+        });
         viewPager.setAdapter(adapter);
     }
 
     @Override
-    public void adapterSalesOutByDateButtonClick(String dateClicked) {
+    public void adapterSalesOutByDateButtonClick(Report dateClicked) {
         Intent intent = new Intent(this, DetailReportSalesOutActivity.class);
         Bundle args = new Bundle();
         args.putSerializable(Protocol.FRAGMENT_TAG,Constant.inflateFragmentByOutlet);
-        args.putSerializable(Protocol.SN_DATE, dateClicked);
+        args.putSerializable(Protocol.SN_DATE, dateClicked.getDate());
         args.putParcelableArrayList(Protocol.SO_REPORT,(ArrayList<? extends Parcelable>) salesOutReportList);
         intent.putExtras(args);
         startActivity(intent);
+        finish();
     }
 
     @Override
-    public void adapterSalesOutByOutletButtonClick(String outletClicked) {
+    public void adapterSalesOutByOutletButtonClick(Report outletClicked) {
         Intent intent = new Intent(this, DetailReportSalesOutActivity.class);
         Bundle args = new Bundle();
         args.putSerializable(Protocol.FRAGMENT_TAG, Constant.inflateFragmentByDate);
-        args.putSerializable(Protocol.SN_OUTLET_NAME, outletClicked);
+        args.putSerializable(Protocol.SN_OUTLET_NAME, outletClicked.getDate());
         args.putParcelableArrayList(Protocol.SO_REPORT,(ArrayList<? extends Parcelable>) salesOutReportList);
         intent.putExtras(args);
         startActivity(intent);
@@ -196,31 +214,52 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
     }
 
     private void getCROutletSalesOut (){
-        int num;
+        int i,count;
+        HashMap<String, String> hashSet = new HashMap<>();
 
-        for(num=0; num < salesOutReportList.size();num++) {
-            crOutletSalesOutList.add(salesOutReportList.get(num).getOutletName());
+        for(i=0; i < salesOutReportList.size();i++) {
+            if (hashSet.get(salesOutReportList.get(i).getOutletName()) == null) {
+                count = 1;
+            } else {
+                count = Integer.valueOf(hashSet.get(salesOutReportList.get(i).getOutletName()))+1 ;
+            }
+            hashSet.put(salesOutReportList.get(i).getOutletName(),String.valueOf(count));
         }
-        HashSet<String> hashSet = new HashSet<>();
-        hashSet.addAll(crOutletSalesOutList);
-        crOutletSalesOutList.clear();
-        crOutletSalesOutList.addAll(hashSet);
+
+        Iterator hashSetIterator = hashSet.keySet().iterator();
+        while(hashSetIterator.hasNext()) {
+            String key=(String)hashSetIterator.next();
+            String value=hashSet.get(key);
+            crOutletSalesOutList.add(new Report(key,value));
+        }
         hashSet.clear();
     }
     private void getCRDateSalesOut () throws ParseException {
-        int num;
+        int i,count;
         Calendar calendar = Calendar.getInstance();
         Date date;
-        for(num=0; num < salesOutReportList.size();num++) {
-            date = dateStandartFormatter.parse(salesOutReportList.get(num).getPostDate());
+        HashMap<String, String> hashSet = new HashMap<>();
+        for(i=0; i < salesOutReportList.size();i++) {
+            date = dateStandartFormatter.parse(salesOutReportList.get(i).getPostDate());
             calendar.setTime(date);
-            crDateSalesOutList.add(IndoCalendarFormat.getDate(calendar.getTimeInMillis()));
+            if (hashSet.get(IndoCalendarFormat.getDate(calendar.getTimeInMillis())) == null) {
+                count = 1;
+            } else {
+                count = Integer.valueOf(hashSet.get(IndoCalendarFormat.getDate(calendar.getTimeInMillis())))+1 ;
+            }
+            hashSet.put(IndoCalendarFormat.getDate(calendar.getTimeInMillis()),String.valueOf(count));
         }
-        HashSet<String> hashSet = new HashSet<>();
-        hashSet.addAll(crDateSalesOutList);
-        crDateSalesOutList.clear();
-        crDateSalesOutList.addAll(hashSet);
+
+        Iterator hashSetIterator = hashSet.keySet().iterator();
+        while(hashSetIterator.hasNext()) {
+            String key=(String)hashSetIterator.next();
+            String value=hashSet.get(key);
+            crDateSalesOutList.add(new Report(key,value));
+        }
         hashSet.clear();
     }
+
+
+
 
 }

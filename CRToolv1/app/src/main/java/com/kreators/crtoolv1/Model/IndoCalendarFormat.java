@@ -9,7 +9,7 @@ public class IndoCalendarFormat {
     public static final String[] days_short = {"Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"};
     public static final String[] days = {"Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"};
     public static final String[] months = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
-    public static final String[] months_short = {"Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sept", "Okt", "Nov", "Des"};
+    public static final String[] months_short = {"JAN", "FEB", "Mar", "APR", "MEI", "JUN", "JUL", "AGT", "SEP", "OKT", "NOV", "DES"};
 
     public static String getDayName(long time) {
         Calendar calendar = Calendar.getInstance();

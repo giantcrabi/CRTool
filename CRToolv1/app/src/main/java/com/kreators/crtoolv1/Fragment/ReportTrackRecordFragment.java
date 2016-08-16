@@ -66,6 +66,7 @@ public class ReportTrackRecordFragment extends Fragment {
     }
 
     private void initialization() {
+        getActivity().setTitle(Constant.fragmentTitleAchievement);
         volleyManager = VolleyManager.getInstance(getActivity().getApplicationContext());
         session = new SessionManager(getActivity().getApplicationContext());
         pd = new ProgressDialog(getActivity());
@@ -175,11 +176,11 @@ public class ReportTrackRecordFragment extends Fragment {
             if(monthNow==12) monthNow=1;
             for(j=0;j<trackRecordList.size();j++) {
                 if(trackRecordList.get(j).getStatus() == monthNow) {
-                    entries.add(new Entry(trackRecordList.get(j).getPrice(),5-counter));
+                    entries.add(new Entry((float)trackRecordList.get(j).getPrice()/3000000,5-counter));
                 }
             }
         }
-        LineDataSet dataset = new LineDataSet(entries, "Pencapaian CR Selama 6 Bulan");
+        LineDataSet dataset = new LineDataSet(entries, "CR Achievement Last 6 Month");
         LineData data = new LineData(labels, dataset);
         dataset.setDrawCubic(true);
         dataset.setDrawFilled(true);

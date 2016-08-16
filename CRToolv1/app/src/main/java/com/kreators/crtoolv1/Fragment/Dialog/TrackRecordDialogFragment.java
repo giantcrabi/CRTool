@@ -43,9 +43,9 @@ public class TrackRecordDialogFragment extends DialogFragment {
         trackRecord = mTrackRecord;
         getDialog().setTitle(trackRecord.getBulan());
         appr.setText("Appr: " + IndoCurrencyFormat.transformIntegerToRupiah(trackRecord.getPrice()));
-        target.setText("Target: "+ IndoCurrencyFormat.transformIntegerToRupiah(3000000));
-        kurang.setText("Kurang: " + IndoCurrencyFormat.transformIntegerToRupiah(3000000 - trackRecord.getPrice()));
-        presentasi.setText("Presentasi: " + String.valueOf(trackRecord.getPrice()/30000)+"%");
+        target.setText("Target: "+ IndoCurrencyFormat.transformIntegerToRupiah(300000000));
+        kurang.setText("Kurang: " + IndoCurrencyFormat.transformIntegerToRupiah(300000000 - trackRecord.getPrice()));
+        presentasi.setText("Presentasi: " + String.format("%.2f",((double)trackRecord.getPrice()/3000000))+"%");
         return rootView;
     }
     private void bind() {

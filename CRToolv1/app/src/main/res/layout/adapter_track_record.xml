@@ -11,6 +11,8 @@
         <TextView
             android:id="@+id/tvBulanTrackRecord"
             android:text="@string/track_record_bulan"
+            android:gravity="center"
+            android:layout_weight="0.70"
             style="@style/TextViewTable"/>
         <TextView
             android:id="@+id/tvApprTrackRecord"
@@ -23,6 +25,7 @@
         <TextView
             android:id="@+id/tvPresentasiTrackRecord"
             android:text="@string/track_record_presentasi"
+            android:layout_weight="0.70"
             style="@style/TextViewTable"/>
     </LinearLayout>
 </FrameLayout>

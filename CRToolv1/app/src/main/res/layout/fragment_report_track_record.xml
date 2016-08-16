@@ -30,18 +30,24 @@
         <TextView
             android:text="@string/track_record_bulan"
             android:textStyle="bold"
+            android:gravity="center"
+            android:layout_weight="0.7"
             style="@style/TextViewTable"/>
         <TextView
             android:text="@string/track_record_appr"
             android:textStyle="bold"
+            android:gravity="center"
             style="@style/TextViewTable"/>
         <TextView
             android:text="@string/track_record_target"
             android:textStyle="bold"
+            android:gravity="center"
             style="@style/TextViewTable"/>
         <TextView
             android:text="@string/track_record_presentasi"
             android:textStyle="bold"
+            android:gravity="center"
+            android:layout_weight="0.7"
             style="@style/TextViewTable"/>
     </LinearLayout>
 

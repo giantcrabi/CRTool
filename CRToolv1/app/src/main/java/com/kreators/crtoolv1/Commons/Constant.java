@@ -35,7 +35,13 @@ public class Constant {
     //Fragment Inflater
     public static final String inflateFragmentByDate = "ByDate";
     public static final String inflateFragmentByOutlet = "ByOutlet";
-    public static final String fragmentTitleByDate = "By Date";
-    public static final String fragmentTitleByOutlet = "By Outlet";
+    public static final String fragmentTitleByDate = "By Date ";
+    public static final String fragmentTitleByOutlet = "By Outlet ";
+    public static final String fragmentTitleSalesOut = "Sales Out ";
+    public static final String fragmentTitleName = "By Item Name";
+    public static final String fragmentTitleSerialNumber = "By Serial Number";
+    public static final String fragmentTitleAchievement = "Achievement";
+
+
 
 }

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -16,7 +17,7 @@ import com.kreators.crtoolv1.Commons.Protocol;
 import com.kreators.crtoolv1.Fragment.Adapter.HistorySalesOutAdapter;
 import com.kreators.crtoolv1.Model.IndoCalendarFormat;
 import com.kreators.crtoolv1.Model.SalesOutReport;
-import com.kreators.crtoolv1.Model.SerialNumber;
+import com.kreators.crtoolv1.Model.Report;
 import com.kreators.crtoolv1.R;
 
 import java.text.ParseException;
@@ -30,7 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-public class HistorySalesOutFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class ReportHistorySalesOutFragment extends Fragment implements SearchView.OnQueryTextListener {
     private View v;
     private static final SimpleDateFormat dateStandartFormatter = new SimpleDateFormat(Constant.SYSTEM_DATE_STANDART, Locale.US);
     private SearchView mSearchView;
@@ -39,8 +40,9 @@ public class HistorySalesOutFragment extends Fragment implements SearchView.OnQu
     private HistorySalesOutListener activityCallBack;
     private String dateSelected, outletSelected;
     private List<SalesOutReport> salesOutReportList = new ArrayList<>();
-    private List<SerialNumber> itemName = new ArrayList<>();
+    private List<Report> itemName = new ArrayList<>();
     private ArrayList<String> crItemNameList = new ArrayList<>();
+    private InputMethodManager imm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class HistorySalesOutFragment extends Fragment implements SearchView.OnQu
     }
 
     private void retrieve() {
+        getActivity().setTitle(Constant.fragmentTitleSalesOut + Constant.fragmentTitleName);
         dateSelected = (String) getArguments().getSerializable(Protocol.SN_DATE);
         outletSelected = (String) getArguments().getSerializable(Protocol.SN_OUTLET_NAME);
         salesOutReportList = getArguments().getParcelableArrayList(Protocol.SO_REPORT);
@@ -87,13 +90,16 @@ public class HistorySalesOutFragment extends Fragment implements SearchView.OnQu
         while(hashSetIterator.hasNext()) {
             String key=(String)hashSetIterator.next();
             String value=(String)hashSet.get(key);
-            itemName.add(new SerialNumber(key,value));
+            itemName.add(new Report(key,value));
         }
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
+        imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -106,7 +112,7 @@ public class HistorySalesOutFragment extends Fragment implements SearchView.OnQu
     private void bind() {
         mSearchView=(SearchView) v.findViewById(R.id.svSearchHistorySalesOut);
         mListView=(ListView) v.findViewById(R.id.lvListViewHistorySalesOut);
-        snAdapter=new HistorySalesOutAdapter(getActivity(), (ArrayList<SerialNumber>) itemName);
+        snAdapter=new HistorySalesOutAdapter(getActivity(), (ArrayList<Report>) itemName);
         mListView.setAdapter(snAdapter);
         mListView.setTextFilterEnabled(true);
     }

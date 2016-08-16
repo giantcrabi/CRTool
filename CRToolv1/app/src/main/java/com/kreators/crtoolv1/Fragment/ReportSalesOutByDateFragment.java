@@ -8,12 +8,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.kreators.crtoolv1.Commons.Constant;
 import com.kreators.crtoolv1.Commons.Protocol;
-import com.kreators.crtoolv1.Fragment.Adapter.SNAdapter;
+import com.kreators.crtoolv1.Fragment.Adapter.HistorySalesOutAdapter;
+import com.kreators.crtoolv1.Model.Report;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
@@ -27,15 +30,16 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
     private ReportSalesOutByDateListener activityCallBack;
     private SearchView mSearchView;
     private ListView mListView;
-    private SNAdapter snAdapter;
-    private List<String> crDateSalesOutList = new ArrayList<>();
-    View v;
+    private HistorySalesOutAdapter reportAdapter;
+    private List<Report> crDateSalesOutList = new ArrayList<>();
+    private InputMethodManager imm;
+    private View v;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_report_sales_out, container, false);
-        crDateSalesOutList = getArguments().getStringArrayList(Protocol.SN_DATE);
+        retrieve();
         bind();
         setupSearchView();
         return v;
@@ -45,6 +49,8 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -53,11 +59,16 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
         });
     }
 
+    public void retrieve() {
+        getActivity().setTitle(Constant.fragmentTitleSalesOut + Constant.fragmentTitleByDate);
+        crDateSalesOutList = (List<Report>) getArguments().getSerializable(Protocol.SN_DATE);
+    }
+
     private void bind() {
         mSearchView=(SearchView) v.findViewById(R.id.svSearchSN);
         mListView=(ListView) v.findViewById(R.id.lvListViewSN);
-        snAdapter=new SNAdapter(getActivity(), (ArrayList<String>) crDateSalesOutList);
-        mListView.setAdapter(snAdapter);
+        reportAdapter =new HistorySalesOutAdapter(getActivity(), (ArrayList<Report>) crDateSalesOutList);
+        mListView.setAdapter(reportAdapter);
         mListView.setTextFilterEnabled(true);
     }
 
@@ -93,11 +104,11 @@ public class ReportSalesOutByDateFragment extends Fragment implements SearchView
                     + " must implement ReportMainListener");
         }
     }
-    public void adapterSalesOutByDateButtonClick(String dateClicked) {
+    public void adapterSalesOutByDateButtonClick(Report dateClicked) {
         activityCallBack.adapterSalesOutByDateButtonClick(dateClicked);
     }
     public interface ReportSalesOutByDateListener {
-        void adapterSalesOutByDateButtonClick(String dateClicked);
+        void adapterSalesOutByDateButtonClick(Report dateClicked);
     }
 
 

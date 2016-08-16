@@ -34,7 +34,7 @@ public class TrackRecordAdapter extends BaseAdapter {
     {
         TextView bulan;
         TextView appr;
-        TextView retur;
+        TextView target;
         TextView presentasi;
     }
 
@@ -63,7 +63,7 @@ public class TrackRecordAdapter extends BaseAdapter {
             holder=new TrackRecordHolder();
             holder.bulan=(TextView) convertView.findViewById(R.id.tvBulanTrackRecord);
             holder.appr=(TextView) convertView.findViewById(R.id.tvApprTrackRecord);
-            holder.retur=(TextView) convertView.findViewById(R.id.tvReturTrackRecord);
+            holder.target=(TextView) convertView.findViewById(R.id.tvReturTrackRecord);
             holder.presentasi=(TextView) convertView.findViewById(R.id.tvPresentasiTrackRecord);
             convertView.setTag(holder);
         }
@@ -71,9 +71,9 @@ public class TrackRecordAdapter extends BaseAdapter {
             holder=(TrackRecordHolder) convertView.getTag();
         }
         holder.bulan.setText(trArrayList.get(position).getBulan());
-        holder.appr.setText(IndoCurrencyFormat.transformIntegerToRupiah(trArrayList.get(position).getPrice()));
-        holder.retur.setText(IndoCurrencyFormat.transformIntegerToRupiah(3000000));
-        holder.presentasi.setText(String.valueOf(trArrayList.get(position).getPrice()/30000)+"%");
+        holder.appr.setText(IndoCurrencyFormat.transformIntegerToRupiah(trArrayList.get(position).getPrice()/1000));
+        holder.target.setText(IndoCurrencyFormat.transformIntegerToRupiah(300000000/1000));
+        holder.presentasi.setText(String.format("%.2f",((double)trArrayList.get(position).getPrice()/3000000))+"%");
         return convertView;
 
     }

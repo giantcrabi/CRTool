@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        setTitle("Home");
         setUpGoogleLocationRequest();
         initialization();
     }
@@ -102,10 +103,8 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     public void onReturnValue(final Outlet outlet) {
         pd.setTitle(Constant.checkinDialog);
         pd.show();
-
         Date dt = new Date();
         String currentTime = sdf.format(dt);
-
         GetVolleyRequest request = new GetVolleyRequest(Url.POST_CHECK_IN_OUTLET);
         request.putParams(Protocol.CRID, user.get(Protocol.USERID));
         request.putParams(Protocol.OUTLETID, String.valueOf(outlet.getOutletID()));

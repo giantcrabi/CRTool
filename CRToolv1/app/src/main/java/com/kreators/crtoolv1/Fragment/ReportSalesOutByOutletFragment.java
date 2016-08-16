@@ -8,12 +8,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.kreators.crtoolv1.Commons.Constant;
 import com.kreators.crtoolv1.Commons.Protocol;
-import com.kreators.crtoolv1.Fragment.Adapter.SNAdapter;
+import com.kreators.crtoolv1.Fragment.Adapter.HistorySalesOutAdapter;
+import com.kreators.crtoolv1.Model.Report;
 import com.kreators.crtoolv1.R;
 
 import java.util.ArrayList;
@@ -27,14 +30,15 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
     private ReportSalesOutByOutletListener activityCallBack;
     private SearchView mSearchView;
     private ListView mListView;
-    private SNAdapter snAdapter;
-    private List<String> crOutletSalesOutList = new ArrayList<>();
-    View v;
+    private HistorySalesOutAdapter reportAdapter;
+    private List<Report> crOutletSalesOutList = new ArrayList<>();
+    private InputMethodManager imm;
+    private View v;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_report_sales_out, container, false);
-        crOutletSalesOutList = getArguments().getStringArrayList(Protocol.SN_OUTLET_NAME);
+        retrieve();
         bind();
         setupSearchView();
         return v;
@@ -43,6 +47,11 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
+
+        imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -51,11 +60,16 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
         });
     }
 
+    private void retrieve() {
+        getActivity().setTitle(Constant.fragmentTitleSalesOut + Constant.fragmentTitleByOutlet);
+        crOutletSalesOutList = (List<Report>) getArguments().getSerializable(Protocol.SN_OUTLET_NAME);
+    }
+
     private void bind() {
         mSearchView=(SearchView) v.findViewById(R.id.svSearchSN);
         mListView=(ListView) v.findViewById(R.id.lvListViewSN);
-        snAdapter=new SNAdapter(getActivity(), (ArrayList<String>) crOutletSalesOutList);
-        mListView.setAdapter(snAdapter);
+        reportAdapter =new HistorySalesOutAdapter(getActivity(), (ArrayList<Report>) crOutletSalesOutList);
+        mListView.setAdapter(reportAdapter);
         mListView.setTextFilterEnabled(true);
     }
 
@@ -91,11 +105,11 @@ public class ReportSalesOutByOutletFragment extends Fragment implements SearchVi
                     + " must implement ReportMainListener");
         }
     }
-    public void adapterSalesOutByOutletButtonClick(String outletClicked) {
+    public void adapterSalesOutByOutletButtonClick(Report outletClicked) {
         activityCallBack.adapterSalesOutByOutletButtonClick(outletClicked);
     }
     public interface ReportSalesOutByOutletListener {
-        void adapterSalesOutByOutletButtonClick(String outletClicked);
+        void adapterSalesOutByOutletButtonClick(Report outletClicked);
     }
 
 

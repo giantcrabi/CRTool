@@ -20,11 +20,11 @@
     <string name="date_from">From</string>
     <string name="date_to">To</string>
     <string name="track_record_bulan">Month</string>
-    <string name="track_record_appr">Appr</string>
-    <string name="track_record_target">Target</string>
-    <string name="track_record_presentasi">Percentage</string>
+    <string name="track_record_appr">Appr                (Ribuan) </string>
+    <string name="track_record_target">Target            (Ribuan) </string>
+    <string name="track_record_presentasi">%</string>
     <string name="bullet">\u25CF\t</string>
-    <string name="track_record_table_title">CR Track Record Last 6 Month</string>
+    <string name="track_record_table_title">CR Achievement Last 6 Month</string>
     <string name="email">Email</string>
     <string name="report_history">History</string>
     <string name="ketentuan1">Setelah submit SN, silahkan mengirimkan kartu garansi ke kantor TDI\n

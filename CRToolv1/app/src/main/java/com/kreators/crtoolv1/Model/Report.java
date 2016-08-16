@@ -5,12 +5,12 @@ import java.io.Serializable;
 /**
  * Created by Julio Anthony Leonar on 7/18/2016.
  */
-public class SerialNumber implements Serializable {
+public class Report implements Serializable {
 
     private String date;
     private String SN;
 
-    public SerialNumber(String date,String SN){
+    public Report(String date, String SN){
         this.date = date;
         this.SN = SN;
     }
