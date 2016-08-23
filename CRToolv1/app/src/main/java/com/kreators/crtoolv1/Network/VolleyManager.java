@@ -43,7 +43,7 @@ public class VolleyManager {
 
         if(request != null){
             request.setRetryPolicy(new DefaultRetryPolicy(
-                    20000, //20 seconds for request timeout
+                    30000, //30 seconds for request timeout
                     0, //no retry
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             request.setTag(tag);
