@@ -1,41 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <Button
             android:text="@string/SN"
             style="@style/DarkButton"/>
         <TextView
-            android:text="Appr: 2"
+            android:id="@+id/tvSubmittedTrackRecordDetail"
             style="@style/SmallTextView"/>
         <TextView
-            android:text="Retur: 0"
+            android:id="@+id/tvReceivedTrackRecordDetail"
             style="@style/SmallTextView"/>
+        <TextView
+            android:id="@+id/tvApprovedTrackRecordDetail"
+            style="@style/SmallTextView"/>
+        <TextView
+            android:id="@+id/tvReturnedTrackRecordDetail"
+            style="@style/SmallTextView"/>
+
         <Button
             android:text="@string/report_sales_out"
             style="@style/DarkButton"/>
         <TextView
-            android:id="@+id/tvApprTrackRecordDetail"
-            android:text="Jumlah: Rp. 169.965.000,00"
+            android:id="@+id/tvJumlahTrackRecordDetail"
             style="@style/SmallTextView"/>
         <TextView
             android:id="@+id/tvTargetTrackRecordDetail"
-            android:text="Target: Rp. 300.000.000,00"
             style="@style/SmallTextView"/>
         <TextView
             android:id="@+id/tvKurangTrackrecordDetail"
-            android:text="Kurang: Rp. 130.035.000,00"
             style="@style/SmallTextView"/>
         <TextView
             android:id="@+id/tvPresentasiTrackRecordDetail"
-            android:text="Presentasi: 56.65%"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"
             style="@style/SmallTextView"/>
+
     </LinearLayout>
 </ScrollView>

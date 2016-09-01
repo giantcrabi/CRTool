@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin"
-    tools:context=".Fragment.ReportTrackRecordFragment">
 
-    <TextView
-        android:id="@+id/tvTableHistoryTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:gravity="center"
-        android:text="@string/track_record_table_title"
-        android:textSize="@dimen/font_small_1"
-        android:textStyle="bold" />
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart"
-        android:layout_width="match_parent"
-        android:layout_height="250dp" />
 
     <LinearLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:padding="@dimen/activity_horizontal_margin0.5"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin"    xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".Fragment.ReportTrackRecordFragment">
         <TextView
-            android:text="@string/track_record_bulan"
-            android:textStyle="bold"
+            android:id="@+id/tvTableHistoryTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:gravity="center"
-            android:layout_weight="0.7"
-            style="@style/TextViewTable"/>
-        <TextView
-            android:text="@string/track_record_appr"
-            android:textStyle="bold"
-            android:gravity="center"
-            style="@style/TextViewTable"/>
-        <TextView
-            android:text="@string/track_record_target"
-            android:textStyle="bold"
-            android:gravity="center"
-            style="@style/TextViewTable"/>
-        <TextView
-            android:text="@string/track_record_presentasi"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_weight="0.7"
-            style="@style/TextViewTable"/>
+            android:text="@string/track_record_table_title"
+            android:textSize="@dimen/font_small_1"
+            android:textStyle="bold" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="@dimen/activity_horizontal_margin0.5"
+            android:orientation="horizontal">
+            <TextView
+                android:text="@string/track_record_bulan"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_weight="0.7"
+                style="@style/TextViewTable"/>
+            <TextView
+                android:text="@string/track_record_appr"
+                android:textStyle="bold"
+                android:gravity="center"
+                style="@style/TextViewTable"/>
+            <TextView
+                android:text="@string/track_record_target"
+                android:textStyle="bold"
+                android:gravity="center"
+                style="@style/TextViewTable"/>
+            <TextView
+                android:text="@string/track_record_presentasi"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_weight="0.7"
+                style="@style/TextViewTable"/>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lvListViewTrackRecord"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/lvListViewTrackRecord"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
-
-

@@ -18,9 +18,8 @@ import com.kreators.crtoolv1.R;
 public class TrackRecordDialogFragment extends DialogFragment {
 
     private TrackRecord mTrackRecord,trackRecord;
-    private TextView appr,target,kurang,presentasi;
+    private TextView jumlah,approve,received,submitted,retur,target,kurang,presentasi;
     private View rootView;
-
 
     public static TrackRecordDialogFragment newInstance(TrackRecord trackRecordDetails) {
         TrackRecordDialogFragment f = new TrackRecordDialogFragment();
@@ -42,17 +41,25 @@ public class TrackRecordDialogFragment extends DialogFragment {
         bind();
         trackRecord = mTrackRecord;
         getDialog().setTitle(trackRecord.getBulan());
-        appr.setText("Appr: " + IndoCurrencyFormat.transformIntegerToRupiah(trackRecord.getPrice()));
+        jumlah.setText("Appr: " + IndoCurrencyFormat.transformIntegerToRupiah(trackRecord.getPrice()));
         target.setText("Target: "+ IndoCurrencyFormat.transformIntegerToRupiah(300000000));
         kurang.setText("Kurang: " + IndoCurrencyFormat.transformIntegerToRupiah(300000000 - trackRecord.getPrice()));
         presentasi.setText("Presentasi: " + String.format("%.2f",((double)trackRecord.getPrice()/3000000))+"%");
+        submitted.setText("Submitted: "+ String.valueOf(trackRecord.getSubmitted()));
+        received.setText("Received: " + String.valueOf(trackRecord.getReceived()));
+        approve.setText("Approved: " + String.valueOf(trackRecord.getApproved()));
+        retur.setText("Retur: " + String.valueOf(trackRecord.getRetur()));
         return rootView;
     }
     private void bind() {
-        appr = (TextView) rootView.findViewById(R.id.tvApprTrackRecordDetail);
+        jumlah = (TextView) rootView.findViewById(R.id.tvJumlahTrackRecordDetail);
         target = (TextView) rootView.findViewById(R.id.tvTargetTrackRecordDetail);
         kurang = (TextView) rootView.findViewById(R.id.tvKurangTrackrecordDetail);
-        presentasi =(TextView) rootView.findViewById(R.id.tvPresentasiTrackRecordDetail);
+        presentasi = (TextView) rootView.findViewById(R.id.tvPresentasiTrackRecordDetail);
+        submitted = (TextView) rootView.findViewById(R.id.tvSubmittedTrackRecordDetail);
+        received = (TextView) rootView.findViewById(R.id.tvReceivedTrackRecordDetail);
+        approve = (TextView) rootView.findViewById(R.id.tvApprovedTrackRecordDetail);
+        retur = (TextView) rootView.findViewById(R.id.tvReturnedTrackRecordDetail);
     }
 
 }
