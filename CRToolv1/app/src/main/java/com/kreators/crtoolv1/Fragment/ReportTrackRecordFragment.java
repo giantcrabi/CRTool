@@ -38,8 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -76,7 +74,6 @@ public class ReportTrackRecordFragment extends Fragment {
         mListView = (ListView) v.findViewById(R.id.lvListViewTrackRecord);
         Date dt = new Date();
         currentDate = sdf.format(dt);
-
     }
 
     private void fetchData(){
@@ -123,41 +120,59 @@ public class ReportTrackRecordFragment extends Fragment {
     }
 
     private void setUpData() throws ParseException {
+
         Calendar calendar = Calendar.getInstance();
         Date date;
         date = sdf.parse(currentDate);
         calendar.setTime(date);
         monthNow = IndoCalendarFormat.getMonthIndex(calendar.getTimeInMillis());
 
-        HashMap<String, Long> hashMap = new HashMap<>();
         int num;
-
         for(num=0;num<trackRecordList.size();num++) {
             date = sdf.parse(trackRecordList.get(num).getBulan());
             calendar.setTime(date);
-            trackRecordList.get(num).setBulan(IndoCalendarFormat.getMonthName(calendar.getTimeInMillis()));
+            trackRecordList.get(num).setBulan(IndoCalendarFormat.getMonthNameShort(calendar.getTimeInMillis()));
         }
 
-        for(num=0;num<6;num++) {
-            hashMap.put(IndoCalendarFormat.getMonthNameFromIndex(monthNow), (long) 0);
-            monthNow--;
-            if(monthNow == 0 ) monthNow = 12;
+        TrackRecord trackRecordListDummy[] = new TrackRecord[6];
+        int monthNowDummy = monthNow;
+        for(num=5;num>=0;num--) {
+            String bulanNow = IndoCalendarFormat.getMonthSimpleNameFromIndex(monthNowDummy);
+            monthNowDummy--;
+            if(monthNowDummy == 0 ) monthNowDummy = 12;
+            trackRecordListDummy[num] = new TrackRecord(0,bulanNow,0,0,0,0);
         }
+
 
         for (TrackRecord i : trackRecordList) {
-            String name = i.getBulan();
-            long price = hashMap.containsKey(name) ? hashMap.get(name) : 0;
-            price += i.getPrice();
-            hashMap.put(name, price);
+            int bulanIndex = IndoCalendarFormat.getMonthIndexFromSimpleName(i.getBulan());
+            num = bulanIndex - monthNow + 5;
+            trackRecordListDummy[num].setPrice(trackRecordListDummy[num].getPrice()+i.getPrice());
+            int status = i.getStatus();
+            switch(status){
+                case 0:
+                    trackRecordListDummy[num].setSubmitted(trackRecordListDummy[num].getSubmitted()+1);
+                    break;
+                case 1:
+                    trackRecordListDummy[num].setReceived(trackRecordListDummy[num].getReceived()+1);
+                    break;
+                case 2:
+                    trackRecordListDummy[num].setApproved(trackRecordListDummy[num].getApproved()+1);
+                    break;
+                case 3:
+                    trackRecordListDummy[num].setRetur(trackRecordListDummy[num].getRetur()+1);
+                    break;
+                default:
+                    break;
+            }
         }
-
         trackRecordList.clear();
-        Iterator hashMapIterator = hashMap.keySet().iterator();
-        while(hashMapIterator.hasNext()) {
-            String key=(String)hashMapIterator.next();
-            long value= hashMap.get(key);
-            trackRecordList.add(new TrackRecord(value,key,IndoCalendarFormat.getMonthIndexFromName(key)));
+
+        for(int i=0;i<6;i++){
+            trackRecordList.add(trackRecordListDummy[i]);
         }
+        monthNow = monthNowDummy;
+
         bind();
     }
 
@@ -167,18 +182,9 @@ public class ReportTrackRecordFragment extends Fragment {
         ArrayList<Entry> entries = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<String>();
 
-        int i,j,counter;
-        counter = 6;
-        while(counter != 0) {
-            counter--;
-            monthNow++;
-            labels.add(IndoCalendarFormat.getMonthSimpleNameFromIndex(monthNow));
-            if(monthNow==12) monthNow=1;
-            for(j=0;j<trackRecordList.size();j++) {
-                if(trackRecordList.get(j).getStatus() == monthNow) {
-                    entries.add(new Entry((float)trackRecordList.get(j).getPrice()/3000000,5-counter));
-                }
-            }
+        for(int i=0;i<trackRecordList.size();i++) {
+            labels.add(trackRecordList.get(i).getBulan());
+            entries.add(new Entry((float)trackRecordList.get(i).getPrice()/3000000,i));
         }
         LineDataSet dataset = new LineDataSet(entries, "CR Achievement Last 6 Month");
         LineData data = new LineData(labels, dataset);
@@ -210,7 +216,4 @@ public class ReportTrackRecordFragment extends Fragment {
         TrackRecordDialogFragment TR = TrackRecordDialogFragment.newInstance(trackRecordDetails);
         TR.show(ft,"Report Track Record");
     }
-
-
-
 }

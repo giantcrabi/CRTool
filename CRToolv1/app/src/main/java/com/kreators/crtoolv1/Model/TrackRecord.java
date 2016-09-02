@@ -6,6 +6,33 @@ import java.io.Serializable;
  * Created by Julio Anthony Leonar on 8/9/2016.
  */
 public class TrackRecord implements Serializable {
+
+    private long price;
+    private String bulan;
+    private int status;
+    private int submitted;
+    private int received;
+    private int approved;
+    private int retur;
+
+    public TrackRecord(long price, String bulan, int submitted,int received, int approved, int retur) {
+        this.price = price;
+        this.bulan = bulan;
+        this.submitted = submitted;
+        this.received = received;
+        this.approved = approved;
+        this.retur = retur;
+    }
+
+    public TrackRecord(){
+
+    }
+    public TrackRecord(long price, String bulan, int status) {
+        this.price = price;
+        this.bulan = bulan;
+        this.status = status;
+    }
+
     public long getPrice() {
         return price;
     }
@@ -30,16 +57,35 @@ public class TrackRecord implements Serializable {
         this.status = status;
     }
 
-    public TrackRecord(long price, String bulan, int status) {
-        this.price = price;
-        this.bulan = bulan;
-        this.status = status;
+    public int getSubmitted() {
+        return submitted;
     }
 
-    private long price;
-    private String bulan;
-    private int status;
+    public void setSubmitted(int submitted) {
+        this.submitted = submitted;
+    }
 
-    public TrackRecord() {
+    public int getApproved() {
+        return approved;
+    }
+
+    public void setApproved(int approved) {
+        this.approved = approved;
+    }
+
+    public int getRetur() {
+        return retur;
+    }
+
+    public void setRetur(int retur) {
+        this.retur = retur;
+    }
+
+    public int getReceived() {
+        return received;
+    }
+
+    public void setReceived(int received) {
+        this.received = received;
     }
 }
