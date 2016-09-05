@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_in_a_box"
-            android:text="@string/input_sn"
+            android:text="@string/submit_sn"
             android:textSize="@dimen/font_medium_0" />
 
     </LinearLayout>

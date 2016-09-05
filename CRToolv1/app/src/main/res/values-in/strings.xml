@@ -11,7 +11,7 @@
     <string name="checkin_CRTool">Check In</string>
     <string name="pilih_outlet">Pilih Outlet</string>
     <string name="report_button">Melihat Report</string>
-    <string name="input_sn">Masukkan SN</string>
+    <string name="submit_sn">Submit SN</string>
     <string name="scan_sn">Pindai</string>
     <string name="outlet_search">Cari Outlet..</string>
     <string name="outlet_search_dialog_dismiss">Tutup</string>
