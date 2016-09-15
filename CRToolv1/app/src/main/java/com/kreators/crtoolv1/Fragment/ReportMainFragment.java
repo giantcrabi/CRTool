@@ -37,8 +37,9 @@ public class ReportMainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_report_main, container, false);
+        getActivity().setTitle("Report");
         bind();
-        setDefaultLayout();
+        initialization();
         return view;
     }
 
@@ -49,20 +50,21 @@ public class ReportMainFragment extends Fragment {
         btnSO = (Button) view.findViewById(R.id.btnReportSalesOut);
     }
 
-    private void setDefaultLayout() {
+    private void initialization() {
         fromDate = Calendar.getInstance();
         toDate = Calendar.getInstance();
         pastFiveYear = Calendar.getInstance();
         todayDate = Calendar.getInstance();
-        fromDate.add(Calendar.YEAR, -5);
-        toDate.add(Calendar.DATE, 1);
-        todayDate.add(Calendar.DATE,2);
+
+        fromDate.add(Calendar.DATE,-1);
         pastFiveYear.add(Calendar.YEAR,-5);
+        todayDate.add(Calendar.DATE,1);
         date1long = fromDate.getTimeInMillis();
         date2long = toDate.getTimeInMillis();
         today = Calendar.getInstance().getTimeInMillis();
         date1 = new Date(date1long);
         date2 = new Date(date2long);
+
         btnFrom.setText(IndoCalendarFormat.getFullDate(date1.getTime()));
         btnTo.setText(IndoCalendarFormat.getFullDate(date2.getTime()));
     }
@@ -104,17 +106,15 @@ public class ReportMainFragment extends Fragment {
         final Dialog dg = new Dialog(getActivity(), R.style.FullscreenAppCompatDialogTheme);
         dg.setContentView(R.layout.dialog_calendar);
         final CalendarPickerView dialogView = (CalendarPickerView) dg.findViewById(R.id.calendarView);
-
         dialogView.setCustomDayView(new DefaultDayViewAdapter());
-
         if(isFrom) {
             dialogView.init(pastFiveYear.getTime(),toDate.getTime())
                     .inMode(CalendarPickerView.SelectionMode.SINGLE)
-                    .withSelectedDate(new Date(today));
+                    .withSelectedDate(new Date(fromDate.getTimeInMillis()));
         } else {
             dialogView.init(fromDate.getTime(), todayDate.getTime())
                     .inMode(CalendarPickerView.SelectionMode.SINGLE)
-                    .withSelectedDate(new Date(today));
+                    .withSelectedDate(new Date(toDate.getTimeInMillis()));
         }
         Button btnOK = (Button) dg.findViewById(R.id.btnOK);
         btnOK.setOnClickListener(new View.OnClickListener() {

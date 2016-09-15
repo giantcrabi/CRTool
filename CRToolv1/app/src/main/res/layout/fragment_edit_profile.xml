@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.18"
+                    android:text="@string/cr_name" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02"
+                    android:gravity="end"
+                    android:text="@string/titik_dua" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7">
+
+                    <EditText
+                        android:id="@+id/etCRName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/cr_name"
+                        android:minWidth="200dp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.18"
+                    android:text="@string/cr_email" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02"
+                    android:gravity="end"
+                    android:text="@string/titik_dua" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7">
+
+                    <EditText
+                        android:id="@+id/etCREmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textEmailAddress"
+                        android:hint="@string/cr_email"
+                        android:minWidth="200dp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.18"
+                    android:text="@string/cr_phone" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02"
+                    android:gravity="end"
+                    android:text="@string/titik_dua" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7">
+
+                    <EditText
+                        android:id="@+id/etCRPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="phone"
+                        android:hint="@string/cr_phone"
+                        android:minWidth="200dp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.18"
+                    android:text="@string/cr_bank_name" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02"
+                    android:gravity="end"
+                    android:text="@string/titik_dua" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7">
+
+                    <EditText
+                        android:id="@+id/etCRBankName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/cr_bank_name"
+                        android:minWidth="200dp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.18"
+                    android:text="@string/cr_bank_account_name" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02"
+                    android:gravity="end"
+                    android:text="@string/titik_dua" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7">
+
+                    <EditText
+                        android:id="@+id/etCRBankAccountName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/cr_bank_account_name"
+                        android:minWidth="200dp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.18"
+                    android:text="@string/cr_bank_account_number" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.02"
+                    android:gravity="end"
+                    android:text="@string/titik_dua" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7">
+
+                    <EditText
+                        android:id="@+id/fragment_edit_profile_hape"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/cr_bank_account_number"
+                        android:minWidth="200dp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/etCRBankAccountNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorPrimary"
+                android:text="@string/save"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/fragment_edit_profile_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateBehavior="cycle"
+        android:visibility="gone" />
+</RelativeLayout>

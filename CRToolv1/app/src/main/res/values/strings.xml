@@ -20,8 +20,8 @@
     <string name="date_from">From</string>
     <string name="date_to">To</string>
     <string name="track_record_bulan">Month</string>
-    <string name="track_record_appr">Appr                (Ribuan) </string>
-    <string name="track_record_target">Target            (Ribuan) </string>
+    <string name="track_record_appr">Approve                    (Ribuan) </string>
+    <string name="track_record_target">Target                   (Ribuan) </string>
     <string name="track_record_presentasi">%</string>
     <string name="bullet">\u25CF\t</string>
     <string name="track_record_table_title">CR Achievement Last 6 Month</string>
@@ -31,5 +31,23 @@
     \tIbu Frita/Romi\n\tJL. Ngagel Jaya Selatan blok H7 Kompleks RMI\n\t(ex. Kebun Bibit -Bratang)\n\tSurabaya 60283</string>
     <string name="ketentuan2">SN / IMEI akan di-approve setelah kartu garansi diterima</string>
     <string name="ketentuan3">Semua pertanyaan yang berkaitan dengan klaim harap ditujukan ke admintrp@terra.co.id</string>
+    <string name="action_edit_profile">Edit Profile</string>
+    <string name="action_log_out">Log Out</string>
+
+    <string name="cr_profile">Profile</string>
+    <string name="cr_name">CR Name</string>
+    <string name="cr_phone">Phone</string>
+    <string name="cr_email">Email</string>
+    <string name="cr_bank_name">Bank Name</string>
+    <string name="cr_bank_account_name">Bank Account Name</string>
+    <string name="cr_bank_account_number">Bank Account Number</string>
+    <string name="cr_edit_profile">Edit Profile</string>
+    <string name="cr_change_password">Change Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+
+    <string name="save">Save</string>
+    <string name="titik_dua">:</string>
 
 </resources>

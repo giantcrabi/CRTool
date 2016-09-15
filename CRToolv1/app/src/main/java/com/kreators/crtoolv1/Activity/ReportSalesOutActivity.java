@@ -79,7 +79,7 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
         session = new SessionManager(getApplicationContext());
         userLogin = session.getUserDetails();
         pd = new ProgressDialog(this);
-        pd.setMessage("Please wait.");
+        pd.setMessage("Please wait...");
         pd.setCancelable(false);
         pd.setIndeterminate(true);
     }
@@ -134,7 +134,6 @@ public class ReportSalesOutActivity extends AppCompatActivity implements ReportS
         args.putParcelableArrayList(Protocol.SO_REPORT,(ArrayList<? extends Parcelable>) salesOutReportList);
         intent.putExtras(args);
         startActivity(intent);
-        finish();
     }
 
     @Override

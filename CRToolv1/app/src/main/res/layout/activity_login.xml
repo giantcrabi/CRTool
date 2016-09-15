@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/deskripsi_logo"
-        android:src="@drawable/logo_kreator" />
+        android:src="@drawable/logo_axio" />
 
     <EditText
         style="@style/ShortInput"

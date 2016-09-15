@@ -50,8 +50,7 @@ public class SessionManager {
         editor.clear();
         editor.commit();
         Intent i = new Intent(_context, LoginActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         _context.startActivity(i);
     }
 

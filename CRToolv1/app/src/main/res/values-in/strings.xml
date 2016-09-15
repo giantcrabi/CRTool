@@ -32,5 +32,17 @@
     \tIbu Frita/Romi\n\tJL. Ngagel Jaya Selatan blok H7 Kompleks RMI\n\t(ex. Kebun Bibit -Bratang)\n\tSurabaya 60283</string>
     <string name="ketentuan2">SN / IMEI akan di-approve setelah kartu garansi diterima</string>
     <string name="ketentuan3">Semua pertanyaan yang berkaitan dengan klaim harap ditujukan ke admintrp@terra.co.id</string>
+    <string name="action_edit_profile">Edit Profil</string>
+    <string name="action_log_out">Keluar</string>
+    <string name="cr_bank_account_name">Nama Akun Bank :</string>
+    <string name="cr_bank_account_number">Nomor Akun Bank :</string>
+    <string name="cr_bank_name">Nama Bank :</string>
+    <string name="cr_change_password">Ganti Password</string>
+    <string name="cr_edit_profile">Edit Profil</string>
+    <string name="cr_email">Email :</string>
+    <string name="cr_name">Nama CR :</string>
+    <string name="cr_phone">Telepon :</string>
+    <string name="cr_profile">Profil</string>
+    <string name="hello_blank_fragment"></string>
 
 </resources>

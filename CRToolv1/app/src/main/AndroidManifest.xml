@@ -31,7 +31,8 @@
         <activity
             android:name=".Activity.ReportSalesOutActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.DetailReportSalesOutActivity"></activity>
+        <activity android:name=".Activity.DetailReportSalesOutActivity" />
+        <activity android:name=".Activity.ProfileActivity"></activity>
     </application>
 
 </manifest>

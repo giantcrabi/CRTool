@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_horizontal_margin0.5"
+    tools:context="com.kreators.crtoolv1.Fragment.ProfileFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin0.5"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/cr_profile"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCRName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cr_name"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_small_0"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin0.25"/>
+            <TextView
+                android:id="@+id/tvCREmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cr_email"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_small_0"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin0.25"/>
+            <TextView
+                android:id="@+id/tvCRPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cr_phone"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_small_0"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin0.25"/>
+            <TextView
+                android:id="@+id/tvCRBankName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cr_bank_name"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_small_0"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin0.25"/>
+            <TextView
+                android:id="@+id/tvCRBankAccountName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cr_bank_account_name"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_small_0"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin0.25"/>
+            <TextView
+                android:id="@+id/tvBankAccountNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cr_bank_account_number"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_small_0"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin0.25"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        style="?android:attr/buttonBarStyle">
+
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/fragment_profile_button_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin0.25"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin0.25"
+            android:layout_weight="0.5"
+            android:background="@color/colorPrimary"
+            android:text="@string/action_edit_profile"
+            android:textColor="@android:color/white" />
+
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/fragment_profile_button_change_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin0.25"
+            android:layout_marginStart="@dimen/activity_horizontal_margin0.25"
+            android:layout_weight="0.5"
+            android:background="@color/colorPrimary"
+            android:text="@string/cr_change_password"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</RelativeLayout>
