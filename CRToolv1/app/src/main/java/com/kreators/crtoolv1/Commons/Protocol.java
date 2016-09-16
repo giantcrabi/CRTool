@@ -26,6 +26,13 @@ public class Protocol {
 
     //CR
     public static final String CRID = "idCR";
+    public static final String CRName = "Name";
+    public static final String CREmail = "Email";
+    public static final String CRHP = "Handphone";
+    public static final String CRBankName = "BankName";
+    public static final String CRBankAccountNo =  "BankAccountNo";
+    public static final String CRBankAccountName =  "BankAccountName";
+
 
     //ReportProtocol
     public static final String DATE_PARAMETER = "dateParameter";

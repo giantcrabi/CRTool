@@ -10,11 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kreators.crtoolv1.Commons.Constant;
+import com.kreators.crtoolv1.Commons.Protocol;
 import com.kreators.crtoolv1.Commons.SessionManager;
+import com.kreators.crtoolv1.Commons.Url;
+import com.kreators.crtoolv1.Network.GetVolleyRequest;
+import com.kreators.crtoolv1.Network.VolleyListener;
 import com.kreators.crtoolv1.Network.VolleyManager;
+import com.kreators.crtoolv1.Network.VolleyRequest;
 import com.kreators.crtoolv1.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +43,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_profile, container, false);
         initialization();
-        //fetchData();
+        fetchData();
         return view;
     }
 
@@ -55,47 +65,43 @@ public class ProfileFragment extends Fragment {
         pd.setIndeterminate(true);
     }
 
-//    private void fetchData(){
-//        pd.setTitle(Constant.salesOutDialog);
-//        pd.show();
-//        GetVolleyRequest request = new GetVolleyRequest(Url.PROFILE);
-//        request.putParams(Protocol.USERID,session.getUserDetails().get(Protocol.USERID));
-//        request.setListener(new VolleyListener() {
-//            @Override
-//            public void onSuccess(VolleyRequest request, JSONArray result) {
-//                try {
-//                    JSONObject response;
-//                    TrackRecord trackRecord;
-//
-//                    for(int i = 0; i < result.length(); i++) {
-//                        response = result.getJSONObject(i);
-//                        trackRecord = new TrackRecord(response.getLong(Protocol.PRICE),response.getString(Protocol.SN_DATE),response.getInt(Protocol.SN_STATUS));
-//                        trackRecordList.add(trackRecord);
-//                    }
-//                    if (pd != null) {
-//                        pd.dismiss();
-//                    }
-//                    try {
-//                        setUpData();
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onError(VolleyRequest request, String errorMessage) {
-//                Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
-//                if (pd != null) {
-//                    pd.dismiss();
-//                }
-//            }
-//        });
-//        volleyManager.createRequest(request,Protocol.GET);
-//    }
+    private void fetchData(){
+        pd.setTitle(Constant.salesOutDialog);
+        pd.show();
+        GetVolleyRequest request = new GetVolleyRequest(Url.PROFILE);
+        request.putParams(Protocol.CRID, String.valueOf(session.getUserDetails().get(Protocol.USERID)));
+        request.setListener(new VolleyListener() {
+            @Override
+            public void onSuccess(VolleyRequest request, JSONArray result) {
+                try {
+                    JSONObject response;
+                    response = result.getJSONObject(0);
+                    tvCRName.setText(tvCRName.getText() + ": " + response.getString(Protocol.CRName));
+                    tvCREmail.setText(tvCREmail.getText() + ": " +response.getString(Protocol.CREmail));
+                    tvCRPhone.setText(tvCRPhone.getText() + ": " +response.getString(Protocol.CRHP));
+                    tvBankAccountName.setText(tvBankAccountName.getText() + ": " +response.getString(Protocol.CRBankAccountName));
+                    tvBankName.setText(tvBankName.getText() + ": " +response.getString(Protocol.CRBankName));
+                    tvBankAccountNumber.setText(tvBankAccountNumber.getText() + ": " +response.getString(Protocol.CRBankAccountNo));
+
+                    if (pd != null) {
+                        pd.dismiss();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(VolleyRequest request, String errorMessage) {
+                Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                if (pd != null) {
+                    pd.dismiss();
+                }
+            }
+        });
+        volleyManager.createRequest(request, Protocol.GET);
+    }
 
 
     @Override

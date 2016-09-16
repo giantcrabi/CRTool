@@ -1,6 +1,7 @@
 package com.kreators.crtoolv1.Network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
@@ -49,6 +50,7 @@ public class VolleyManager {
             request.setTag(tag);
             request.setShouldCache(false);
             requestQueue.add(request);
+            Log.d("","");
         }
     }
 
