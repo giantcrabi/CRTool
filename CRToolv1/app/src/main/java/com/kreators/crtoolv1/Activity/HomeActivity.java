@@ -55,6 +55,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     private SimpleDateFormat sdf;
     private SessionManager sessionManager;
     private HashMap<String, String> user = new HashMap<>();
+    private HashMap<String, String> profileData = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +78,7 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
         // Take appropriate action for each action item click
         switch (item.getItemId()) {
             case R.id.action_edit_profile:
-                Intent i = new Intent(this, ProfileActivity.class);
-                startActivity(i);
+                fetchProfileData();
                 return true;
             case R.id.action_log_out:
                 sessionManager.logoutUser();
@@ -310,6 +310,48 @@ public class HomeActivity extends AppCompatActivity implements SelectOutletDialo
     public void viewReport(View view) {
         Intent intent = new Intent(this, ReportActivity.class);
         startActivity(intent);
+    }
+
+    private void fetchProfileData() {
+        pd.setTitle(Constant.salesOutDialog);
+        pd.show();
+        GetVolleyRequest request = new GetVolleyRequest(Url.PROFILE);
+        request.putParams(Protocol.CRID, user.get(Protocol.USERID));
+        request.setListener(new VolleyListener() {
+            @Override
+            public void onSuccess(VolleyRequest request, JSONArray result) {
+                try {
+                    JSONObject response;
+                    response = result.getJSONObject(0);
+                    profileData.put(Protocol.CRName, response.getString(Protocol.CRName));
+                    profileData.put(Protocol.CREmail, response.getString(Protocol.CREmail));
+                    profileData.put(Protocol.CRHP, response.getString(Protocol.CRHP));
+                    profileData.put(Protocol.CRBankAccountName, response.getString(Protocol.CRBankAccountName));
+                    profileData.put(Protocol.CRBankName, response.getString(Protocol.CRBankName));
+                    profileData.put(Protocol.CRBankAccountNo, response.getString(Protocol.CRBankAccountNo));
+
+                    if (pd != null) {
+                        pd.dismiss();
+                    }
+
+                    Intent i = new Intent(HomeActivity.this, ProfileActivity.class);
+                    i.putExtra(Protocol.CRProfile, profileData);
+                    startActivity(i);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(VolleyRequest request, String errorMessage) {
+                Toast.makeText(HomeActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                if (pd != null) {
+                    pd.dismiss();
+                }
+            }
+        });
+        volleyManager.createRequest(request, Protocol.GET);
     }
 
     @Override
