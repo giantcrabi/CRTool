@@ -207,7 +207,7 @@
                     android:layout_weight="0.7">
 
                     <EditText
-                        android:id="@+id/fragment_edit_profile_hape"
+                        android:id="@+id/etCRBankAccountNumber"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/cr_bank_account_number"
@@ -216,7 +216,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/etCRBankAccountNumber"
+                android:id="@+id/btnEditProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

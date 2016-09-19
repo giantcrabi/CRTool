@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,7 +28,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity {
-    private SessionManager session;
+    private SessionManager sessionManager;
     private VolleyManager volleyManager;
     private ProgressDialog pd;
     private EditText editTextUsername,editTextPassword;
@@ -41,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initialization();
-        session.checkLoginSession(LoginActivity.this);
+        sessionManager.checkLoginSession(LoginActivity.this);
     }
 
     private void checkLogin() {
@@ -70,7 +69,8 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
 
                     if(status) {
-                        session.createLoginSession(crID, username);
+                        sessionManager.createLoginSession(crID, username);
+                        fetchProfileData(String.valueOf(crID));
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
@@ -92,12 +92,53 @@ public class LoginActivity extends AppCompatActivity {
         volleyManager.createRequest(request,Protocol.POST);
     }
 
+    private void fetchProfileData(String crID) {
+        pd.setTitle(Constant.salesOutDialog);
+        pd.show();
+        GetVolleyRequest request = new GetVolleyRequest(Url.PROFILE);
+        request.putParams(Protocol.CRID, crID);
+        request.setListener(new VolleyListener() {
+            @Override
+            public void onSuccess(VolleyRequest request, JSONArray result) {
+                try {
+                    JSONObject response;
+                    response = result.getJSONObject(0);
+                    String name,email,phone,bankAccountName,bankName,bankAccountNo;
+                    name = response.getString(Protocol.CRName);
+                    email = response.getString(Protocol.CREmail);
+                    phone = response.getString(Protocol.CRHP);
+                    bankAccountName = response.getString(Protocol.CRBankAccountName);
+                    bankName = response.getString(Protocol.CRBankName);
+                    bankAccountNo = response.getString(Protocol.CRBankAccountNo);
+
+                    sessionManager.setUserProfile(name,email,phone,bankAccountName,bankName,bankAccountNo);
+                    if (pd != null) {
+                        pd.dismiss();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(VolleyRequest request, String errorMessage) {
+                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                if (pd != null) {
+                    pd.dismiss();
+                }
+            }
+        });
+        volleyManager.createRequest(request, Protocol.GET);
+    }
+
     public void initialization() {
         setTitle("Login");
         editTextUsername = (EditText) findViewById(R.id.usernameLogin);
         editTextPassword = (EditText) findViewById(R.id.passwordLogin);
         volleyManager = VolleyManager.getInstance(getApplicationContext());
-        session = new SessionManager(getApplicationContext());
+        sessionManager = new SessionManager(getApplicationContext());
         pd = new ProgressDialog(this);
         pd.setMessage("Please wait.");
         pd.setCancelable(false);
@@ -109,7 +150,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 username = editTextUsername.getText().toString();
                 password = md5(editTextPassword.getText().toString());
-                Log.d("a","a");
                 if (!username.equals("") && !password.equals("")) {
                     checkLogin();
                 } else {
