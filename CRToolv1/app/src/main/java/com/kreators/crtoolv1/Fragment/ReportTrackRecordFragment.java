@@ -88,10 +88,16 @@ public class ReportTrackRecordFragment extends Fragment {
                 try {
                     JSONObject response;
                     TrackRecord trackRecord;
+                    Long price;
+                    Integer status;
+                    String date;
 
                     for(int i = 0; i < result.length(); i++) {
                         response = result.getJSONObject(i);
-                        trackRecord = new TrackRecord(response.getLong(Protocol.PRICE),response.getString(Protocol.SN_DATE),response.getInt(Protocol.SN_STATUS));
+                        price = response.getLong(Protocol.PRICE);
+                        date = response.getString(Protocol.SN_DATE);
+                        status = response.getInt(Protocol.SN_STATUS);
+                        trackRecord = new TrackRecord(price,date,status);
                         trackRecordList.add(trackRecord);
                     }
                     if (pd != null) {
