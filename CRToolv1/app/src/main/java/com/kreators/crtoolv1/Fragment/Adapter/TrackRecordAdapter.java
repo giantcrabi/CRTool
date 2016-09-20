@@ -71,9 +71,9 @@ public class TrackRecordAdapter extends BaseAdapter {
             holder=(TrackRecordHolder) convertView.getTag();
         }
         holder.bulan.setText(trArrayList.get(position).getBulan());
-        holder.appr.setText(IndoCurrencyFormat.transformIntegerToRupiah(trArrayList.get(position).getPrice()/1000));
-        holder.target.setText(IndoCurrencyFormat.transformIntegerToRupiah(300000000/1000));
-        holder.presentasi.setText(String.format("%.2f",((double)trArrayList.get(position).getPrice()/3000000))+"%");
+        holder.appr.setText(IndoCurrencyFormat.parseByThousand(trArrayList.get(position).getPrice()/1000));
+        holder.target.setText(IndoCurrencyFormat.parseByThousand(300000000/1000));
+        holder.presentasi.setText(IndoCurrencyFormat.percentage((double)trArrayList.get(position).getPrice()/3000000));
         return convertView;
 
     }

@@ -46,7 +46,6 @@ public class ReportTrackRecordFragment extends Fragment {
     private View v;
     private static final SimpleDateFormat sdf = new SimpleDateFormat(Constant.SYSTEM_DATE_STANDART, Locale.US);
     private ListView mListView;
-    private ArrayList<TrackRecord> trArrayList;
     private TrackRecordAdapter trAdapter;
     private List<TrackRecord> trackRecordList = new ArrayList<>();
     private SessionManager session;
@@ -68,7 +67,7 @@ public class ReportTrackRecordFragment extends Fragment {
         volleyManager = VolleyManager.getInstance(getActivity().getApplicationContext());
         session = new SessionManager(getActivity().getApplicationContext());
         pd = new ProgressDialog(getActivity());
-        pd.setMessage("Please wait.");
+        pd.setMessage(Constant.msgDialog);
         pd.setCancelable(false);
         pd.setIndeterminate(true);
         mListView = (ListView) v.findViewById(R.id.lvListViewTrackRecord);
@@ -177,6 +176,8 @@ public class ReportTrackRecordFragment extends Fragment {
         for(int i=0;i<6;i++){
             trackRecordList.add(trackRecordListDummy[i]);
         }
+
+
         monthNow = monthNowDummy;
 
         bind();
@@ -186,7 +187,7 @@ public class ReportTrackRecordFragment extends Fragment {
         lineChart = (LineChart) v.findViewById(R.id.chart);
         lineChart.setDescription("% Pencapaian");
         ArrayList<Entry> entries = new ArrayList<>();
-        ArrayList<String> labels = new ArrayList<String>();
+        ArrayList<String> labels = new ArrayList<>();
 
         for(int i=0;i<trackRecordList.size();i++) {
             labels.add(trackRecordList.get(i).getBulan());

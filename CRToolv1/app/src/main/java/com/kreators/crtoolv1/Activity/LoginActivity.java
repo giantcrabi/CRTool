@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -93,8 +92,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void fetchProfileData(String crID) {
-        pd.setTitle(Constant.salesOutDialog);
-        pd.show();
         GetVolleyRequest request = new GetVolleyRequest(Url.PROFILE);
         request.putParams(Protocol.CRID, crID);
         request.setListener(new VolleyListener() {
@@ -115,7 +112,6 @@ public class LoginActivity extends AppCompatActivity {
                     if (pd != null) {
                         pd.dismiss();
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

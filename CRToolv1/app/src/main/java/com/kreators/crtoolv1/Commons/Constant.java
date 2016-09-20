@@ -12,6 +12,7 @@ public class Constant {
     public static final String searchDialog = "Searching...";
     public static final String salesOutDialog = "Fetching Data...";
     public static final String submitDialog = "Submitting...";
+    public static final String updateDialog = "Updating Data...";
 
     //Date Format
     public static final String SYSTEM_DATE_STANDART = "yyyy-MM-dd";
