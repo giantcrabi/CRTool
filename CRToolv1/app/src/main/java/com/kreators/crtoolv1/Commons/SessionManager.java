@@ -26,10 +26,11 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSession(int crID, String name){
+    public void createLoginSession(int crID, String name, String password){
         editor.putBoolean(Protocol.IS_LOGIN, true);
         editor.putString(Protocol.USERID, String.valueOf(crID));
         editor.putString(Protocol.USERNAME, name);
+        editor.putString(Protocol.PASSWORD, password);
         editor.commit();
     }
 
@@ -72,6 +73,7 @@ public class SessionManager {
         HashMap<String, String> user = new HashMap<String, String>();
         user.put(Protocol.USERID, pref.getString(Protocol.USERID, null));
         user.put(Protocol.USERNAME, pref.getString(Protocol.USERNAME,null));
+        user.put(Protocol.PASSWORD, pref.getString(Protocol.PASSWORD,null));
         user.put(Protocol.CRName, pref.getString(Protocol.CRName,null));
         user.put(Protocol.CREmail, pref.getString(Protocol.CREmail,null));
         user.put(Protocol.CRHP, pref.getString(Protocol.CRHP,null));

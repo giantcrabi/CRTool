@@ -59,8 +59,8 @@ public class LoginActivity extends AppCompatActivity {
                     String message="";
                     for(int i = 0; i < result.length(); i++) {
                         response = result.getJSONObject(i);
-                        message = response.getString("message");
-                        status = response.getBoolean("status");
+                        message = response.getString(Protocol.MESSAGE);
+                        status = response.getBoolean(Protocol.STATUS);
                         if(response.has("ID")) crID = response.getInt("ID");
                     }
                     if (pd != null) {
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
 
                     if(status) {
-                        sessionManager.createLoginSession(crID, username);
+                        sessionManager.createLoginSession(crID, username,password);
                         fetchProfileData(String.valueOf(crID));
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
@@ -130,13 +130,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void initialization() {
-        setTitle("Login");
+        setTitle(Constant.fragmentTitleLogin);
         editTextUsername = (EditText) findViewById(R.id.usernameLogin);
         editTextPassword = (EditText) findViewById(R.id.passwordLogin);
         volleyManager = VolleyManager.getInstance(getApplicationContext());
         sessionManager = new SessionManager(getApplicationContext());
         pd = new ProgressDialog(this);
-        pd.setMessage("Please wait.");
+        pd.setMessage(Constant.msgDialog);
         pd.setCancelable(false);
         pd.setIndeterminate(true);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);

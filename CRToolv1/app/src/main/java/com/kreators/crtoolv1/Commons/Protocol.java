@@ -25,7 +25,6 @@ public class Protocol {
     public static final String CONTENT = "content";
 
     //CR
-    
     public static final String CRID = "idCR";
     public static final String CRName = "Name";
     public static final String CREmail = "Email";

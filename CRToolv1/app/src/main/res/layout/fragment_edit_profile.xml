@@ -211,6 +211,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/cr_bank_account_number"
+                        android:inputType="number"
                         android:minWidth="200dp" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>

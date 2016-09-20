@@ -4,6 +4,9 @@ package com.kreators.crtoolv1.Fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,6 @@ import com.kreators.crtoolv1.Commons.Constant;
 import com.kreators.crtoolv1.Commons.Protocol;
 import com.kreators.crtoolv1.Commons.SessionManager;
 import com.kreators.crtoolv1.Commons.Url;
-import com.kreators.crtoolv1.Model.TrackRecord;
 import com.kreators.crtoolv1.Network.GetVolleyRequest;
 import com.kreators.crtoolv1.Network.VolleyListener;
 import com.kreators.crtoolv1.Network.VolleyManager;
@@ -26,7 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.util.HashMap;
 
 /**
@@ -54,6 +55,7 @@ public class EditProfileFragment extends Fragment {
     private void initialization() {
         getActivity().setTitle(Constant.fragmentTitleEditProfile);
         sessionManager = new SessionManager(getActivity().getApplicationContext());
+        volleyManager = VolleyManager.getInstance(getActivity().getApplicationContext());
         user = sessionManager.getUserDetails();
         etCRName = (EditText) view.findViewById(R.id.etCRName);
         etCREmail= (EditText) view.findViewById(R.id.etCREmail);
@@ -68,7 +70,10 @@ public class EditProfileFragment extends Fragment {
         etBankName.setText(user.get(Protocol.CRBankName));
         etBankAccountNumber.setText(user.get(Protocol.CRBankAccountNo));
         btnEditProfile = (Button) view.findViewById(R.id.btnEditProfile);
-
+        pd = new ProgressDialog(getActivity());
+        pd.setMessage(Constant.msgDialog);
+        pd.setCancelable(false);
+        pd.setIndeterminate(true);
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,40 +86,49 @@ public class EditProfileFragment extends Fragment {
         pd.setTitle(Constant.updateDialog);
         pd.show();
         GetVolleyRequest request = new GetVolleyRequest(Url.PROFILE);
-        request.putParams(Protocol.CRID,);
-        request.putParams(Protocol.CRName,);
-        request.putParams(Protocol.USERID,);
-        request.putParams(Protocol.USERID,);
-        request.putParams(Protocol.USERID,);
-        request.putParams(Protocol.USERID,);
-        request.putParams(Protocol.USERID,);
-
+        request.putParams(Protocol.CRID,user.get(Protocol.USERID));
+        request.putParams(Protocol.CRName,etCRName.getText().toString());
+        request.putParams(Protocol.CREmail,etCREmail.getText().toString());
+        request.putParams(Protocol.CRHP,etCRPhone.getText().toString());
+        request.putParams(Protocol.CRBankAccountNo,etBankAccountNumber.getText().toString());
+        request.putParams(Protocol.CRBankName,etBankName.getText().toString());
+        request.putParams(Protocol.CRBankAccountName,etBankAccountName.getText().toString());
+        Log.d("","");
         request.setListener(new VolleyListener() {
             @Override
             public void onSuccess(VolleyRequest request, JSONArray result) {
                 try {
                     JSONObject response;
-                    TrackRecord trackRecord;
-                    Long price;
-                    Integer status;
-                    String date;
+                    String message;
+                    boolean status;
+                    response = result.getJSONObject(0);
+                    message = response.getString(Protocol.MESSAGE);
+                    status =  response.getBoolean(Protocol.STATUS);
 
-                    for(int i = 0; i < result.length(); i++) {
-                        response = result.getJSONObject(i);
-                        price = response.getLong(Protocol.PRICE);
-                        date = response.getString(Protocol.SN_DATE);
-                        status = response.getInt(Protocol.SN_STATUS);
-                        trackRecord = new TrackRecord(price,date,status);
-                        trackRecordList.add(trackRecord);
-                    }
                     if (pd != null) {
                         pd.dismiss();
                     }
-                    try {
-                        setUpData();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+
+                    if(status) {
+                        String name,email,phone,bankAccountName,bankName,bankAccountNo;
+                        name = etCRName.getText().toString();
+                        email = etCREmail.getText().toString();
+                        phone = etCRPhone.getText().toString();
+                        bankAccountName = etBankAccountName.getText().toString();
+                        bankName = etBankName.getText().toString();
+                        bankAccountNo = etBankAccountNumber.getText().toString();
+                        sessionManager.setUserProfile(name,email,phone,bankAccountName,bankName,bankAccountNo);
+
+                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction trans = manager.beginTransaction();
+                        trans.remove(EditProfileFragment.this);
+                        trans.commit();
+                        manager.popBackStack();
+                        ProfileFragment profileFragment=  new ProfileFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.profileActivity,profileFragment).commit();
                     }
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();

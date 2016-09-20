@@ -42,6 +42,7 @@ public class Constant {
     public static final String fragmentTitleName = "By Item Name";
     public static final String fragmentTitleSerialNumber = "By Serial Number";
     public static final String fragmentTitleAchievement = "Achievement";
+    public static final String fragmentTitleLogin = "Login";
     public static final String fragmentTitleProfile = "Profile";
     public static final String fragmentTitleEditProfile = "Edit Profile";
 
