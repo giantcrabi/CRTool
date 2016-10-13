@@ -29,7 +29,7 @@ public class SalesOutScanFragment extends Fragment implements ZBarScannerView.Re
             throw new RuntimeException(context.toString()
                     + " must implement SalesOutListener");
         }
-        mScannerView = new ZBarScannerView(context);
+        mScannerView = new ZBarScannerView (context);
         mScannerView.setResultHandler(this);
     }
 
